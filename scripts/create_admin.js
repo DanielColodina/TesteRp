@@ -1,5 +1,12 @@
 (async () => {
   try {
+    require('dotenv').config();
+    console.log('DB Config:', {
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD ? '***' : 'NO PASSWORD',
+      database: process.env.DB_NAME
+    });
     const db = require('../src/database/connection');
     let bcrypt;
     try {
@@ -9,6 +16,7 @@
       bcrypt = require('bcryptjs');
     }
 
+    const nome = 'Administrador';
     const email = 'test@example.com';
     const password = 'teste123';
     const saltRounds = 10;
@@ -26,7 +34,7 @@
       throw new Error('No hash function available on bcrypt');
     }
 
-    await db.execute('INSERT INTO admins (email, password) VALUES (?, ?)', [email, hash]);
+    await db.execute('INSERT INTO admins (nome, email, password) VALUES (?, ?, ?)', [nome, email, hash]);
     console.log('CREATED_ADMIN:', { email, hashPreview: hash.slice(0, 30) });
     process.exit(0);
   } catch (err) {

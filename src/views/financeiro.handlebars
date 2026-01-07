@@ -1,0 +1,360 @@
+{{> main}}
+
+{{#content "styles"}}
+<style>
+.financeiro-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.financeiro-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.financeiro-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.btn-novo {
+    padding: 12px 24px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 2px solid white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-novo:hover {
+    background: white;
+    color: #3b82f6;
+}
+
+.transacoes-grid {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.transacao-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-left: 5px solid #3b82f6;
+}
+
+.transacao-receita {
+    border-left-color: #10b981;
+}
+
+.transacao-despesa {
+    border-left-color: #ef4444;
+}
+
+.transacao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 15px;
+}
+
+.transacao-titulo {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.transacao-valor {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.transacao-valor.receita {
+    color: #10b981;
+}
+
+.transacao-valor.despesa {
+    color: #ef4444;
+}
+
+.transacao-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.transacao-info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.transacao-info-label {
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.transacao-info-value {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.transacao-tipo {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.transacao-tipo.receita {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.transacao-tipo.despesa {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.form-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.form-container h2 {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-submit:hover {
+    transform: translateY(-1px);
+}
+
+.btn-cancel {
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #475569;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-voltar:hover {
+    background: #475569;
+}
+
+@media (max-width: 768px) {
+    .financeiro-container {
+        padding: 10px;
+    }
+
+    .financeiro-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .financeiro-header h1 {
+        font-size: 2rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .transacao-info {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{{/content}}
+
+{{#content "body"}}
+<div class="financeiro-container">
+    <div class="financeiro-header">
+        <h1>💰 Controle Financeiro</h1>
+        <a href="#form" class="btn-novo">+ Nova Transação</a>
+    </div>
+
+    <!-- Formulário de Nova Transação -->
+    <div id="form" class="form-container">
+        <h2>📝 Registrar Nova Transação</h2>
+        <form action="/controle-geral/financeiro" method="POST" class="transacao-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="tipo">Tipo *</label>
+                    <select id="tipo" name="tipo" required>
+                        <option value="">Selecione...</option>
+                        <option value="receita">Receita</option>
+                        <option value="despesa">Despesa</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição *</label>
+                    <input type="text" id="descricao" name="descricao" required placeholder="Ex: Pagamento de materiais">
+                </div>
+
+                <div class="form-group">
+                    <label for="valor">Valor (R$) *</label>
+                    <input type="number" id="valor" name="valor" step="0.01" required placeholder="0.00">
+                </div>
+
+                <div class="form-group">
+                    <label for="data">Data *</label>
+                    <input type="date" id="data" name="data" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="obra_id">ID da Obra (opcional)</label>
+                    <input type="number" id="obra_id" name="obra_id" placeholder="Ex: 1">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">✅ Salvar Transação</button>
+                <button type="button" class="btn-cancel" onclick="limparFormulario()">🗑️ Limpar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lista de Transações -->
+    <div class="transacoes-grid">
+        {{#each financeiro}}
+        <div class="transacao-card transacao-{{this.tipo}}">
+            <div class="transacao-header">
+                <h3 class="transacao-titulo">{{this.descricao}}</h3>
+                <span class="transacao-valor {{this.tipo}}">R$ {{this.valor}}</span>
+            </div>
+
+            <div class="transacao-info">
+                <div class="transacao-info-item">
+                    <span class="transacao-info-label">Tipo</span>
+                    <span class="transacao-tipo {{this.tipo}}">{{this.tipo}}</span>
+                </div>
+                <div class="transacao-info-item">
+                    <span class="transacao-info-label">Data</span>
+                    <span class="transacao-info-value">{{this.data}}</span>
+                </div>
+                {{#if this.obra_id}}
+                <div class="transacao-info-item">
+                    <span class="transacao-info-label">Obra ID</span>
+                    <span class="transacao-info-value">{{this.obra_id}}</span>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    {{#if (eq financeiro.length 0)}}
+    <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h3 style="color: #666; margin: 0;">Nenhuma transação registrada ainda</h3>
+        <p style="color: #999; margin: 10px 0 0 0;">Clique em "Nova Transação" para começar.</p>
+    </div>
+    {{/if}}
+
+    <div style="text-align: center;">
+        <a href="/controle-geral" class="btn-voltar">← Voltar ao Controle Geral</a>
+    </div>
+</div>
+
+<script>
+function limparFormulario() {
+    document.querySelector('.transacao-form').reset();
+}
+</script>
+{{/content}}

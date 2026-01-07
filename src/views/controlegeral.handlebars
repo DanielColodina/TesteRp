@@ -1,0 +1,157 @@
+{{> main}}
+
+{{#content "styles"}}
+<style>
+.controle-geral-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.controle-geral-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.controle-geral-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.controle-geral-header p {
+    margin: 10px 0 0 0;
+    opacity: 0.9;
+    font-size: 1.1rem;
+}
+
+.modulos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.modulo-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.modulo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.modulo-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.modulo-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.modulo-description {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-voltar:hover {
+    background: #475569;
+}
+
+@media (max-width: 768px) {
+    .controle-geral-container {
+        padding: 10px;
+    }
+
+    .controle-geral-header h1 {
+        font-size: 2rem;
+    }
+
+    .modulos-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{{/content}}
+
+{{#content "body"}}
+<div class="controle-geral-container">
+    <div class="controle-geral-header">
+        <h1>🎛️ Controle Geral</h1>
+        <p>Sistema de Gestão Completa - Módulos de Controle</p>
+    </div>
+
+    <div class="modulos-grid">
+        <a href="/dashboard/controle-geral/obras" class="modulo-card">
+            <span class="modulo-icon">🏗️</span>
+            <div class="modulo-title">Obras</div>
+            <div class="modulo-description">Gerencie todas as obras do sistema, incluindo cadastro, edição e acompanhamento de progresso.</div>
+        </a>
+
+        <a href="/dashboard/controle-geral/estoque" class="modulo-card">
+            <span class="modulo-icon">📦</span>
+            <div class="modulo-title">Estoque</div>
+            <div class="modulo-description">Controle de materiais e estoque, incluindo entradas, saídas e níveis mínimos.</div>
+        </a>
+
+        <a href="/dashboard/controle-geral/equipes" class="modulo-card">
+            <span class="modulo-icon">👥</span>
+            <div class="modulo-title">Equipes</div>
+            <div class="modulo-description">Gerenciamento de funcionários, equipes e atribuições de trabalho.</div>
+        </a>
+
+        <a href="/dashboard/controle-geral/financeiro" class="modulo-card">
+            <span class="modulo-icon">💰</span>
+            <div class="modulo-title">Financeiro</div>
+            <div class="modulo-description">Controle financeiro das obras, incluindo receitas, despesas e relatórios.</div>
+        </a>
+
+        <a href="/dashboard/controle-geral/comunicacao" class="modulo-card">
+            <span class="modulo-icon">💬</span>
+            <div class="modulo-title">Comunicação</div>
+            <div class="modulo-description">Sistema de mensagens e comunicação entre equipes e stakeholders.</div>
+        </a>
+
+        <a href="/dashboard/controle-geral/relatorios" class="modulo-card">
+            <span class="modulo-icon">📊</span>
+            <div class="modulo-title">Relatórios</div>
+            <div class="modulo-description">Geração e visualização de relatórios completos do sistema.</div>
+        </a>
+    </div>
+
+    <div style="text-align: center;">
+        <a href="/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
+    </div>
+</div>
+{{/content}}

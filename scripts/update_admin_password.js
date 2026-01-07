@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 (async () => {
   try {
     const db = require('../src/database/connection');
@@ -10,7 +12,7 @@
     }
 
     const email = 'admin@empresa.com';
-    const password = 'teste123';
+    const password = '123456';
     const saltRounds = 12;
 
     let hash;

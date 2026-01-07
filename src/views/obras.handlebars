@@ -1,0 +1,111 @@
+<div class="content-wrapper">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <h1>🏗️ Gerenciamento de Obras</h1>
+    <div>
+      <a href="/obras/nova" class="btn-primary" style="margin-right: 10px;">➕ Nova Obra</a>
+      <a href="/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
+    </div>
+  </div>
+
+  {{#if obras}}
+    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+      <table class="table-users" style="width: 100%;">
+        <thead>
+          <tr>
+            <th>Nome da Obra</th>
+            <th>Cliente</th>
+            <th>Endereço</th>
+            <th>Descrição</th>
+            <th>Criada em</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each obras}}
+            <tr>
+              <td>{{nome_obra}}</td>
+              <td>{{usuario_nome}}</td>
+              <td>{{endereco_obra}}</td>
+              <td>{{descricao}}</td>
+              <td>{{created_at}}</td>
+              <td>
+                <a href="/obras/{{id}}/editar" class="btn-edit" title="Editar">✏️</a>
+                <form action="/obras/{{id}}/excluir" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir esta obra?')">
+                  <button type="submit" class="btn-delete" title="Excluir">🗑️</button>
+                </form>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  {{else}}
+    <div style="text-align: center; padding: 50px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+      <h3 style="color: #666;">Nenhuma obra cadastrada ainda</h3>
+      <p style="color: #999;">Clique em "Nova Obra" para começar a gerenciar suas obras.</p>
+      <a href="/obras/nova" class="btn-primary">➕ Criar Primeira Obra</a>
+    </div>
+  {{/if}}
+</div>
+
+<style>
+.btn-primary, .btn-voltar {
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-voltar {
+  background: #6b7280;
+  color: white;
+}
+
+.table-users {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table-users th, .table-users td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-users th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #333;
+}
+
+.table-users tr:hover {
+  background-color: #f5f5f5;
+}
+
+.btn-edit, .btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  margin: 0 2px;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  transition: background 0.2s;
+}
+
+.btn-edit:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.btn-delete:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+</style>

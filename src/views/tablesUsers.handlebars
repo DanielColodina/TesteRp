@@ -1,61 +1,62 @@
-<a href="/dashboard" class="btn-voltar">Voltar</a>
+<div class="content-wrapper">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <h1>👥 Usuários Cadastrados</h1>
+    <a href="/dashboard" class="btn-voltar">← Voltar</a>
+  </div>
 
-<h1>Usuários cadastrados</h1>
-
-{{#if usuarios}}
-  {{#if usuarios.length}}
-    <table class="table-users">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Email</th>
-          <th>Telefone</th>
-          <th>Endereço</th>
-          <th>Obra</th>
-          <th>Criado por</th>
-          <th>Data</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {{#each usuarios}}
+  {{#if usuarios}}
+    {{#if usuarios.length}}
+      <table class="table-users">
+        <thead>
           <tr>
-            <td>{{id}}</td>
-
-            <!-- NOME CLICÁVEL COM DADOS PARA O MODAL -->
-            <td>
-              <a href="#"
-                 class="user-link"
-                 data-id="{{id}}"
-                 data-nome="{{nome}}"
-                 data-email="{{email}}"
-                 data-telefone="{{telefone}}"
-                 data-endereco="{{endereco}}"
-                 data-obra="{{obra}}"
-                 data-admin="{{admin_nome}}"
-                 data-data="{{created_at}}">
-                 
-                 {{nome}}
-              </a>
-            </td>
-
-            <td>{{email}}</td>
-            <td>{{telefone}}</td>
-            <td>{{endereco}}</td>
-            <td>{{obra}}</td>
-            <td>{{admin_nome}}</td>
-            <td>{{created_at}}</td>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Endereço</th>
+            <th>Obra</th>
+            <th>Criado por</th>
+            <th>Data</th>
           </tr>
-        {{/each}}
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          {{#each usuarios}}
+            <tr>
+              <td>{{id}}</td>
+
+              <!-- NOME CLICÁVEL COM DADOS PARA O MODAL -->
+              <td>
+                <a href="#"
+                   class="user-link"
+                   data-id="{{id}}"
+                   data-nome="{{nome}}"
+                   data-email="{{email}}"
+                   data-telefone="{{telefone}}"
+                   data-endereco="{{endereco}}"
+                   data-obra="{{obra}}"
+                   data-admin="{{admin_nome}}"
+                   data-data="{{created_at}}">
+                   {{nome}}
+                </a>
+              </td>
+
+              <td>{{email}}</td>
+              <td>{{telefone}}</td>
+              <td>{{endereco}}</td>
+              <td>{{obra}}</td>
+              <td>{{admin_nome}}</td>
+              <td>{{created_at}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <p style="text-align: center; color: #0ea5e9; font-size: 16px;">📭 Nenhum usuário cadastrado.</p>
+    {{/if}}
   {{else}}
-    <p>Nenhum usuário cadastrado.</p>
+    <p style="text-align: center; color: #ef4444; font-size: 16px;">❌ Erro ao carregar usuários.</p>
   {{/if}}
-{{else}}
-  <p>Erro ao carregar usuários.</p>
-{{/if}}
 
 
 {{!-- MODAL DO USUÁRIO (DETALHES) --}}
@@ -65,15 +66,89 @@
 
     <h2 id="uNome"></h2>
 
-    <p><strong>Email:</strong> <span id="uEmail"></span></p>
-    <p><strong>Telefone:</strong> <span id="uTelefone"></span></p>
-    <p><strong>Endereço:</strong> <span id="uEndereco"></span></p>
-    <p><strong>Obra:</strong> <span id="uObra"></span></p>
-    <p><strong>Criado por:</strong> <span id="uAdmin"></span></p>
-    <p><strong>Data:</strong> <span id="uData"></span></p>
+    <div class="user-info">
+      <p><strong>📧 Email:</strong> <span id="uEmail"></span></p>
+      <p><strong>📱 Telefone:</strong> <span id="uTelefone"></span></p>
+      <p><strong>🏠 Endereço:</strong> <span id="uEndereco"></span></p>
+      <p><strong>🏗️ Obra:</strong> <span id="uObra"></span></p>
+      <p><strong>👤 Criado por:</strong> <span id="uAdmin"></span></p>
+      <p><strong>📅 Data de cadastro:</strong> <span id="uData"></span></p>
+    </div>
+
+    <hr>
+
+    <!-- AÇÕES -->
+    <div class="user-actions">
+      <button id="btnEdit" class="btn-edit">✏️ Editar</button>
+
+      <form id="formDelete" method="POST">
+        <button type="submit" class="btn-delete">🗑️ Excluir</button>
+      </form>
+    </div>
+
+    <hr>
+
+    <!-- HISTÓRICO POR OBRA -->
+    <div class="user-history">
+      <h3>📜 Histórico por Obra</h3>
+      <ul id="uHistorico">
+        <li>Carregando histórico...</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- PROGRESSO DA OBRA -->
+    <div id="progressoObra" style="background: rgba(16, 185, 129, 0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #10b981; margin: 20px 0;">
+      <h3>📊 Progresso da Obra</h3>
+      <p style="color: #e2e8f0;">Carregando...</p>
+    </div>
+
+    <hr>
+
+    <h3>✅ Checklist da Obra</h3>
+
+    <div class="checklist">
+      {{!-- cada select será preenchido via JS --}}
+      <div class="check-item">
+        <label>Uso do Solo</label>
+        <select data-field="uso_solo"></select>
+      </div>
+
+      <div class="check-item">
+        <label>Licença</label>
+        <select data-field="licenca"></select>
+      </div>
+
+      <div class="check-item">
+        <label>Condomínio</label>
+        <select data-field="condominio"></select>
+      </div>
+
+      <div class="check-item">
+        <label>Habite-se</label>
+        <select data-field="habite_se"></select>
+      </div>
+
+      <div class="check-item">
+        <label>Averbação</label>
+        <select data-field="averbacao"></select>
+      </div>
+
+      <div class="check-item">
+        <label>Vistoria</label>
+        <select data-field="vistoria"></select>
+      </div>
+    </div>
+
+    <hr>
+
+    <h3>📝 Observações Gerais</h3>
+    <textarea id="observacoesChecklist" placeholder="Digite observações sobre o progresso da obra..." rows="4" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit;"></textarea>
+    <button id="btnSalvarObservacoes" style="margin-top: 10px; padding: 10px 20px; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer;">💾 Salvar Observações</button>
+
   </div>
 </div>
-
-<br>
+</div>
 
 <script src="/js/userModal.js"></script>

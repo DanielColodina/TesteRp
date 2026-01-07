@@ -1,0 +1,350 @@
+{{> main}}
+
+{{#content "styles"}}
+<style>
+.relatorios-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.relatorios-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.relatorios-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.btn-novo {
+    padding: 12px 24px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 2px solid white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-novo:hover {
+    background: white;
+    color: #06b6d4;
+}
+
+.relatorios-grid {
+    display: grid;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.relatorio-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-left: 5px solid #06b6d4;
+}
+
+.relatorio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 15px;
+}
+
+.relatorio-titulo {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.relatorio-tipo {
+    background: #e0f2fe;
+    color: #0277bd;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.relatorio-descricao {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 3px solid #06b6d4;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #374151;
+}
+
+.relatorio-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.relatorio-info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.relatorio-info-label {
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.relatorio-info-value {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.form-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.form-container h2 {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #06b6d4;
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-submit:hover {
+    transform: translateY(-1px);
+}
+
+.btn-cancel {
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #475569;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-voltar:hover {
+    background: #475569;
+}
+
+@media (max-width: 768px) {
+    .relatorios-container {
+        padding: 10px;
+    }
+
+    .relatorios-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .relatorios-header h1 {
+        font-size: 2rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .relatorio-info {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{{/content}}
+
+{{#content "body"}}
+<div class="relatorios-container">
+    <div class="relatorios-header">
+        <h1>📊 Sistema de Relatórios</h1>
+        <a href="#form" class="btn-novo">+ Novo Relatório</a>
+    </div>
+
+    <!-- Formulário de Novo Relatório -->
+    <div id="form" class="form-container">
+        <h2>📝 Criar Novo Relatório</h2>
+        <form action="/controle-geral/relatorios" method="POST" class="relatorio-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="titulo">Título *</label>
+                    <input type="text" id="titulo" name="titulo" required placeholder="Ex: Relatório Mensal de Janeiro">
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo">Tipo *</label>
+                    <select id="tipo" name="tipo" required>
+                        <option value="">Selecione...</option>
+                        <option value="mensal">Mensal</option>
+                        <option value="semanal">Semanal</option>
+                        <option value="diario">Diário</option>
+                        <option value="financeiro">Financeiro</option>
+                        <option value="progresso">Progresso</option>
+                        <option value="estoque">Estoque</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="data">Data *</label>
+                    <input type="date" id="data" name="data" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="obra_id">ID da Obra (opcional)</label>
+                    <input type="number" id="obra_id" name="obra_id" placeholder="Ex: 1">
+                </div>
+
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label for="descricao">Descrição/Conteúdo *</label>
+                    <textarea id="descricao" name="descricao" required placeholder="Digite o conteúdo detalhado do relatório..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">✅ Salvar Relatório</button>
+                <button type="button" class="btn-cancel" onclick="limparFormulario()">🗑️ Limpar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lista de Relatórios -->
+    <div class="relatorios-grid">
+        {{#each relatorios}}
+        <div class="relatorio-card">
+            <div class="relatorio-header">
+                <h3 class="relatorio-titulo">{{this.titulo}}</h3>
+                <span class="relatorio-tipo">{{this.tipo}}</span>
+            </div>
+
+            <div class="relatorio-descricao">
+                {{this.descricao}}
+            </div>
+
+            <div class="relatorio-info">
+                <div class="relatorio-info-item">
+                    <span class="relatorio-info-label">Data</span>
+                    <span class="relatorio-info-value">{{this.data}}</span>
+                </div>
+                {{#if this.obra_id}}
+                <div class="relatorio-info-item">
+                    <span class="relatorio-info-label">Obra ID</span>
+                    <span class="relatorio-info-value">{{this.obra_id}}</span>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    {{#if (eq relatorios.length 0)}}
+    <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h3 style="color: #666; margin: 0;">Nenhum relatório criado ainda</h3>
+        <p style="color: #999; margin: 10px 0 0 0;">Clique em "Novo Relatório" para começar.</p>
+    </div>
+    {{/if}}
+
+    <div style="text-align: center;">
+        <a href="/controle-geral" class="btn-voltar">← Voltar ao Controle Geral</a>
+    </div>
+</div>
+
+<script>
+function limparFormulario() {
+    document.querySelector('.relatorio-form').reset();
+}
+</script>
+{{/content}}

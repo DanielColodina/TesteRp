@@ -1,0 +1,348 @@
+{{> main}}
+
+{{#content "styles"}}
+<style>
+.obras-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.obras-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.obras-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.btn-novo {
+    padding: 12px 24px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 2px solid white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-novo:hover {
+    background: white;
+    color: #667eea;
+}
+
+.obras-grid {
+    display: grid;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.obra-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-left: 5px solid #667eea;
+}
+
+.obra-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 15px;
+}
+
+.obra-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.obra-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-ativo { background: #10b981; color: white; }
+.status-finalizado { background: #6b7280; color: white; }
+.status-pausado { background: #f59e0b; color: white; }
+
+.obra-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.obra-info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.obra-info-label {
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.obra-info-value {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.form-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.form-container h2 {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 10px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-submit:hover {
+    transform: translateY(-1px);
+}
+
+.btn-cancel {
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #475569;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-voltar:hover {
+    background: #475569;
+}
+
+@media (max-width: 768px) {
+    .obras-container {
+        padding: 10px;
+    }
+
+    .obras-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .obras-header h1 {
+        font-size: 2rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .obra-info {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{{/content}}
+
+{{#content "body"}}
+<div class="obras-container">
+    <div class="obras-header">
+        <h1>🏗️ Gestão de Obras</h1>
+        <a href="#form" class="btn-novo">+ Nova Obra</a>
+    </div>
+
+    <!-- Formulário de Nova Obra -->
+    <div id="form" class="form-container">
+        <h2>📝 Cadastrar Nova Obra</h2>
+        <form action="/controle-geral/obras" method="POST" class="obra-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="nome">Nome da Obra *</label>
+                    <input type="text" id="nome" name="nome" required placeholder="Ex: Residencial ABC">
+                </div>
+
+                <div class="form-group">
+                    <label for="endereco">Endereço *</label>
+                    <input type="text" id="endereco" name="endereco" required placeholder="Rua, número, bairro, cidade">
+                </div>
+
+                <div class="form-group">
+                    <label for="cliente">Cliente *</label>
+                    <input type="text" id="cliente" name="cliente" required placeholder="Nome do cliente">
+                </div>
+
+                <div class="form-group">
+                    <label for="orcamento">Orçamento (R$)</label>
+                    <input type="number" id="orcamento" name="orcamento" step="0.01" placeholder="0.00">
+                </div>
+
+                <div class="form-group">
+                    <label for="data_inicio">Data de Início</label>
+                    <input type="date" id="data_inicio" name="data_inicio">
+                </div>
+
+                <div class="form-group">
+                    <label for="data_fim">Data de Fim</label>
+                    <input type="date" id="data_fim" name="data_fim">
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                        <option value="ativo">Ativo</option>
+                        <option value="pausado">Pausado</option>
+                        <option value="finalizado">Finalizado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">✅ Salvar Obra</button>
+                <button type="button" class="btn-cancel" onclick="limparFormulario()">🗑️ Limpar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lista de Obras -->
+    <div class="obras-grid">
+        {{#each obras}}
+        <div class="obra-card">
+            <div class="obra-header">
+                <h3 class="obra-title">{{this.nome}}</h3>
+                <span class="obra-status status-{{this.status}}">{{this.status}}</span>
+            </div>
+
+            <div class="obra-info">
+                <div class="obra-info-item">
+                    <span class="obra-info-label">Cliente</span>
+                    <span class="obra-info-value">{{this.cliente}}</span>
+                </div>
+                <div class="obra-info-item">
+                    <span class="obra-info-label">Endereço</span>
+                    <span class="obra-info-value">{{this.endereco}}</span>
+                </div>
+                <div class="obra-info-item">
+                    <span class="obra-info-label">Orçamento</span>
+                    <span class="obra-info-value">R$ {{this.orcamento}}</span>
+                </div>
+                <div class="obra-info-item">
+                    <span class="obra-info-label">Data Início</span>
+                    <span class="obra-info-value">{{this.data_inicio}}</span>
+                </div>
+                <div class="obra-info-item">
+                    <span class="obra-info-label">Data Fim</span>
+                    <span class="obra-info-value">{{this.data_fim}}</span>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    {{#if (eq obras.length 0)}}
+    <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h3 style="color: #666; margin: 0;">Nenhuma obra cadastrada ainda</h3>
+        <p style="color: #999; margin: 10px 0 0 0;">Clique em "Nova Obra" para começar.</p>
+    </div>
+    {{/if}}
+
+    <div style="text-align: center;">
+        <a href="/controle-geral" class="btn-voltar">← Voltar ao Controle Geral</a>
+    </div>
+</div>
+
+<script>
+function limparFormulario() {
+    document.querySelector('.obra-form').reset();
+}
+</script>
+{{/content}}

@@ -2,8 +2,8 @@
   try {
     const fetch = global.fetch || (await import('node-fetch')).default;
     const params = new URLSearchParams();
-    params.append('email', 'test@example.com');
-    params.append('password', 'teste123');
+    params.append('email', 'admin@empresa.com');
+    params.append('password', '123456');
 
     const res = await fetch('http://localhost:3000/login', {
       method: 'POST',

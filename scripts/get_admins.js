@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 (async () => {
   try {
     const db = require('../src/database/connection');

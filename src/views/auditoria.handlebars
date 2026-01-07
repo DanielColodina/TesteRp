@@ -1,0 +1,60 @@
+<div class="content-wrapper">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <h1>🔒 Logs de Auditoria Completa</h1>
+    <a href="/dashboard" class="btn-voltar">← Voltar</a>
+  </div>
+
+  {{#if logs}}
+    <div style="background: rgba(239, 68, 68, 0.1); padding: 20px; border-radius: 8px; border: 2px solid #ef4444;">
+      <p style="text-align: center; color: #0ea5e9; margin-bottom: 20px;">Total de registros: <strong>{{logs.length}}</strong></p>
+      
+      <ul style="list-style: none; padding: 0;">
+        {{#each logs}}
+          <li style="background: rgba(0, 0, 0, 0.3); padding: 15px; margin: 12px 0; border-radius: 6px; border-left: 4px solid #ef4444;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+              <div>
+                <strong style="color: #f87171;">Ação:</strong>
+                <p style="margin: 5px 0; color: #e2e8f0;">{{acao}}</p>
+              </div>
+              <div>
+                <strong style="color: #f87171;">Usuário:</strong>
+                <p style="margin: 5px 0; color: #e2e8f0;">{{usuario_nome}}</p>
+              </div>
+              <div>
+                <strong style="color: #f87171;">Admin:</strong>
+                <p style="margin: 5px 0; color: #e2e8f0;">{{admin_nome}}</p>
+              </div>
+              <div>
+                <strong style="color: #f87171;">Campo:</strong>
+                <p style="margin: 5px 0; color: #e2e8f0;">{{campo}}</p>
+              </div>
+            </div>
+            
+            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                  <strong style="color: #fb7185;">Valor Anterior:</strong>
+                  <p style="margin: 5px 0; color: #fca5a5; word-break: break-word;">{{valor_anterior}}</p>
+                </div>
+                <div>
+                  <strong style="color: #10b981;">Valor Novo:</strong>
+                  <p style="margin: 5px 0; color: #86efac; word-break: break-word;">{{valor_novo}}</p>
+                </div>
+              </div>
+            </div>
+            
+            <small style="color: #94a3b8; display: block; margin-top: 10px;">📅 {{created_at}}</small>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  {{else}}
+    <div class="error-message">
+      <p style="text-align: center;">Nenhum log de auditoria encontrado.</p>
+    </div>
+  {{/if}}
+
+  <div style="text-align: center; margin-top: 30px;">
+    <a href="/dashboard/progresso" class="btn-voltar">← Voltar para Dashboard</a>
+  </div>
+</div>

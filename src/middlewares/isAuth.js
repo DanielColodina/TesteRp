@@ -1,7 +1,9 @@
 module.exports = function isAuth(req, res, next) {
-    if(req.session && req.session.adminId) {
+    // Verificar se existe sessão e adminId
+    if (req.session && req.session.adminId) {
         return next();
     }
 
-    return  res.redirect('/login')
-}
+    // Se não autenticado, redireciona para login
+    return res.status(401).redirect('/login');
+};

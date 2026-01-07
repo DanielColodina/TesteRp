@@ -1,0 +1,340 @@
+{{> main}}
+
+{{#content "styles"}}
+<style>
+.comunicacao-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.comunicacao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.comunicacao-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.btn-novo {
+    padding: 12px 24px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 2px solid white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-novo:hover {
+    background: white;
+    color: #8b5cf6;
+}
+
+.mensagens-grid {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.mensagem-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-left: 5px solid #8b5cf6;
+}
+
+.mensagem-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 15px;
+}
+
+.mensagem-remetente {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.mensagem-destinatario {
+    background: #f3f4f6;
+    color: #666;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.mensagem-conteudo {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 3px solid #8b5cf6;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #374151;
+}
+
+.mensagem-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.mensagem-info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.mensagem-info-label {
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.mensagem-info-value {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.form-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.form-container h2 {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-submit:hover {
+    transform: translateY(-1px);
+}
+
+.btn-cancel {
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #475569;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-voltar:hover {
+    background: #475569;
+}
+
+@media (max-width: 768px) {
+    .comunicacao-container {
+        padding: 10px;
+    }
+
+    .comunicacao-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .comunicacao-header h1 {
+        font-size: 2rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mensagem-info {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{{/content}}
+
+{{#content "body"}}
+<div class="comunicacao-container">
+    <div class="comunicacao-header">
+        <h1>💬 Sistema de Comunicação</h1>
+        <a href="#form" class="btn-novo">+ Nova Mensagem</a>
+    </div>
+
+    <!-- Formulário de Nova Mensagem -->
+    <div id="form" class="form-container">
+        <h2>📝 Enviar Nova Mensagem</h2>
+        <form action="/controle-geral/comunicacao" method="POST" class="mensagem-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="de">De *</label>
+                    <input type="text" id="de" name="de" required placeholder="Ex: João Silva">
+                </div>
+
+                <div class="form-group">
+                    <label for="para">Para *</label>
+                    <input type="text" id="para" name="para" required placeholder="Ex: Maria Santos">
+                </div>
+
+                <div class="form-group">
+                    <label for="data">Data *</label>
+                    <input type="date" id="data" name="data" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="obra_id">ID da Obra (opcional)</label>
+                    <input type="number" id="obra_id" name="obra_id" placeholder="Ex: 1">
+                </div>
+
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label for="mensagem">Mensagem *</label>
+                    <textarea id="mensagem" name="mensagem" required placeholder="Digite sua mensagem aqui..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">✅ Enviar Mensagem</button>
+                <button type="button" class="btn-cancel" onclick="limparFormulario()">🗑️ Limpar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lista de Mensagens -->
+    <div class="mensagens-grid">
+        {{#each mensagens}}
+        <div class="mensagem-card">
+            <div class="mensagem-header">
+                <h3 class="mensagem-remetente">{{this.de}}</h3>
+                <span class="mensagem-destinatario">Para: {{this.para}}</span>
+            </div>
+
+            <div class="mensagem-conteudo">
+                {{this.mensagem}}
+            </div>
+
+            <div class="mensagem-info">
+                <div class="mensagem-info-item">
+                    <span class="mensagem-info-label">Data</span>
+                    <span class="mensagem-info-value">{{this.data}}</span>
+                </div>
+                {{#if this.obra_id}}
+                <div class="mensagem-info-item">
+                    <span class="mensagem-info-label">Obra ID</span>
+                    <span class="mensagem-info-value">{{this.obra_id}}</span>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    {{#if (eq mensagens.length 0)}}
+    <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h3 style="color: #666; margin: 0;">Nenhuma mensagem enviada ainda</h3>
+        <p style="color: #999; margin: 10px 0 0 0;">Clique em "Nova Mensagem" para começar.</p>
+    </div>
+    {{/if}}
+
+    <div style="text-align: center;">
+        <a href="/controle-geral" class="btn-voltar">← Voltar ao Controle Geral</a>
+    </div>
+</div>
+
+<script>
+function limparFormulario() {
+    document.querySelector('.mensagem-form').reset();
+}
+</script>
+{{/content}}

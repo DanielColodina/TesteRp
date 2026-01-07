@@ -1,0 +1,357 @@
+{{> main}}
+
+{{#content "styles"}}
+<style>
+.estoque-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.estoque-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.estoque-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.btn-novo {
+    padding: 12px 24px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 2px solid white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-novo:hover {
+    background: white;
+    color: #10b981;
+}
+
+.materiais-grid {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.material-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-left: 5px solid #10b981;
+}
+
+.material-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 15px;
+}
+
+.material-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.material-codigo {
+    background: #f3f4f6;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.material-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.material-info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.material-info-label {
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.material-info-value {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.estoque-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.estoque-alto { background: #dcfce7; color: #166534; }
+.estoque-medio { background: #fef3c7; color: #92400e; }
+.estoque-baixo { background: #fee2e2; color: #991b1b; }
+
+.form-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.form-container h2 {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-submit:hover {
+    transform: translateY(-1px);
+}
+
+.btn-cancel {
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #475569;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-voltar:hover {
+    background: #475569;
+}
+
+@media (max-width: 768px) {
+    .estoque-container {
+        padding: 10px;
+    }
+
+    .estoque-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .estoque-header h1 {
+        font-size: 2rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .material-info {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{{/content}}
+
+{{#content "body"}}
+<div class="estoque-container">
+    <div class="estoque-header">
+        <h1>📦 Controle de Estoque</h1>
+        <a href="#form" class="btn-novo">+ Novo Material</a>
+    </div>
+
+    <!-- Formulário de Novo Material -->
+    <div id="form" class="form-container">
+        <h2>📝 Cadastrar Novo Material</h2>
+        <form action="/controle-geral/estoque" method="POST" class="material-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="codigo">Código *</label>
+                    <input type="text" id="codigo" name="codigo" required placeholder="Ex: MAT001">
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição *</label>
+                    <input type="text" id="descricao" name="descricao" required placeholder="Ex: Cimento Portland">
+                </div>
+
+                <div class="form-group">
+                    <label for="unidade">Unidade *</label>
+                    <select id="unidade" name="unidade" required>
+                        <option value="">Selecione...</option>
+                        <option value="kg">Kg</option>
+                        <option value="m">Metro</option>
+                        <option value="m2">Metro²</option>
+                        <option value="m3">Metro³</option>
+                        <option value="un">Unidade</option>
+                        <option value="l">Litro</option>
+                        <option value="t">Tonelada</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantidade">Quantidade Atual</label>
+                    <input type="number" id="quantidade" name="quantidade" step="0.01" placeholder="0.00">
+                </div>
+
+                <div class="form-group">
+                    <label for="preco_medio">Preço Médio (R$)</label>
+                    <input type="number" id="preco_medio" name="preco_medio" step="0.01" placeholder="0.00">
+                </div>
+
+                <div class="form-group">
+                    <label for="estoque_minimo">Estoque Mínimo</label>
+                    <input type="number" id="estoque_minimo" name="estoque_minimo" step="0.01" placeholder="0.00">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">✅ Salvar Material</button>
+                <button type="button" class="btn-cancel" onclick="limparFormulario()">🗑️ Limpar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lista de Materiais -->
+    <div class="materiais-grid">
+        {{#each materiais}}
+        <div class="material-card">
+            <div class="material-header">
+                <h3 class="material-title">{{this.descricao}}</h3>
+                <span class="material-codigo">{{this.codigo}}</span>
+            </div>
+
+            <div class="material-info">
+                <div class="material-info-item">
+                    <span class="material-info-label">Unidade</span>
+                    <span class="material-info-value">{{this.unidade}}</span>
+                </div>
+                <div class="material-info-item">
+                    <span class="material-info-label">Quantidade</span>
+                    <span class="material-info-value">{{this.quantidade}}</span>
+                </div>
+                <div class="material-info-item">
+                    <span class="material-info-label">Preço Médio</span>
+                    <span class="material-info-value">R$ {{this.preco_medio}}</span>
+                </div>
+                <div class="material-info-item">
+                    <span class="material-info-label">Estoque Mínimo</span>
+                    <span class="material-info-value">{{this.estoque_minimo}}</span>
+                </div>
+                <div class="material-info-item">
+                    <span class="material-info-label">Status</span>
+                    <span class="estoque-status {{#if (gt this.quantidade this.estoque_minimo)}}estoque-alto{{else if (eq this.quantidade this.estoque_minimo)}}estoque-medio{{else}}estoque-baixo{{/if}}">
+                        {{#if (gt this.quantidade this.estoque_minimo)}}Estoque Alto{{else if (eq this.quantidade this.estoque_minimo)}}Estoque Médio{{else}}Estoque Baixo{{/if}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    {{#if (eq materiais.length 0)}}
+    <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h3 style="color: #666; margin: 0;">Nenhum material cadastrado ainda</h3>
+        <p style="color: #999; margin: 10px 0 0 0;">Clique em "Novo Material" para começar.</p>
+    </div>
+    {{/if}}
+
+    <div style="text-align: center;">
+        <a href="/controle-geral" class="btn-voltar">← Voltar ao Controle Geral</a>
+    </div>
+</div>
+
+<script>
+function limparFormulario() {
+    document.querySelector('.material-form').reset();
+}
+</script>
+{{/content}}

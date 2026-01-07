@@ -1,0 +1,60 @@
+<div class="content-wrapper">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <h1>{{#if (eq action 'create')}}🏗️ Nova Obra{{else}}✏️ Editar Obra{{/if}}</h1>
+    <a href="/obras" class="btn-voltar">← Voltar</a>
+  </div>
+
+  <div style="max-width: 600px; margin: 0 auto;">
+    <form action="{{#if (eq action 'create')}}/obras{{else}}/obras/{{obra.id}}{{/if}}" method="POST" style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+
+      <div style="margin-bottom: 20px;">
+        <label for="nome_obra" style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Nome da Obra *</label>
+        <input type="text" id="nome_obra" name="nome_obra" value="{{obra.nome_obra}}" placeholder="Digite o nome da obra" required
+               style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem;">
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <label for="usuario_id" style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Cliente (Opcional)</label>
+        <select id="usuario_id" name="usuario_id" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem;">
+          <option value="">-- Selecione um cliente --</option>
+          {{#each usuarios}}
+            <option value="{{id}}" {{#if (eq ../obra.usuario_id id)}}selected{{/if}}>
+              {{nome}} - {{obra}}
+            </option>
+          {{/each}}
+        </select>
+        <small style="color: #666; display: block; margin-top: 5px;">
+          Vincular a obra a um cliente existente. Deixe em branco para obra independente.
+        </small>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <label for="descricao" style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Descrição (Opcional)</label>
+        <textarea id="descricao" name="descricao" rows="4" placeholder="Digite uma descrição detalhada da obra"
+                  style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem; resize: vertical;">{{obra.descricao}}</textarea>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 30px;">
+        <a href="/obras" style="padding: 10px 20px; background: #6b7280; color: white; text-decoration: none; border-radius: 5px;">Cancelar</a>
+        <button type="submit" style="padding: 10px 20px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">
+          {{#if (eq action 'create')}}✅ Criar Obra{{else}}💾 Salvar Alterações{{/if}}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+.btn-voltar {
+  background: #6b7280;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.btn-voltar:hover {
+  background: #4b5563;
+}
+</style>
