@@ -1,0 +1,100 @@
+<div class="content-wrapper">
+    <div style="margin-bottom: 30px;">
+        <h1>{{#if (eq action 'add')}}➕ Adicionar{{else}}✏️ Editar{{/if}} Material à Obra</h1>
+        <h3 style="color: #666; margin-top: 5px;">{{obra.nome_obra}}</h3>
+    </div>
+
+    <div style="background: #f8f9fa; padding: 30px; border-radius: 8px; max-width: 800px; margin: 0 auto;">
+        <form method="POST" {{#if (eq action 'edit')}}action="/estoque/obras/{{obra.id}}/materiais/{{materialObra.id}}"{{/if}}>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+
+                <!-- Material -->
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Material:</label>
+                    {{#if (eq action 'add')}}
+                        <select name="material_id" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                            <option value="">Selecione um material...</option>
+                            {{#each materiais}}
+                                <option value="{{id}}">{{nome}} ({{unidade}})</option>
+                            {{/each}}
+                        </select>
+                    {{else}}
+                        <input type="text" value="{{materialObra.material_nome}} ({{materialObra.unidade}})" readonly style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: #f8f9fa;">
+                        <input type="hidden" name="material_id" value="{{materialObra.material_id}}">
+                    {{/if}}
+                </div>
+
+                <!-- Fase da Obra -->
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Fase da Obra:</label>
+                    <select name="fase_obra" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                        <option value="">Selecione a fase...</option>
+                        {{#each fases}}
+                            <option value="{{this}}" {{#if (eq this ../materialObra.fase_obra)}}selected{{/if}}>{{this}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <!-- Categoria -->
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Categoria:</label>
+                    <select name="categoria" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                        <option value="">Selecione...</option>
+                        <option value="Materiais Básicos" {{#if (eq materialObra.categoria 'Materiais Básicos')}}selected{{/if}}>Materiais Básicos</option>
+                        <option value="Estrutura" {{#if (eq materialObra.categoria 'Estrutura')}}selected{{/if}}>Estrutura</option>
+                        <option value="Alvenaria" {{#if (eq materialObra.categoria 'Alvenaria')}}selected{{/if}}>Alvenaria</option>
+                        <option value="Instalações" {{#if (eq materialObra.categoria 'Instalações')}}selected{{/if}}>Instalações</option>
+                        <option value="Acabamentos" {{#if (eq materialObra.categoria 'Acabamentos')}}selected{{/if}}>Acabamentos</option>
+                        <option value="Acessórios" {{#if (eq materialObra.categoria 'Acessórios')}}selected{{/if}}>Acessórios</option>
+                    </select>
+                </div>
+
+                <!-- Subcategoria -->
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Subcategoria:</label>
+                    <input type="text" name="subcategoria" value="{{materialObra.subcategoria}}" placeholder="Ex: Cerâmicos, Elétricos, etc." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+
+                <!-- Quantidade Estimada -->
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Quantidade Estimada Total:</label>
+                    <input type="number" name="quantidade_estimada" value="{{materialObra.quantidade_estimada}}" step="0.01" min="0" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                    <small style="color: #666;">Quantidade total necessária para a obra completa</small>
+                </div>
+
+                <!-- Quantidade Inicial -->
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Quantidade Inicial na Obra:</label>
+                    <input type="number" name="quantidade_inicial" value="{{materialObra.quantidade_inicial}}" step="0.01" min="0" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                    <small style="color: #666;">Quantidade já existente no canteiro</small>
+                </div>
+
+            </div>
+
+            <!-- Botões -->
+            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
+                <button type="submit" style="padding: 12px 30px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px;">
+                    💾 {{#if (eq action 'add')}}Adicionar{{else}}Atualizar{{/if}} Material
+                </button>
+                <a href="/estoque/obras/{{obra.id}}/materiais" style="padding: 12px 30px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px;">❌ Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Informações Técnicas -->
+    <div style="background: #e9ecef; padding: 20px; border-radius: 8px; margin-top: 30px; max-width: 800px; margin-left: auto; margin-right: auto;">
+        <h4 style="margin-bottom: 15px; color: #495057;">📋 Informações Técnicas Importantes</h4>
+        <ul style="color: #666; line-height: 1.6;">
+            <li><strong>Quantidade Estimada:</strong> Baseada no projeto executivo, representa o total necessário para concluir a obra</li>
+            <li><strong>Quantidade Inicial:</strong> Materiais já entregues no canteiro antes do início do controle</li>
+            <li><strong>Saldo Atual:</strong> Calculado automaticamente: Entradas - Saídas - Perdas + Sobras</li>
+            <li><strong>Fase da Obra:</strong> Vincula o material à etapa específica da construção</li>
+            <li><strong>Categoria/Subcategoria:</strong> Classificação técnica para relatórios e filtros</li>
+        </ul>
+    </div>
+
+    <!-- Links de navegação -->
+    <div style="margin-top: 30px; text-align: center;">
+        <a href="/estoque/obras/{{obra.id}}/materiais" style="padding: 10px 20px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px;">← Voltar aos Materiais</a>
+    </div>
+</div>

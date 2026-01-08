@@ -1,6 +1,4 @@
-{{> main}}
-
-{{#content "styles"}}
+<style>
 <style>
 .relatorios-container {
     max-width: 1200px;
@@ -245,13 +243,17 @@
     }
 }
 </style>
-{{/content}}
+</style>
 
-{{#content "body"}}
+
 <div class="relatorios-container">
     <div class="relatorios-header">
         <h1>📊 Sistema de Relatórios</h1>
         <a href="#form" class="btn-novo">+ Novo Relatório</a>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="/dashboard/controle-geral" class="btn-voltar">← Voltar ao Controle Geral</a>
     </div>
 
     <!-- Formulário de Novo Relatório -->
@@ -284,8 +286,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="obra_id">ID da Obra (opcional)</label>
-                    <input type="number" id="obra_id" name="obra_id" placeholder="Ex: 1">
+                    <label for="obra_id">Obra (opcional)</label>
+                    <select id="obra_id" name="obra_id">
+                        <option value="">Selecione uma obra...</option>
+                        {{#each obras}}
+                        <option value="{{this.id}}">{{this.nome}}</option>
+                        {{/each}}
+                    </select>
                 </div>
 
                 <div class="form-group" style="grid-column: 1 / -1;">
@@ -319,10 +326,10 @@
                     <span class="relatorio-info-label">Data</span>
                     <span class="relatorio-info-value">{{this.data}}</span>
                 </div>
-                {{#if this.obra_id}}
+                {{#if this.obra_nome}}
                 <div class="relatorio-info-item">
-                    <span class="relatorio-info-label">Obra ID</span>
-                    <span class="relatorio-info-value">{{this.obra_id}}</span>
+                    <span class="relatorio-info-label">Obra</span>
+                    <span class="relatorio-info-value">{{this.obra_nome}}</span>
                 </div>
                 {{/if}}
             </div>
@@ -336,10 +343,6 @@
         <p style="color: #999; margin: 10px 0 0 0;">Clique em "Novo Relatório" para começar.</p>
     </div>
     {{/if}}
-
-    <div style="text-align: center;">
-        <a href="/controle-geral" class="btn-voltar">← Voltar ao Controle Geral</a>
-    </div>
 </div>
 
 <script>
@@ -347,4 +350,5 @@ function limparFormulario() {
     document.querySelector('.relatorio-form').reset();
 }
 </script>
-{{/content}}
+</style>
+

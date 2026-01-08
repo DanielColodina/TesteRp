@@ -1,0 +1,199 @@
+<div class="edit-obra-container">
+    <div class="edit-obra-header">
+        <h1>Editar Obra</h1>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="/dashboard/controle-geral/obras" class="btn-voltar">← Voltar às Obras</a>
+    </div>
+
+    <div class="form-container">
+        <h2>📝 Editar Obra</h2>
+        <form action="/dashboard/controle-geral/obras/edit/{{obra.id}}" method="POST" class="obra-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="nome">Nome da Obra *</label>
+                    <input type="text" id="nome" name="nome" required placeholder="Ex: Residencial ABC" value="{{obra.nome}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="endereco">Endereço *</label>
+                    <input type="text" id="endereco" name="endereco" required placeholder="Rua, número, bairro, cidade" value="{{obra.endereco}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="cliente">Cliente *</label>
+                    <input type="text" id="cliente" name="cliente" required placeholder="Nome do cliente" value="{{obra.cliente}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="orcamento">Orçamento (R$)</label>
+                    <input type="number" id="orcamento" name="orcamento" step="0.01" placeholder="0.00" value="{{obra.orcamento}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="data_inicio">Data de Início</label>
+                    <input type="date" id="data_inicio" name="data_inicio" value="{{obra.data_inicio}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="data_fim">Data de Fim</label>
+                    <input type="date" id="data_fim" name="data_fim" value="{{obra.data_fim}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                        <option value="ativo" {{#eq obra.status 'ativo'}}selected{{/eq}}>Ativo</option>
+                        <option value="pausado" {{#eq obra.status 'pausado'}}selected{{/eq}}>Pausado</option>
+                        <option value="finalizado" {{#eq obra.status 'finalizado'}}selected{{/eq}}>Finalizado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">✅ Salvar Alterações</button>
+                <button type="button" class="btn-cancel" onclick="history.back()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.edit-obra-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.edit-obra-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.edit-obra-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-voltar:hover {
+    background: #475569;
+}
+
+.form-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.form-container h2 {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 10px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-submit:hover {
+    transform: translateY(-1px);
+}
+
+.btn-cancel {
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #475569;
+}
+
+@media (max-width: 768px) {
+    .edit-obra-container {
+        padding: 10px;
+    }
+
+    .edit-obra-header h1 {
+        font-size: 2rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>

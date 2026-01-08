@@ -1,0 +1,206 @@
+<div class="edit-material-container">
+    <div class="edit-material-header">
+        <h1>Editar Material</h1>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="/dashboard/controle-geral/estoque" class="btn-voltar">← Voltar ao Estoque</a>
+    </div>
+
+    <div class="form-container">
+        <h2>📝 Editar Material</h2>
+        <form action="/dashboard/controle-geral/estoque/edit/{{material.id}}" method="POST" class="material-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="codigo">Código *</label>
+                    <input type="text" id="codigo" name="codigo" required placeholder="Ex: MAT001" value="{{material.codigo}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição *</label>
+                    <input type="text" id="descricao" name="descricao" required placeholder="Ex: Cimento Portland" value="{{material.descricao}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="unidade">Unidade *</label>
+                    <select id="unidade" name="unidade" required>
+                        <option value="kg" {{#eq material.unidade 'kg'}}selected{{/eq}}>Kg</option>
+                        <option value="m" {{#eq material.unidade 'm'}}selected{{/eq}}>Metro</option>
+                        <option value="m2" {{#eq material.unidade 'm2'}}selected{{/eq}}>Metro²</option>
+                        <option value="m3" {{#eq material.unidade 'm3'}}selected{{/eq}}>Metro³</option>
+                        <option value="un" {{#eq material.unidade 'un'}}selected{{/eq}}>Unidade</option>
+                        <option value="l" {{#eq material.unidade 'l'}}selected{{/eq}}>Litro</option>
+                        <option value="t" {{#eq material.unidade 't'}}selected{{/eq}}>Tonelada</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantidade">Quantidade Atual</label>
+                    <input type="number" id="quantidade" name="quantidade" step="0.01" placeholder="0.00" value="{{material.quantidade}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="preco_medio">Preço Médio (R$)</label>
+                    <input type="number" id="preco_medio" name="preco_medio" step="0.01" placeholder="0.00" value="{{material.preco_medio}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="estoque_minimo">Estoque Mínimo</label>
+                    <input type="number" id="estoque_minimo" name="estoque_minimo" step="0.01" placeholder="0.00" value="{{material.estoque_minimo}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="obra_id">Obra *</label>
+                    <select id="obra_id" name="obra_id" required>
+                        <option value="">Selecione uma obra...</option>
+                        {{#each obras}}
+                        <option value="{{this.id}}" {{#eq this.id ../material.obra_id}}selected{{/eq}}>{{this.nome}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">✅ Salvar Alterações</button>
+                <button type="button" class="btn-cancel" onclick="history.back()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.edit-material-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.edit-material-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.edit-material-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-voltar:hover {
+    background: #475569;
+}
+
+.form-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.form-container h2 {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-submit:hover {
+    transform: translateY(-1px);
+}
+
+.btn-cancel {
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #475569;
+}
+
+@media (max-width: 768px) {
+    .edit-material-container {
+        padding: 10px;
+    }
+
+    .edit-material-header h1 {
+        font-size: 2rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>

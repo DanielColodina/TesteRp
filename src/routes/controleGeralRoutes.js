@@ -36,8 +36,16 @@ db.serialize(() => {
     unidade TEXT,
     quantidade REAL,
     preco_medio REAL,
-    estoque_minimo REAL
+    estoque_minimo REAL,
+    obra_id INTEGER
   )`);
+
+  // Add obra_id column if not exists
+  db.run(`ALTER TABLE materiais ADD COLUMN obra_id INTEGER`, (err) => {
+    if (err && !err.message.includes('duplicate column name')) {
+      console.error('Erro ao adicionar coluna obra_id:', err.message);
+    }
+  });
 
   db.run(`CREATE TABLE IF NOT EXISTS funcionarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -113,9 +121,9 @@ materiaisRouter.get('/', isAuth, (req, res) => {
 });
 
 materiaisRouter.post('/', isAuth, (req, res) => {
-  const { codigo, descricao, unidade, quantidade, preco_medio, estoque_minimo } = req.body;
-  db.run(`INSERT INTO materiais (codigo, descricao, unidade, quantidade, preco_medio, estoque_minimo) VALUES (?, ?, ?, ?, ?, ?)`,
-    [codigo, descricao, unidade, quantidade, preco_medio, estoque_minimo], function(err) {
+  const { codigo, descricao, unidade, quantidade, preco_medio, estoque_minimo, obra_id } = req.body;
+  db.run(`INSERT INTO materiais (codigo, descricao, unidade, quantidade, preco_medio, estoque_minimo, obra_id) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [codigo, descricao, unidade, quantidade, preco_medio, estoque_minimo, obra_id], function(err) {
     if (err) {
       res.status(500).json({ error: err.message });
       return;

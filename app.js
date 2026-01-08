@@ -11,6 +11,7 @@ const logger = require('./src/utils/logger');
 
 // View engine
 const exphbs = require('express-handlebars');
+const handlebars = require('handlebars');
 
 // Middlewares
 const bodyParser = require('body-parser');
@@ -35,11 +36,26 @@ const controleGeralController = require('./src/controllers/controleGeralControll
 const helmet = require('helmet');
 const cors = require('cors');
 
+// Registrar helpers globalmente
+handlebars.registerHelper('eq', (a, b) => a === b);
+handlebars.registerHelper('gt', (a, b) => a > b);
+handlebars.registerHelper('lt', (a, b) => a < b);
+handlebars.registerHelper('ne', (a, b) => a !== b);
+handlebars.registerHelper('and', (a, b) => a && b);
+handlebars.registerHelper('or', (a, b) => a || b);
 
 // ---------------- VIEW ENGINE ----------------
 const hbs = exphbs.create({
+  defaultLayout: 'main',
+  layoutsDir: path.join(__dirname, 'src', 'views', 'layouts'),
+  partialsDir: path.join(__dirname, 'src', 'views', 'partials'),
   helpers: {
-    eq: (a, b) => a === b
+    eq: (a, b) => a === b,
+    gt: (a, b) => a > b,
+    lt: (a, b) => a < b,
+    ne: (a, b) => a !== b,
+    and: (a, b) => a && b,
+    or: (a, b) => a || b
   }
 });
 app.engine('handlebars', hbs.engine);
@@ -101,14 +117,32 @@ app.get('/controle-geral/obras', isAuth, controleGeralController.obras);
 app.post('/controle-geral/obras', isAuth, controleGeralController.criarObra);
 app.get('/dashboard/controle-geral/obras', isAuth, controleGeralController.obras);
 app.post('/dashboard/controle-geral/obras', isAuth, controleGeralController.criarObra);
+app.get('/dashboard/controle-geral/obras/edit/:id', isAuth, controleGeralController.editarObraPage);
+app.post('/dashboard/controle-geral/obras/edit/:id', isAuth, controleGeralController.editarObra);
+app.post('/dashboard/controle-geral/obras/delete/:id', isAuth, controleGeralController.excluirObra);
 app.get('/controle-geral/estoque', isAuth, controleGeralController.estoque);
 app.post('/controle-geral/estoque', isAuth, controleGeralController.criarMaterial);
 app.get('/dashboard/controle-geral/estoque', isAuth, controleGeralController.estoque);
 app.post('/dashboard/controle-geral/estoque', isAuth, controleGeralController.criarMaterial);
+app.get('/dashboard/controle-geral/estoque/edit/:id', isAuth, controleGeralController.editarMaterialPage);
+app.post('/dashboard/controle-geral/estoque/edit/:id', isAuth, controleGeralController.editarMaterial);
+app.post('/dashboard/controle-geral/estoque/delete/:id', isAuth, controleGeralController.excluirMaterial);
+
+// MATERIAIS POR OBRA
+app.get('/dashboard/controle-geral/estoque/obra/:obra_id', isAuth, controleGeralController.materiaisObra);
+app.post('/dashboard/controle-geral/estoque/obra/:obra_id/adicionar', isAuth, controleGeralController.adicionarMaterialObra);
+app.post('/dashboard/controle-geral/estoque/obra/:obra_id/editar/:material_obra_id', isAuth, controleGeralController.editarMaterialObra);
+app.post('/dashboard/controle-geral/estoque/obra/:obra_id/remover/:material_obra_id', isAuth, controleGeralController.removerMaterialObra);
+
+// MOVIMENTAÇÕES DE MATERIAIS NA OBRA
+app.get('/dashboard/controle-geral/estoque/obra/:obra_id/movimentacoes', isAuth, controleGeralController.movimentacoesObra);
+app.post('/dashboard/controle-geral/estoque/obra/:obra_id/entrada', isAuth, controleGeralController.registrarEntradaObra);
+app.post('/dashboard/controle-geral/estoque/obra/:obra_id/saida', isAuth, controleGeralController.registrarSaidaObra);
 app.get('/controle-geral/equipes', isAuth, controleGeralController.equipes);
 app.post('/controle-geral/equipes', isAuth, controleGeralController.criarFuncionario);
 app.get('/dashboard/controle-geral/equipes', isAuth, controleGeralController.equipes);
 app.post('/dashboard/controle-geral/equipes', isAuth, controleGeralController.criarFuncionario);
+app.post('/dashboard/controle-geral/equipes/edit', isAuth, controleGeralController.editarFuncionario);
 app.get('/controle-geral/financeiro', isAuth, controleGeralController.financeiro);
 app.post('/controle-geral/financeiro', isAuth, controleGeralController.criarFinanceiro);
 app.get('/dashboard/controle-geral/financeiro', isAuth, controleGeralController.financeiro);

@@ -1,0 +1,648 @@
+<div class="movimentacoes-obra-container">
+    <div class="header-section">
+        <h1>📊 Movimentações de Materiais</h1>
+        <div class="obra-info">
+            <h2>{{obra.nome_obra}}</h2>
+            <p class="obra-detalhes">{{obra.endereco}} | Cliente: {{obra.cliente}}</p>
+        </div>
+        <div class="header-actions">
+            <a href="/dashboard/controle-geral/estoque/obra/{{obra.id}}" class="btn-secondary">
+                📦 Materiais
+            </a>
+            <a href="/dashboard/controle-geral/obras" class="btn-secondary">
+                ← Voltar às Obras
+            </a>
+        </div>
+    </div>
+
+    <div class="movimentacoes-section">
+        <div class="section-header">
+            <h3>Registro de Movimentações</h3>
+            <div class="action-buttons">
+                <button class="btn-primary" onclick="abrirModalEntrada()">➕ Registrar Entrada</button>
+                <button class="btn-warning" onclick="abrirModalSaida()">➖ Registrar Saída</button>
+            </div>
+        </div>
+
+        {{#if movimentacoes.length}}
+        <div class="movimentacoes-table-container">
+            <table class="movimentacoes-table">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Tipo</th>
+                        <th>Material</th>
+                        <th>Etapa</th>
+                        <th>Quantidade</th>
+                        <th>Unidade</th>
+                        <th>Responsável</th>
+                        <th>Motivo</th>
+                        <th>Documento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each movimentacoes}}
+                    <tr class="movimentacao-row {{#if (eq tipo 'entrada')}}entrada{{else if (eq tipo 'saida')}}saida{{else}}perda{{/if}}">
+                        <td>{{formatDate data_movimentacao}}</td>
+                        <td>
+                            <span class="tipo-badge {{#if (eq tipo 'entrada')}}tipo-entrada{{else if (eq tipo 'saida')}}tipo-saida{{else}}tipo-perda{{/if}}">
+                                {{#if (eq tipo 'entrada')}}📥 Entrada{{else if (eq tipo 'saida')}}📤 Saída{{else}}⚠️ Perda{{/if}}
+                            </span>
+                        </td>
+                        <td class="material-nome">{{material_nome}}</td>
+                        <td>{{etapa_obra}}</td>
+                        <td class="quantidade {{#if (eq tipo 'saida')}}negativo{{else}}positivo{{/if}}">
+                            {{#if (eq tipo 'saida')}}-{{/if}}{{quantidade}}
+                        </td>
+                        <td>{{unidade}}</td>
+                        <td>{{responsavel_nome}}</td>
+                        <td>{{motivo}}</td>
+                        <td>{{documento}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="resumo-movimentacoes">
+            <div class="resumo-card">
+                <h4>📥 Total de Entradas</h4>
+                <span class="resumo-valor entrada">{{totalEntradas movimentacoes}}</span>
+            </div>
+            <div class="resumo-card">
+                <h4>📤 Total de Saídas</h4>
+                <span class="resumo-valor saida">{{totalSaidas movimentacoes}}</span>
+            </div>
+            <div class="resumo-card">
+                <h4>⚠️ Total de Perdas</h4>
+                <span class="resumo-valor perda">{{totalPerdas movimentacoes}}</span>
+            </div>
+        </div>
+        {{else}}
+        <div class="empty-state">
+            <p>📋 Nenhuma movimentação registrada para esta obra.</p>
+            <p>Registre entradas e saídas de materiais para acompanhar o controle.</p>
+        </div>
+        {{/if}}
+    </div>
+</div>
+
+<!-- Modal Registrar Entrada -->
+<div id="modalEntrada" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>📥 Registrar Entrada de Material</h3>
+            <span class="close" onclick="fecharModalEntrada()">&times;</span>
+        </div>
+        <form id="formEntrada" action="/dashboard/controle-geral/estoque/obra/{{obra.id}}/entrada" method="POST">
+            <div class="form-group">
+                <label for="entrada_material_obra_id">Material:</label>
+                <select name="material_obra_id" id="entrada_material_obra_id" required>
+                    <option value="">Selecione um material...</option>
+                    {{#each materiaisObra}}
+                    <option value="{{id}}">{{material_nome}} ({{fase_obra}})</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="entrada_quantidade">Quantidade:</label>
+                    <input type="number" name="quantidade" id="entrada_quantidade" step="0.01" min="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="entrada_data_movimentacao">Data:</label>
+                    <input type="date" name="data_movimentacao" id="entrada_data_movimentacao"
+                           value="{{currentDate}}" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="entrada_etapa_obra">Etapa da Obra:</label>
+                <select name="etapa_obra" id="entrada_etapa_obra">
+                    <option value="">Selecione a etapa...</option>
+                    <option value="Terraplenagem e Fundações">Terraplenagem e Fundações</option>
+                    <option value="Alvenaria Estrutural">Alvenaria Estrutural</option>
+                    <option value="Estrutura">Estrutura (Pilares, Vigas e Lajes)</option>
+                    <option value="Alvenaria de Vedação">Alvenaria de Vedação</option>
+                    <option value="Cobertura">Cobertura</option>
+                    <option value="Instalações Elétricas">Instalações Elétricas</option>
+                    <option value="Instalações Hidráulicas">Instalações Hidráulicas</option>
+                    <option value="Revestimentos e Acabamentos">Revestimentos e Acabamentos</option>
+                    <option value="Esquadrias e Serralheria">Esquadrias e Serralheria</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="entrada_motivo">Motivo:</label>
+                <input type="text" name="motivo" id="entrada_motivo"
+                       placeholder="Ex: Entrega inicial, Reposição, etc." required>
+            </div>
+
+            <div class="form-group">
+                <label for="entrada_documento">Documento (NF, Pedido, etc.):</label>
+                <input type="text" name="documento" id="entrada_documento"
+                       placeholder="Número da nota fiscal ou documento">
+            </div>
+
+            <div class="form-group">
+                <label for="entrada_observacoes">Observações:</label>
+                <textarea name="observacoes" id="entrada_observacoes" rows="3"
+                          placeholder="Observações adicionais..."></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="fecharModalEntrada()">Cancelar</button>
+                <button type="submit" class="btn-primary">Registrar Entrada</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Registrar Saída -->
+<div id="modalSaida" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>📤 Registrar Saída de Material</h3>
+            <span class="close" onclick="fecharModalSaida()">&times;</span>
+        </div>
+        <form id="formSaida" action="/dashboard/controle-geral/estoque/obra/{{obra.id}}/saida" method="POST">
+            <div class="form-group">
+                <label for="saida_material_obra_id">Material:</label>
+                <select name="material_obra_id" id="saida_material_obra_id" required>
+                    <option value="">Selecione um material...</option>
+                    {{#each materiaisObra}}
+                    <option value="{{id}}">{{material_nome}} ({{fase_obra}})</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="saida_quantidade">Quantidade:</label>
+                    <input type="number" name="quantidade" id="saida_quantidade" step="0.01" min="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="saida_data_movimentacao">Data:</label>
+                    <input type="date" name="data_movimentacao" id="saida_data_movimentacao"
+                           value="{{currentDate}}" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="saida_etapa_obra">Etapa da Obra:</label>
+                <select name="etapa_obra" id="saida_etapa_obra" required>
+                    <option value="">Selecione a etapa...</option>
+                    <option value="Terraplenagem e Fundações">Terraplenagem e Fundações</option>
+                    <option value="Alvenaria Estrutural">Alvenaria Estrutural</option>
+                    <option value="Estrutura">Estrutura (Pilares, Vigas e Lajes)</option>
+                    <option value="Alvenaria de Vedação">Alvenaria de Vedação</option>
+                    <option value="Cobertura">Cobertura</option>
+                    <option value="Instalações Elétricas">Instalações Elétricas</option>
+                    <option value="Instalações Hidráulicas">Instalações Hidráulicas</option>
+                    <option value="Revestimentos e Acabamentos">Revestimentos e Acabamentos</option>
+                    <option value="Esquadrias e Serralheria">Esquadrias e Serralheria</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="saida_motivo">Motivo:</label>
+                <input type="text" name="motivo" id="saida_motivo"
+                       placeholder="Ex: Consumo na obra, Perda, etc." required>
+            </div>
+
+            <div class="form-group">
+                <label for="saida_documento">Documento:</label>
+                <input type="text" name="documento" id="saida_documento"
+                       placeholder="Referência ou documento relacionado">
+            </div>
+
+            <div class="form-group">
+                <label for="saida_observacoes">Observações:</label>
+                <textarea name="observacoes" id="saida_observacoes" rows="3"
+                          placeholder="Observações adicionais..."></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="fecharModalSaida()">Cancelar</button>
+                <button type="submit" class="btn-warning">Registrar Saída</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.movimentacoes-obra-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.header-section h1 {
+    margin: 0 0 10px 0;
+    font-size: 2.2rem;
+}
+
+.obra-info h2 {
+    margin: 0 0 5px 0;
+    font-size: 1.5rem;
+    opacity: 0.95;
+}
+
+.obra-detalhes {
+    margin: 0;
+    opacity: 0.8;
+    font-size: 1rem;
+}
+
+.header-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.movimentacoes-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.section-header {
+    padding: 20px 30px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-header h3 {
+    margin: 0;
+    color: #333;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.movimentacoes-table-container {
+    overflow-x: auto;
+}
+
+.movimentacoes-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.movimentacoes-table th {
+    background: #f8f9fa;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.movimentacoes-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.tipo-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.tipo-entrada {
+    background: #d4edda;
+    color: #155724;
+}
+
+.tipo-saida {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.tipo-perda {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.material-nome {
+    font-weight: 600;
+    color: #333;
+}
+
+.quantidade {
+    text-align: center;
+    font-weight: bold;
+}
+
+.positivo {
+    color: #28a745;
+}
+
+.negativo {
+    color: #dc3545;
+}
+
+.resumo-movimentacoes {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+}
+
+.resumo-card {
+    text-align: center;
+}
+
+.resumo-card h4 {
+    margin: 0 0 10px 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.resumo-valor {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.resumo-valor.entrada {
+    color: #28a745;
+}
+
+.resumo-valor.saida {
+    color: #dc3545;
+}
+
+.resumo-valor.perda {
+    color: #ffc107;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6c757d;
+}
+
+.empty-state p {
+    margin: 10px 0;
+    font-size: 1.1rem;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    padding: 20px 30px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #333;
+}
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #333;
+}
+
+form {
+    padding: 30px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-warning {
+    background: #ffc107;
+    color: #212529;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+}
+
+.btn-warning:hover {
+    background: #e0a800;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .header-actions, .action-buttons {
+        flex-direction: column;
+    }
+
+    .section-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .movimentacoes-table {
+        font-size: 12px;
+    }
+
+    .movimentacoes-table th, .movimentacoes-table td {
+        padding: 8px;
+    }
+
+    .resumo-movimentacoes {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+</style>
+
+<script>
+// Modal functions
+function abrirModalEntrada() {
+    document.getElementById('modalEntrada').style.display = 'block';
+}
+
+function fecharModalEntrada() {
+    document.getElementById('modalEntrada').style.display = 'none';
+}
+
+function abrirModalSaida() {
+    document.getElementById('modalSaida').style.display = 'block';
+}
+
+function fecharModalSaida() {
+    document.getElementById('modalSaida').style.display = 'none';
+}
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+}
+
+// Helper functions for Handlebars
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('pt-BR');
+}
+
+function totalEntradas(movimentacoes) {
+    return movimentacoes
+        .filter(m => m.tipo === 'entrada')
+        .reduce((total, m) => total + parseFloat(m.quantidade), 0)
+        .toFixed(2);
+}
+
+function totalSaidas(movimentacoes) {
+    return movimentacoes
+        .filter(m => m.tipo === 'saida')
+        .reduce((total, m) => total + parseFloat(m.quantidade), 0)
+        .toFixed(2);
+}
+
+function totalPerdas(movimentacoes) {
+    return movimentacoes
+        .filter(m => m.tipo === 'perda')
+        .reduce((total, m) => total + parseFloat(m.quantidade), 0)
+        .toFixed(2);
+}
+
+// Make functions available to Handlebars
+if (typeof Handlebars !== 'undefined') {
+    Handlebars.registerHelper('formatDate', formatDate);
+    Handlebars.registerHelper('totalEntradas', totalEntradas);
+    Handlebars.registerHelper('totalSaidas', totalSaidas);
+    Handlebars.registerHelper('totalPerdas', totalPerdas);
+    Handlebars.registerHelper('eq', function(a, b) { return a === b; });
+}
+</script>

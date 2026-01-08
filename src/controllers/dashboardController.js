@@ -135,6 +135,9 @@ exports.obrasRecentes = async (req, res) => {
         u.obra as endereco_obra,
         cu.uso_solo,
         cu.licenca,
+        cu.condominio,
+        cu.habite_se,
+        cu.averbacao,
         cu.vistoria,
         cu.observacoes
       FROM obras o

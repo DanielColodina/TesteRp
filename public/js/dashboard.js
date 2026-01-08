@@ -123,10 +123,14 @@ async function carregarObrasRecentes() {
                     </div>
 
                     <div class="work-checklist" style="margin-top: 10px;">
-                        <div style="font-size: 0.8rem; color: #6b7280; margin-bottom: 5px;">Status do Checklist:</div>
+                        <div style="font-size: 0.8rem; color: #6b7280; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+                            <span>Status Inicial do Checklist:</span>
+                            <button class="btn-edit-checklist" title="Editar checklist completo" data-user-id="${obra.usuario_id}" style="background: none; border: 1px solid #3b82f6; color: #3b82f6; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; cursor: pointer;">Editar</button>
+                        </div>
                         <div class="checklist-grid">
                             ${checklistHtml}
                         </div>
+                        <div style="font-size: 0.7rem; color: #059669; margin-top: 5px;">🔒 Status definido no cadastro - só muda na edição completa</div>
                     </div>
                 </div>
             `;
@@ -136,6 +140,14 @@ async function carregarObrasRecentes() {
         setTimeout(() => {
             // Botões de editar
             document.querySelectorAll('.btn-edit').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userId = this.getAttribute('data-user-id');
+                    editarUsuario(userId);
+                });
+            });
+
+            // Botões de editar checklist (redireciona para edição completa)
+            document.querySelectorAll('.btn-edit-checklist').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const userId = this.getAttribute('data-user-id');
                     editarUsuario(userId);
@@ -285,6 +297,12 @@ style.textContent = `
 
 .btn-edit:hover {
     background: rgba(59, 130, 246, 0.1);
+}
+
+.btn-edit-checklist:hover {
+    background: rgba(59, 130, 246, 0.1);
+    color: #1d4ed8;
+    border-color: #1d4ed8;
 }
 
 .btn-unlink:hover {

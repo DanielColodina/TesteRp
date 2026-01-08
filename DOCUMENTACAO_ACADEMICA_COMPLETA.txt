@@ -27,7 +27,7 @@ O sistema de gestão de construtora foi concebido para atender às necessidades 
 - Registrar todas as ações para auditoria
 - Gerenciar estoques e materiais
 - Controlar aspectos financeiros
-- Facilitar comunicação interna
+- Facilitar comunicação internaP
 
 ### 1.2 Objetivos do Sistema
 

@@ -1,6 +1,183 @@
-{{> main}}
+<div class="equipes-container">
+    <div class="equipes-header">
+        <h1>👥 Gestão de Equipes</h1>
+        <a href="#form" class="btn-novo">+ Novo Funcionário</a>
+    </div>
 
-{{#content "styles"}}
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="/dashboard/controle-geral" class="btn-voltar">← Voltar ao Controle Geral</a>
+    </div>
+
+    <!-- Formulário de Novo Funcionário -->
+    <div id="form" class="form-container">
+        <h2>📝 Cadastrar Novo Funcionário</h2>
+        <form action="/controle-geral/equipes" method="POST" class="funcionario-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="nome">Nome Completo *</label>
+                    <input type="text" id="nome" name="nome" required placeholder="Ex: João Silva">
+                </div>
+
+                <div class="form-group">
+                    <label for="funcao">Função *</label>
+                    <select id="funcao" name="funcao" required>
+                        <option value="">Selecione...</option>
+                        <option value="pedreiro">Pedreiro</option>
+                        <option value="servente">Servente</option>
+                        <option value="encanador">Encanador</option>
+                        <option value="eletricista">Eletricista</option>
+                        <option value="pintor">Pintor</option>
+                        <option value="mestre_de_obras">Mestre de Obras</option>
+                        <option value="engenheiro">Engenheiro</option>
+                        <option value="arquiteto">Arquiteto</option>
+                        <option value="administrativo">Administrativo</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="salario">Salário (R$)</label>
+                    <input type="number" id="salario" name="salario" step="0.01" placeholder="0.00">
+                </div>
+
+                <div class="form-group">
+                    <label for="obra_id">Obra Vinculada</label>
+                    <select id="obra_id" name="obra_id">
+                        <option value="">Selecione uma obra (opcional)</option>
+                        {{#each obras}}
+                        <option value="{{this.id}}">{{this.nome}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">✅ Salvar Funcionário</button>
+                <button type="button" class="btn-cancel" onclick="limparFormulario()">🗑️ Limpar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lista de Funcionários -->
+    <div class="funcionarios-grid">
+        {{#each funcionarios}}
+        <div class="funcionario-card">
+            <div class="funcionario-header">
+                <h3 class="funcionario-nome">{{this.nome}}</h3>
+                <div class="funcionario-actions">
+                    <span class="funcionario-funcao">{{this.funcao}}</span>
+                    <button class="btn-edit" onclick="editarFuncionario({{this.id}}, '{{this.nome}}', '{{this.funcao}}', '{{this.salario}}', '{{this.obra_id}}')" title="Editar funcionário">
+                        ✏️
+                    </button>
+                </div>
+            </div>
+
+            <div class="funcionario-info">
+                <div class="funcionario-info-item">
+                    <span class="funcionario-info-label">Salário</span>
+                    <span class="funcionario-info-value">R$ {{this.salario}}</span>
+                </div>
+                {{#if this.obra_nome}}
+                <div class="funcionario-info-item">
+                    <span class="funcionario-info-label">Obra</span>
+                    <span class="funcionario-info-value obra-badge">{{this.obra_nome}}</span>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    {{#if (eq funcionarios.length 0)}}
+    <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h3 style="color: #666; margin: 0;">Nenhum funcionário cadastrado ainda</h3>
+        <p style="color: #999; margin: 10px 0 0 0;">Clique em "Novo Funcionário" para começar.</p>
+    </div>
+    {{/if}}
+</div>
+
+<!-- Modal de Edição de Funcionário -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Editar Funcionário</h3>
+            <span class="close" onclick="fecharModal()">&times;</span>
+        </div>
+        <form id="editForm" action="/dashboard/controle-geral/equipes/edit" method="POST" class="funcionario-form">
+            <input type="hidden" id="edit_id" name="id">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="edit_nome">Nome Completo *</label>
+                    <input type="text" id="edit_nome" name="nome" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_funcao">Função *</label>
+                    <select id="edit_funcao" name="funcao" required>
+                        <option value="pedreiro">Pedreiro</option>
+                        <option value="servente">Servente</option>
+                        <option value="encanador">Encanador</option>
+                        <option value="eletricista">Eletricista</option>
+                        <option value="pintor">Pintor</option>
+                        <option value="mestre_de_obras">Mestre de Obras</option>
+                        <option value="engenheiro">Engenheiro</option>
+                        <option value="arquiteto">Arquiteto</option>
+                        <option value="administrativo">Administrativo</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_salario">Salário (R$)</label>
+                    <input type="number" id="edit_salario" name="salario" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_obra_id">Obra Vinculada</label>
+                    <select id="edit_obra_id" name="obra_id">
+                        <option value="">Selecione uma obra (opcional)</option>
+                        {{#each obras}}
+                        <option value="{{this.id}}">{{this.nome}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">✅ Salvar Alterações</button>
+                <button type="button" class="btn-cancel" onclick="fecharModal()">❌ Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function limparFormulario() {
+    document.querySelector('.funcionario-form').reset();
+}
+
+function editarFuncionario(id, nome, funcao, salario, obra_id) {
+    document.getElementById('edit_id').value = id;
+    document.getElementById('edit_nome').value = nome;
+    document.getElementById('edit_funcao').value = funcao;
+    document.getElementById('edit_salario').value = salario;
+    document.getElementById('edit_obra_id').value = obra_id || '';
+    document.getElementById('editModal').style.display = 'block';
+}
+
+function fecharModal() {
+    document.getElementById('editModal').style.display = 'none';
+}
+
+// Fechar modal ao clicar fora
+window.onclick = function(event) {
+    const modal = document.getElementById('editModal');
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+}
+</script>
+
 <style>
 .equipes-container {
     max-width: 1200px;
@@ -63,6 +240,27 @@
     margin-bottom: 15px;
 }
 
+.funcionario-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-edit {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background 0.2s;
+}
+
+.btn-edit:hover {
+    background: #2563eb;
+}
+
 .funcionario-nome {
     font-size: 1.3rem;
     font-weight: bold;
@@ -102,6 +300,15 @@
     font-size: 0.9rem;
     color: #333;
     font-weight: 600;
+}
+
+.funcionario-info-value.obra-badge {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
 }
 
 .form-container {
@@ -226,91 +433,60 @@
     .funcionarios-grid {
         grid-template-columns: 1fr;
     }
-}
+    }
+    
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+    
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 0;
+        border: 1px solid #888;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border-bottom: 1px solid #e2e8f0;
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+        border-radius: 12px 12px 0 0;
+    }
+    
+    .modal-header h3 {
+        margin: 0;
+        font-size: 1.3rem;
+    }
+    
+    .close {
+        color: white;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .close:hover {
+        opacity: 0.7;
+    }
+    
+    .modal .funcionario-form {
+        padding: 20px;
+    }
 </style>
-{{/content}}
 
-{{#content "body"}}
-<div class="equipes-container">
-    <div class="equipes-header">
-        <h1>👥 Gestão de Equipes</h1>
-        <a href="#form" class="btn-novo">+ Novo Funcionário</a>
-    </div>
-
-    <!-- Formulário de Novo Funcionário -->
-    <div id="form" class="form-container">
-        <h2>📝 Cadastrar Novo Funcionário</h2>
-        <form action="/controle-geral/equipes" method="POST" class="funcionario-form">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="nome">Nome Completo *</label>
-                    <input type="text" id="nome" name="nome" required placeholder="Ex: João Silva">
-                </div>
-
-                <div class="form-group">
-                    <label for="funcao">Função *</label>
-                    <select id="funcao" name="funcao" required>
-                        <option value="">Selecione...</option>
-                        <option value="pedreiro">Pedreiro</option>
-                        <option value="servente">Servente</option>
-                        <option value="encanador">Encanador</option>
-                        <option value="eletricista">Eletricista</option>
-                        <option value="pintor">Pintor</option>
-                        <option value="mestre_de_obras">Mestre de Obras</option>
-                        <option value="engenheiro">Engenheiro</option>
-                        <option value="arquiteto">Arquiteto</option>
-                        <option value="administrativo">Administrativo</option>
-                        <option value="outros">Outros</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="salario">Salário (R$)</label>
-                    <input type="number" id="salario" name="salario" step="0.01" placeholder="0.00">
-                </div>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit" class="btn-submit">✅ Salvar Funcionário</button>
-                <button type="button" class="btn-cancel" onclick="limparFormulario()">🗑️ Limpar</button>
-            </div>
-        </form>
-    </div>
-
-    <!-- Lista de Funcionários -->
-    <div class="funcionarios-grid">
-        {{#each funcionarios}}
-        <div class="funcionario-card">
-            <div class="funcionario-header">
-                <h3 class="funcionario-nome">{{this.nome}}</h3>
-                <span class="funcionario-funcao">{{this.funcao}}</span>
-            </div>
-
-            <div class="funcionario-info">
-                <div class="funcionario-info-item">
-                    <span class="funcionario-info-label">Salário</span>
-                    <span class="funcionario-info-value">R$ {{this.salario}}</span>
-                </div>
-            </div>
-        </div>
-        {{/each}}
-    </div>
-
-    {{#if (eq funcionarios.length 0)}}
-    <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        <h3 style="color: #666; margin: 0;">Nenhum funcionário cadastrado ainda</h3>
-        <p style="color: #999; margin: 10px 0 0 0;">Clique em "Novo Funcionário" para começar.</p>
-    </div>
-    {{/if}}
-
-    <div style="text-align: center;">
-        <a href="/controle-geral" class="btn-voltar">← Voltar ao Controle Geral</a>
-    </div>
-</div>
-
-<script>
-function limparFormulario() {
-    document.querySelector('.funcionario-form').reset();
-}
-</script>
-{{/content}}

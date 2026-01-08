@@ -2,6 +2,18 @@ const User = require('../models/User');
 const Checklist = require('../models/Checklist');
 const Auditoria = require('../models/Auditoria');
 const Historico = require('../models/Historico');
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
+
+// Database CONTROLEGERAL
+const dbPath = path.join(__dirname, '../../CONTROLEGERAL/backend/construtora.db');
+const sqliteDb = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error('Erro ao conectar ao banco CONTROLEGERAL para usuários:', err.message);
+  } else {
+    console.log('✅ Conectado ao banco CONTROLEGERAL para usuários');
+  }
+});
 
 // Validações
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -39,6 +51,18 @@ exports.create = async (req, res) => {
       obra.trim(),
       req.session.adminId
     );
+
+    // Se obra foi fornecida, inserir no controle geral
+    if (obra && obra.trim()) {
+      sqliteDb.run(`INSERT INTO obras (nome, endereco, cliente, orcamento, data_inicio, data_fim, status) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [obra.trim(), obra.trim(), nome.trim(), null, null, null, 'ativo'], function(err) {
+        if (err) {
+          console.error('Erro ao inserir obra no controle geral:', err);
+        } else {
+          console.log(`✅ Obra inserida no controle geral para usuário: ${nome}`);
+        }
+      });
+    }
 
     // Criar checklist inicial se dados foram fornecidos
     if (userId && (uso_solo || licenca || condominio || habite_se || averbacao || vistoria)) {
@@ -216,7 +240,7 @@ exports.update = async(req,res) => {
       for (const campo of camposChecklist) {
         if (req.body[campo] !== undefined) {
           const valor = req.body[campo];
-          if (['Nao Tem', 'Andamento', 'Feito'].includes(valor)) {
+          if (['Nao Tem', 'Andamento', 'Feito', 'Finalizado', 'Proxima-Etapa'].includes(valor)) {
             await Checklist.update(id, campo, valor);
             // Registrar auditoria para cada campo alterado
             await Auditoria.log(req.session.adminId, id, 'CHECKLIST_ATUALIZADO', campo, 'desconhecido', valor);
@@ -300,27 +324,46 @@ exports.getChecklist = async (req, res) => {
 
 exports.updateChecklist = async (req, res) => {
   try {
-    const { campo, valor } = req.body;
+    const { campo, valor, admin_override } = req.body;
     const { id } = req.params;
     const adminId = req.session.adminId;
 
-    // Validações
-    if (!id || isNaN(id)) {
-      return res.status(400).json({ success: false, error: 'ID inválido' });
+    // PROTEÇÃO: Só permitir atualizações diretas se admin_override for true
+    // Isso força que mudanças sejam feitas apenas na edição completa do usuário
+    if (!admin_override || admin_override !== true) {
+      return res.status(403).json({
+        success: false,
+        error: 'Atualizações diretas do checklist estão bloqueadas. Use a edição completa do usuário para modificar o status inicial.'
+      });
     }
 
-    if (!campo || !valor) {
-      return res.status(400).json({ success: false, error: 'Campo e valor são obrigatórios' });
+    // Validações rigorosas
+    if (!id || isNaN(id) || id <= 0) {
+      return res.status(400).json({ success: false, error: 'ID do usuário inválido' });
+    }
+
+    if (!campo || typeof campo !== 'string' || campo.trim().length === 0) {
+      return res.status(400).json({ success: false, error: 'Campo é obrigatório e deve ser uma string válida' });
+    }
+
+    if (!valor || typeof valor !== 'string' || valor.trim().length === 0) {
+      return res.status(400).json({ success: false, error: 'Valor é obrigatório e deve ser uma string válida' });
     }
 
     const camposValidos = ['uso_solo', 'licenca', 'condominio', 'habite_se', 'averbacao', 'vistoria'];
-    if (!camposValidos.includes(campo)) {
-      return res.status(400).json({ success: false, error: 'Campo inválido' });
+    if (!camposValidos.includes(campo.trim())) {
+      return res.status(400).json({ success: false, error: `Campo inválido. Campos válidos: ${camposValidos.join(', ')}` });
     }
 
-    const valoresValidos = ['Nao Tem', 'Andamento', 'Feito'];
-    if (!valoresValidos.includes(valor)) {
-      return res.status(400).json({ success: false, error: 'Valor inválido' });
+    const valoresValidos = ['Nao Tem', 'Andamento', 'Feito', 'Finalizado', 'Proxima-Etapa'];
+    if (!valoresValidos.includes(valor.trim())) {
+      return res.status(400).json({ success: false, error: `Valor inválido. Valores válidos: ${valoresValidos.join(', ')}` });
+    }
+
+    // Verificar se usuário existe
+    const usuario = await User.findById(id);
+    if (!usuario) {
+      return res.status(404).json({ success: false, error: 'Usuário não encontrado' });
     }
 
     // Garantir que existe registro

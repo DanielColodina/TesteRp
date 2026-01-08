@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const materialController = require('../controllers/materialController');
+const materialObraController = require('../controllers/materialObraController');
+const movimentacaoObraController = require('../controllers/movimentacaoObraController');
 const estoqueController = require('../controllers/estoqueController');
 const isAuth = require('../../../middlewares/isAuth');
 
@@ -53,5 +55,26 @@ router.get('/relatorios/consumo/:obra_id', estoqueController.relatorioConsumo);
 // APIs
 router.get('/api/movimentacoes/material/:material_id', estoqueController.apiByMaterial);
 router.get('/api/movimentacoes/obra/:obra_id', estoqueController.apiByObra);
+
+// === MATERIAIS POR OBRA ===
+router.get('/obras/:obra_id/materiais', materialObraController.list);
+router.get('/obras/:obra_id/materiais/adicionar', materialObraController.addPage);
+router.post('/obras/:obra_id/materiais', materialObraController.add);
+router.get('/obras/:obra_id/materiais/:id/editar', materialObraController.editPage);
+router.post('/obras/:obra_id/materiais/:id', materialObraController.update);
+router.post('/obras/:obra_id/materiais/:id/deletar', materialObraController.delete);
+router.get('/obras/:obra_id/materiais/importar', materialObraController.importarCatalogo);
+
+// APIs para materiais de obra
+router.get('/api/obras/:obra_id/materiais/busca', materialObraController.apiSearch);
+router.get('/api/obras/:obra_id/materiais/saldo-baixo', materialObraController.apiSaldoBaixo);
+
+// === MOVIMENTAÇÕES POR OBRA ===
+router.get('/obras/:obra_id/movimentacoes', movimentacaoObraController.list);
+router.get('/obras/:obra_id/movimentacoes/entrada', movimentacaoObraController.entradaPage);
+router.post('/obras/:obra_id/movimentacoes/entrada', movimentacaoObraController.registrarEntrada);
+router.get('/obras/:obra_id/movimentacoes/saida', movimentacaoObraController.saidaPage);
+router.post('/obras/:obra_id/movimentacoes/saida', movimentacaoObraController.registrarSaida);
+router.get('/obras/:obra_id/relatorios/consumo', movimentacaoObraController.relatorioConsumo);
 
 module.exports = router;

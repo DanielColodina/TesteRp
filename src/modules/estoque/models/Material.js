@@ -39,6 +39,18 @@ class Material {
         }
     }
 
+    // Buscar material por nome
+    static async findByName(nome) {
+        try {
+            const sql = 'SELECT * FROM materiais WHERE nome = ? AND ativo = TRUE';
+            const [rows] = await db.execute(sql, [nome]);
+            return rows[0] || null;
+        } catch (err) {
+            console.error('❌ Erro ao buscar material por nome:', err);
+            throw err;
+        }
+    }
+
     // Listar todos os materiais
     static async findAll(filtros = {}) {
         try {

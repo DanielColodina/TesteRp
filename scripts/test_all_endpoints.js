@@ -108,10 +108,10 @@ async function runTests() {
       console.log(`   ❌ ${e.message}`);
     }
 
-    // 5. Get checklist (usuário 1)
-    console.log('\n5️⃣  GET /dashboard/usuarios/1/checklist');
+    // 5. Get checklist (último usuário criado)
+    console.log('\n5️⃣  GET /dashboard/usuarios/34/checklist');
     try {
-      const checkRes = await axiosInstance.get(`${BASE_URL}/dashboard/usuarios/1/checklist`);
+      const checkRes = await axiosInstance.get(`${BASE_URL}/dashboard/usuarios/34/checklist`);
       tests.getChecklist = checkRes.status === 200 && checkRes.data?.usuario_id;
       console.log(`   ${tests.getChecklist ? '✅' : '❌'} Status: ${checkRes.status}`);
       if (tests.getChecklist) {
@@ -121,24 +121,25 @@ async function runTests() {
       console.log(`   ❌ ${e.message}`);
     }
 
-    // 6. Update checklist
-    console.log('\n6️⃣  POST /dashboard/usuarios/16/checklist');
+    // 6. Update checklist (deve falhar pois está bloqueado)
+    console.log('\n6️⃣  POST /dashboard/usuarios/34/checklist (bloqueado)');
     try {
-      const updateRes = await axiosInstance.post(`${BASE_URL}/dashboard/usuarios/16/checklist`, {
+      const updateRes = await axiosInstance.post(`${BASE_URL}/dashboard/usuarios/34/checklist`, {
         campo: 'uso_solo',
-        valor: 'completo'
+        valor: 'Feito'
       });
-      tests.updateChecklist = updateRes.status === 200 && updateRes.data?.success;
-      console.log(`   ${tests.updateChecklist ? '✅' : '❌'} Status: ${updateRes.status}`);
+      // Agora deve retornar 403 (bloqueado) - isso é esperado
+      tests.updateChecklist = updateRes.status === 403;
+      console.log(`   ${tests.updateChecklist ? '✅' : '❌'} Status: ${updateRes.status} (bloqueado como esperado)`);
       if (updateRes.data?.error) console.log(`      Erro: ${updateRes.data.error}`);
     } catch (e) {
       console.log(`   ❌ ${e.message}`);
     }
 
     // 7. Get progresso
-    console.log('\n7️⃣  GET /dashboard/usuarios/1/progresso');
+    console.log('\n7️⃣  GET /dashboard/usuarios/34/progresso');
     try {
-      const progRes = await axiosInstance.get(`${BASE_URL}/dashboard/usuarios/1/progresso`);
+      const progRes = await axiosInstance.get(`${BASE_URL}/dashboard/usuarios/34/progresso`);
       tests.getProgresso = progRes.status === 200 && progRes.data?.progresso !== undefined;
       console.log(`   ${tests.getProgresso ? '✅' : '❌'} Status: ${progRes.status}`);
       if (tests.getProgresso) {
@@ -149,9 +150,9 @@ async function runTests() {
     }
 
     // 8. Get auditoria
-    console.log('\n8️⃣  GET /dashboard/usuarios/1/auditoria');
+    console.log('\n8️⃣  GET /dashboard/usuarios/34/auditoria');
     try {
-      const auditRes = await axiosInstance.get(`${BASE_URL}/dashboard/usuarios/1/auditoria`);
+      const auditRes = await axiosInstance.get(`${BASE_URL}/dashboard/usuarios/34/auditoria`);
       tests.getAuditoria = auditRes.status === 200 && Array.isArray(auditRes.data);
       console.log(`   ${tests.getAuditoria ? '✅' : '❌'} Status: ${auditRes.status}`);
       if (tests.getAuditoria) {
@@ -162,9 +163,9 @@ async function runTests() {
     }
 
     // 9. Get histórico
-    console.log('\n9️⃣  GET /dashboard/usuarios/1/historico');
+    console.log('\n9️⃣  GET /dashboard/usuarios/34/historico');
     try {
-      const histRes = await axiosInstance.get(`${BASE_URL}/dashboard/usuarios/1/historico`);
+      const histRes = await axiosInstance.get(`${BASE_URL}/dashboard/usuarios/34/historico`);
       tests.getHistorico = histRes.status === 200 && Array.isArray(histRes.data);
       console.log(`   ${tests.getHistorico ? '✅' : '❌'} Status: ${histRes.status}`);
       if (tests.getHistorico) {

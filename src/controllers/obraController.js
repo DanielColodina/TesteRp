@@ -1,6 +1,18 @@
 const Obra = require('../models/Obra');
 const EtapaObra = require('../models/EtapaObra');
 const db = require('../database/connection');
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
+
+// Database CONTROLEGERAL
+const dbPath = path.join(__dirname, '../../CONTROLEGERAL/backend/construtora.db');
+const sqliteDb = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error('Erro ao conectar ao banco CONTROLEGERAL:', err.message);
+  } else {
+    console.log('✅ Conectado ao banco CONTROLEGERAL para obras');
+  }
+});
 
 exports.create = async (req, res) => {
   const { usuarioId, nome } = req.body;
@@ -139,6 +151,27 @@ exports.createStandalone = async (req, res) => {
     if (usuario_id) {
       await require('../models/EtapaObra').createDefaultEtapas(obraId);
     }
+
+    // Buscar dados do usuário para inserir no controle geral
+    let cliente = 'Cliente não informado';
+    let endereco = nome_obra;
+    if (usuario_id) {
+      const [usuarios] = await db.execute('SELECT nome, obra FROM usuarios WHERE id = ?', [usuario_id]);
+      if (usuarios && usuarios.length > 0) {
+        cliente = usuarios[0].nome;
+        endereco = usuarios[0].obra || nome_obra;
+      }
+    }
+
+    // Inserir no controle geral (SQLite)
+    sqliteDb.run(`INSERT INTO obras (nome, endereco, cliente, orcamento, data_inicio, data_fim, status) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [nome_obra, endereco, cliente, null, null, null, 'ativo'], function(err) {
+      if (err) {
+        console.error('Erro ao inserir obra no controle geral:', err);
+      } else {
+        console.log(`✅ Obra inserida no controle geral: ${nome_obra}`);
+      }
+    });
 
     console.log(`✅ Obra criada: ${nome_obra} (ID: ${obraId})`);
     res.redirect('/obras');

@@ -132,7 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
               },
               body: JSON.stringify({
                 campo: field,
-                valor: novoValor
+                valor: novoValor,
+                admin_override: true
               })
             });
 

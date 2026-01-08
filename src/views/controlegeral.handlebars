@@ -1,6 +1,52 @@
-{{> main}}
+<div class="controle-geral-container">
+    <div class="controle-geral-header">
+        <h1>🎛️ Controle Geral</h1>
+        <p>Sistema de Gestão Completa - Módulos de Controle</p>
+    </div>
 
-{{#content "styles"}}
+    <div class="modulos-grid">
+        <a href="/dashboard/controle-geral/obras" class="modulo-card">
+            <span class="modulo-icon">🏗️</span>
+            <div class="modulo-title">Obras</div>
+            <div class="modulo-description">Gerencie todas as obras do sistema, incluindo cadastro, edição e acompanhamento de progresso.</div>
+        </a>
+
+        <a href="/dashboard/controle-geral/estoque" class="modulo-card">
+            <span class="modulo-icon">📦</span>
+            <div class="modulo-title">Estoque</div>
+            <div class="modulo-description">Controle de materiais e estoque, incluindo entradas, saídas e níveis mínimos.</div>
+        </a>
+
+        <a href="/dashboard/controle-geral/equipes" class="modulo-card">
+            <span class="modulo-icon">👥</span>
+            <div class="modulo-title">Equipes</div>
+            <div class="modulo-description">Gerenciamento de funcionários, equipes e atribuições de trabalho.</div>
+        </a>
+
+        <a href="/dashboard/controle-geral/financeiro" class="modulo-card">
+            <span class="modulo-icon">💰</span>
+            <div class="modulo-title">Financeiro</div>
+            <div class="modulo-description">Controle financeiro das obras, incluindo receitas, despesas e relatórios.</div>
+        </a>
+
+        <a href="/dashboard/controle-geral/comunicacao" class="modulo-card">
+            <span class="modulo-icon">💬</span>
+            <div class="modulo-title">Comunicação</div>
+            <div class="modulo-description">Sistema de mensagens e comunicação entre equipes e stakeholders.</div>
+        </a>
+
+        <a href="/dashboard/controle-geral/relatorios" class="modulo-card">
+            <span class="modulo-icon">📊</span>
+            <div class="modulo-title">Relatórios</div>
+            <div class="modulo-description">Geração e visualização de relatórios completos do sistema.</div>
+        </a>
+    </div>
+
+    <div style="text-align: center;">
+        <a href="/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
+    </div>
+</div>
+
 <style>
 .controle-geral-container {
     max-width: 1200px;
@@ -103,55 +149,4 @@
     }
 }
 </style>
-{{/content}}
 
-{{#content "body"}}
-<div class="controle-geral-container">
-    <div class="controle-geral-header">
-        <h1>🎛️ Controle Geral</h1>
-        <p>Sistema de Gestão Completa - Módulos de Controle</p>
-    </div>
-
-    <div class="modulos-grid">
-        <a href="/dashboard/controle-geral/obras" class="modulo-card">
-            <span class="modulo-icon">🏗️</span>
-            <div class="modulo-title">Obras</div>
-            <div class="modulo-description">Gerencie todas as obras do sistema, incluindo cadastro, edição e acompanhamento de progresso.</div>
-        </a>
-
-        <a href="/dashboard/controle-geral/estoque" class="modulo-card">
-            <span class="modulo-icon">📦</span>
-            <div class="modulo-title">Estoque</div>
-            <div class="modulo-description">Controle de materiais e estoque, incluindo entradas, saídas e níveis mínimos.</div>
-        </a>
-
-        <a href="/dashboard/controle-geral/equipes" class="modulo-card">
-            <span class="modulo-icon">👥</span>
-            <div class="modulo-title">Equipes</div>
-            <div class="modulo-description">Gerenciamento de funcionários, equipes e atribuições de trabalho.</div>
-        </a>
-
-        <a href="/dashboard/controle-geral/financeiro" class="modulo-card">
-            <span class="modulo-icon">💰</span>
-            <div class="modulo-title">Financeiro</div>
-            <div class="modulo-description">Controle financeiro das obras, incluindo receitas, despesas e relatórios.</div>
-        </a>
-
-        <a href="/dashboard/controle-geral/comunicacao" class="modulo-card">
-            <span class="modulo-icon">💬</span>
-            <div class="modulo-title">Comunicação</div>
-            <div class="modulo-description">Sistema de mensagens e comunicação entre equipes e stakeholders.</div>
-        </a>
-
-        <a href="/dashboard/controle-geral/relatorios" class="modulo-card">
-            <span class="modulo-icon">📊</span>
-            <div class="modulo-title">Relatórios</div>
-            <div class="modulo-description">Geração e visualização de relatórios completos do sistema.</div>
-        </a>
-    </div>
-
-    <div style="text-align: center;">
-        <a href="/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
-    </div>
-</div>
-{{/content}}
