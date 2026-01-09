@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Controle Financeiro por Obra</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background: #f4f4f4;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        pre {
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            max-height: 400px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+
+<h2>📊 Controle Financeiro por Obra</h2>
+
+<button onclick="listarObras()">📋 Listar Obras</button>
+
+<pre id="resultado">Clique no botão para carregar os dados...</pre>
+
+<script>
+    const usuario = "admin";
+    const senha = "123";
+
+    function authHeader() {
+        return "Basic " + btoa(usuario + ":" + senha);
+    }
+
+    function listarObras() {
+        fetch("/api/controlefinanceiro", {
+            method: "GET",
+            headers: {
+                "Authorization": authHeader(),
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro de acesso. Verifique autenticação.");
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("resultado")
+                .textContent = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+            document.getElementById("resultado").textContent = error.message;
+        });
+    }
+</script>
+
+</body>
+</html>
