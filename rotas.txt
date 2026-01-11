@@ -1,4 +1,0 @@
-1 - rotas -> caminhos de login, Dashboard
-2 - controllers -> (validação, logica)
-3 - models -> controller de banco de dados
-4 - Views -> HTML(handlebars)

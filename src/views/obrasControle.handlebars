@@ -14,13 +14,18 @@
         <form action="/controle-geral/obras" method="POST" class="obra-form">
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="nome">Nome da Obra *</label>
-                    <input type="text" id="nome" name="nome" required placeholder="Ex: Residencial ABC">
+                    <label for="obra_id">Obra *</label>
+                    <select id="obra_id" name="obra_id" required onchange="preencherObra()">
+                        <option value="">Selecione uma obra...</option>
+                        {{#each obras}}
+                        <option value="{{this.id}}">{{this.nome}}</option>
+                        {{/each}}
+                    </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="endereco">Endereço *</label>
-                    <input type="text" id="endereco" name="endereco" required placeholder="Rua, número, bairro, cidade">
+                    <label for="endereco">Endereço</label>
+                    <input type="text" id="endereco" name="endereco" placeholder="Rua, número, bairro, cidade">
                 </div>
 
                 <div class="form-group">
@@ -50,7 +55,8 @@
                         <option value="pausado">Pausado</option>
                         <option value="finalizado">Finalizado</option>
                     </select>
-                </div>
+            </div>
+
             </div>
 
             <div class="form-actions">
@@ -112,8 +118,46 @@
 </div>
 
 <script>
+const obrasData = [
+{{#each obras}}
+    {
+        id: {{this.id}},
+        nome: "{{this.nome}}",
+        endereco: "{{this.endereco}}",
+        cliente: "{{this.cliente}}",
+        orcamento: {{this.orcamento}},
+        data_inicio: "{{this.data_inicio}}",
+        data_fim: "{{this.data_fim}}",
+        status: "{{this.status}}"
+    }{{#unless @last}},{{/unless}}
+{{/each}}
+];
+
+function preencherObra() {
+    const select = document.getElementById('obra_id');
+    const obraId = select.value;
+    const obra = obrasData.find(o => o.id == obraId);
+
+    if (obra) {
+        document.getElementById('endereco').value = obra.endereco || '';
+        document.getElementById('cliente').value = obra.cliente || '';
+        document.getElementById('orcamento').value = obra.orcamento || '';
+        document.getElementById('data_inicio').value = obra.data_inicio || '';
+        document.getElementById('data_fim').value = obra.data_fim || '';
+        document.getElementById('status').value = obra.status || '';
+    } else {
+        document.getElementById('endereco').value = '';
+        document.getElementById('cliente').value = '';
+        document.getElementById('orcamento').value = '';
+        document.getElementById('data_inicio').value = '';
+        document.getElementById('data_fim').value = '';
+        document.getElementById('status').value = '';
+    }
+}
+
 function limparFormulario() {
     document.querySelector('.obra-form').reset();
+    preencherObra(); // Reset to empty
 }
 </script>
 
@@ -393,4 +437,3 @@ function limparFormulario() {
     }
 }
 </style>
-

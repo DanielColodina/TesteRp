@@ -14,11 +14,6 @@
         <form action="/controle-geral/estoque" method="POST" class="material-form">
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="codigo">Código *</label>
-                    <input type="text" id="codigo" name="codigo" required placeholder="Ex: MAT001">
-                </div>
-
-                <div class="form-group">
                     <label for="descricao">Descrição *</label>
                     <input type="text" id="descricao" name="descricao" required placeholder="Ex: Cimento Portland">
                 </div>
@@ -54,10 +49,10 @@
 
                 <div class="form-group">
                     <label for="obra_id">Obra *</label>
-                    <select id="obra_id" name="obra_id" required>
+                    <select id="obra_id" name="obra_id" required onchange="preencherCodigo()">
                         <option value="">Selecione uma obra...</option>
                         {{#each obras}}
-                        <option value="{{this.id}}">{{this.nome}}</option>
+                        <option value="{{this.id}}">{{this.id}} - {{this.nome}}</option>
                         {{/each}}
                     </select>
                 </div>
@@ -129,8 +124,35 @@
 </div>
 
 <script>
+const obrasData = [
+{{#each obras}}
+    {
+        id: {{this.id}},
+        nome: "{{this.nome}}",
+        endereco: "{{this.endereco}}",
+        cliente: "{{this.cliente}}",
+        orcamento: {{this.orcamento}},
+        data_inicio: "{{this.data_inicio}}",
+        data_fim: "{{this.data_fim}}",
+        status: "{{this.status}}"
+    }{{#unless @last}},{{/unless}}
+{{/each}}
+];
+
+function preencherCodigo() {
+    const select = document.getElementById('obra_id');
+    const obraId = select.value;
+    const obra = obrasData.find(o => o.id == obraId);
+    if (obra) {
+        document.getElementById('codigo').value = obra.id;
+    } else {
+        document.getElementById('codigo').value = '';
+    }
+}
+
 function limparFormulario() {
     document.querySelector('.material-form').reset();
+    preencherCodigo(); // Reset to empty
 }
 </script>
 
@@ -407,4 +429,3 @@ function limparFormulario() {
     }
 }
 </style>
-
