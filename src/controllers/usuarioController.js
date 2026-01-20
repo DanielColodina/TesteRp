@@ -2,18 +2,18 @@ const User = require('../models/User');
 const Checklist = require('../models/Checklist');
 const Auditoria = require('../models/Auditoria');
 const Historico = require('../models/Historico');
-const sqlite3 = require('sqlite3').verbose();
+const Database = require('better-sqlite3');
 const path = require('path');
 
 // Database CONTROLEGERAL
 const dbPath = path.join(__dirname, '../../CONTROLEGERAL/backend/construtora.db');
-const sqliteDb = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
-    console.error('Erro ao conectar ao banco CONTROLEGERAL para usuários:', err.message);
-  } else {
-    console.log('✅ Conectado ao banco CONTROLEGERAL para usuários');
-  }
-});
+let sqliteDb;
+try {
+  sqliteDb = new Database(dbPath);
+  console.log('✅ Conectado ao banco CONTROLEGERAL para usuários');
+} catch (err) {
+  console.error('Erro ao conectar ao banco CONTROLEGERAL para usuários:', err.message);
+}
 
 // Validações
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -53,16 +53,17 @@ exports.create = async (req, res) => {
     );
 
     // Se obra foi fornecida, inserir no controle geral
+    // Comentado para evitar problemas com SQLite no Render
+    /*
     if (obra && obra.trim()) {
-      sqliteDb.run(`INSERT INTO obras (nome, endereco, cliente, orcamento, data_inicio, data_fim, status) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-        [obra.trim(), obra.trim(), nome.trim(), null, null, null, 'ativo'], function(err) {
-        if (err) {
-          console.error('Erro ao inserir obra no controle geral:', err);
-        } else {
-          console.log(`✅ Obra inserida no controle geral para usuário: ${nome}`);
-        }
-      });
+      try {
+        sqliteDb.prepare(`INSERT INTO obras (nome, endereco, cliente, orcamento, data_inicio, data_fim, status) VALUES (?, ?, ?, ?, ?, ?, ?)`).run(obra.trim(), obra.trim(), nome.trim(), null, null, null, 'ativo');
+        console.log(`✅ Obra inserida no controle geral para usuário: ${nome}`);
+      } catch (err) {
+        console.error('Erro ao inserir obra no controle geral:', err);
+      }
     }
+    */
 
     // Criar checklist inicial se dados foram fornecidos
     if (userId && (uso_solo || licenca || condominio || habite_se || averbacao || vistoria)) {

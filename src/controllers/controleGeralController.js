@@ -1,16 +1,17 @@
-const sqlite3 = require('sqlite3').verbose();
+// const Database = require('better-sqlite3');
 const path = require('path');
 const mysql = require('mysql2/promise');
 
-// Database CONTROLEGERAL
-const dbPath = path.join(__dirname, '../../CONTROLEGERAL/backend/construtora.db');
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
-    console.error('Erro ao conectar ao banco CONTROLEGERAL:', err.message);
-  } else {
-    console.log('✅ Conectado ao banco CONTROLEGERAL');
-  }
-});
+// Database CONTROLEGERAL - Desabilitado para Render
+// const dbPath = path.join(__dirname, '../../CONTROLEGERAL/backend/construtora.db');
+// let db;
+// try {
+//   db = new Database(dbPath);
+//   console.log('✅ Conectado ao banco CONTROLEGERAL');
+// } catch (err) {
+//   console.error('Erro ao conectar ao banco CONTROLEGERAL:', err.message);
+// }
+const db = null;
 
 // Main database for obras
 const mainDb = require('../database/connection');
@@ -28,13 +29,9 @@ exports.controleGeral = async (req, res) => {
 // OBRAS
 exports.obras = async (req, res) => {
   try {
-    db.all('SELECT * FROM obras ORDER BY id DESC', [], (err, obras) => {
-      if (err) {
-        console.error('Erro ao buscar obras:', err);
-        return res.status(500).render('error', { message: 'Erro ao carregar obras' });
-      }
-      res.render('obrasControle', { obras: obras || [] });
-    });
+    // SQLite desabilitado no Render
+    const obras = [];
+    res.render('obrasControle', { obras: obras || [] });
   } catch (err) {
     console.error('Erro ao carregar obras:', err);
     res.status(500).render('error', { message: 'Erro interno do servidor' });
@@ -44,14 +41,8 @@ exports.obras = async (req, res) => {
 exports.criarObra = async (req, res) => {
    try {
      const { nome, endereco, cliente, orcamento, data_inicio, data_fim, status } = req.body;
-     db.run(`INSERT INTO obras (nome, endereco, cliente, orcamento, data_inicio, data_fim, status) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-       [nome, endereco, cliente, orcamento, data_inicio, data_fim, status], function(err) {
-       if (err) {
-         console.error('Erro ao criar obra:', err);
-         return res.status(500).json({ error: err.message });
-       }
-       res.redirect('/dashboard/controle-geral/obras');
-     });
+     db.prepare(`INSERT INTO obras (nome, endereco, cliente, orcamento, data_inicio, data_fim, status) VALUES (?, ?, ?, ?, ?, ?, ?)`).run(nome, endereco, cliente, orcamento, data_inicio, data_fim, status);
+     res.redirect('/dashboard/controle-geral/obras');
    } catch (err) {
      console.error('Erro ao criar obra:', err);
      res.status(500).json({ error: 'Erro interno do servidor' });
@@ -61,16 +52,11 @@ exports.criarObra = async (req, res) => {
 exports.editarObraPage = async (req, res) => {
   try {
     const { id } = req.params;
-    db.get('SELECT * FROM obras WHERE id = ?', [id], (err, obra) => {
-      if (err) {
-        console.error('Erro ao buscar obra:', err);
-        return res.status(500).render('error', { message: 'Erro ao carregar obra' });
-      }
-      if (!obra) {
-        return res.status(404).render('error', { message: 'Obra não encontrada' });
-      }
-      res.render('editObra', { obra });
-    });
+    const obra = db.prepare('SELECT * FROM obras WHERE id = ?').get(id);
+    if (!obra) {
+      return res.status(404).render('error', { message: 'Obra não encontrada' });
+    }
+    res.render('editObra', { obra });
   } catch (err) {
     console.error('Erro ao carregar página de edição:', err);
     res.status(500).render('error', { message: 'Erro interno do servidor' });
@@ -81,14 +67,8 @@ exports.editarObra = async (req, res) => {
   try {
     const { id } = req.params;
     const { nome, endereco, cliente, orcamento, data_inicio, data_fim, status } = req.body;
-    db.run(`UPDATE obras SET nome = ?, endereco = ?, cliente = ?, orcamento = ?, data_inicio = ?, data_fim = ?, status = ? WHERE id = ?`,
-      [nome, endereco, cliente, orcamento, data_inicio, data_fim, status, id], function(err) {
-      if (err) {
-        console.error('Erro ao editar obra:', err);
-        return res.status(500).render('error', { message: 'Erro ao editar obra' });
-      }
-      res.redirect('/dashboard/controle-geral/obras');
-    });
+    db.prepare(`UPDATE obras SET nome = ?, endereco = ?, cliente = ?, orcamento = ?, data_inicio = ?, data_fim = ?, status = ? WHERE id = ?`).run(nome, endereco, cliente, orcamento, data_inicio, data_fim, status, id);
+    res.redirect('/dashboard/controle-geral/obras');
   } catch (err) {
     console.error('Erro ao editar obra:', err);
     res.status(500).render('error', { message: 'Erro interno do servidor' });
@@ -114,24 +94,15 @@ exports.excluirObra = async (req, res) => {
 // ESTOQUE
 exports.estoque = async (req, res) => {
   try {
-    db.all(`
+    const materiais = db.prepare(`
       SELECT m.*, o.nome as obra_nome
       FROM materiais m
       LEFT JOIN obras o ON m.obra_id = o.id
       ORDER BY m.id DESC
-    `, [], (err, materiais) => {
-      if (err) {
-        console.error('Erro ao buscar materiais:', err);
-        return res.status(500).render('error', { message: 'Erro ao carregar materiais' });
-      }
-      // Buscar obras para o dropdown
-      db.all('SELECT id, nome FROM obras ORDER BY nome', [], (err2, obras) => {
-        if (err2) {
-          console.error('Erro ao buscar obras:', err2);
-        }
-        res.render('estoque', { materiais: materiais || [], obras: obras || [] });
-      });
-    });
+    `).all();
+    // Buscar obras para o dropdown
+    const obras = db.prepare('SELECT id, nome FROM obras ORDER BY nome').all();
+    res.render('estoque', { materiais: materiais || [], obras: obras || [] });
   } catch (err) {
     console.error('Erro ao carregar estoque:', err);
     res.status(500).render('error', { message: 'Erro interno do servidor' });
