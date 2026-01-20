@@ -1,18 +1,20 @@
 const Obra = require('../models/Obra');
 const EtapaObra = require('../models/EtapaObra');
 const db = require('../database/connection');
-const Database = require('better-sqlite3');
-const path = require('path');
+// SQLite desabilitado para Render
+// const Database = require('better-sqlite3');
+// const path = require('path');
 
 // Database CONTROLEGERAL
-const dbPath = path.join(__dirname, '../../CONTROLEGERAL/backend/construtora.db');
-let sqliteDb;
-try {
-  sqliteDb = new Database(dbPath);
-  console.log('✅ Conectado ao banco CONTROLEGERAL para obras');
-} catch (err) {
-  console.error('Erro ao conectar ao banco CONTROLEGERAL:', err.message);
-}
+// const dbPath = path.join(__dirname, '../../CONTROLEGERAL/backend/construtora.db');
+// let sqliteDb;
+// try {
+//   sqliteDb = new Database(dbPath);
+//   console.log('✅ Conectado ao banco CONTROLEGERAL para obras');
+// } catch (err) {
+//   console.error('Erro ao conectar ao banco CONTROLEGERAL:', err.message);
+// }
+const sqliteDb = null;
 
 exports.create = async (req, res) => {
   const { usuarioId, nome } = req.body;

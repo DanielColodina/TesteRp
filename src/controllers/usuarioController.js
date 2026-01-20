@@ -2,18 +2,20 @@ const User = require('../models/User');
 const Checklist = require('../models/Checklist');
 const Auditoria = require('../models/Auditoria');
 const Historico = require('../models/Historico');
-const Database = require('better-sqlite3');
-const path = require('path');
+// SQLite desabilitado para Render
+// const Database = require('better-sqlite3');
+// const path = require('path');
 
 // Database CONTROLEGERAL
-const dbPath = path.join(__dirname, '../../CONTROLEGERAL/backend/construtora.db');
-let sqliteDb;
-try {
-  sqliteDb = new Database(dbPath);
-  console.log('✅ Conectado ao banco CONTROLEGERAL para usuários');
-} catch (err) {
-  console.error('Erro ao conectar ao banco CONTROLEGERAL para usuários:', err.message);
-}
+// const dbPath = path.join(__dirname, '../../CONTROLEGERAL/backend/construtora.db');
+// let sqliteDb;
+// try {
+//   sqliteDb = new Database(dbPath);
+//   console.log('✅ Conectado ao banco CONTROLEGERAL para usuários');
+// } catch (err) {
+//   console.error('Erro ao conectar ao banco CONTROLEGERAL para usuários:', err.message);
+// }
+const sqliteDb = null;
 
 // Validações
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
