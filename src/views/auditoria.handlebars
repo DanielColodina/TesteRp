@@ -1,0 +1,101 @@
+<div class="audit-layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">RP 🏗️</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/dashboard" class="nav-item">
+        <span>📊</span> Dashboard
+      </a>
+      <a href="/dashboard/usuarios" class="nav-item">
+        <span>👥</span> Usuários
+      </a>
+      <a href="/dashboard/obras" class="nav-item">
+        <span>🏗️</span> Obras
+      </a>
+      <a href="/dashboard/progresso" class="nav-item">
+        <span>📈</span> Progresso
+      </a>
+      <a href="/dashboard/controle-geral" class="nav-item">
+        <span>🎛️</span> Controle
+      </a>
+      <a href="/dashboard/historico" class="nav-item">
+        <span>📜</span> Histórico
+      </a>
+      <a href="/dashboard/auditoria" class="nav-item active">
+        <span>🔒</span> Auditoria
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="/logout" class="btn-logout">Sair</a>
+    </div>
+  </aside>
+
+  <main class="main-content sidebar-closed">
+    <div class="top-bar">
+      <button class="sidebar-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      <h1>🔒 Logs de Auditoria Completa</h1>
+      <a href="/dashboard" class="btn-primary-top">← Voltar</a>
+    </div>
+
+    <div class="audit-container">
+      {{#if logs}}
+        <div class="audit-header glass-widget">
+          <p style="text-align: center; color: #FFC300; margin: 0; font-weight: 700;">
+            Total de registros: <strong style="font-size: 1.4em;">{{logs.length}}</strong>
+          </p>
+        </div>
+
+        <div class="audit-list">
+          {{#each logs}}
+            <div class="audit-item glass-widget">
+              <div class="audit-grid">
+                <div class="audit-field">
+                  <label>Ação</label>
+                  <p>{{acao}}</p>
+                </div>
+                <div class="audit-field">
+                  <label>Usuário</label>
+                  <p>{{usuario_nome}}</p>
+                </div>
+                <div class="audit-field">
+                  <label>Admin</label>
+                  <p>{{admin_nome}}</p>
+                </div>
+                <div class="audit-field">
+                  <label>Campo</label>
+                  <p>{{campo}}</p>
+                </div>
+              </div>
+              
+              <div class="audit-values">
+                <div class="value-section">
+                  <label>Valor Anterior</label>
+                  <p class="value-old">{{valor_anterior}}</p>
+                </div>
+                <div class="value-section">
+                  <label>Valor Novo</label>
+                  <p class="value-new">{{valor_novo}}</p>
+                </div>
+              </div>
+              
+              <div class="audit-timestamp">
+                <small>📅 {{created_at}}</small>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <div class="glass-widget" style="text-align: center; padding: 60px 20px;">
+          <p style="color: #B0B0B0; font-size: 1.1em; margin: 0;">Nenhum log de auditoria encontrado.</p>
+        </div>
+      {{/if}}
+    </div>
+  </main>
+</div>
+
+<link rel="stylesheet" href="/css/auditoria.css">
+
+

@@ -1,0 +1,148 @@
+<div class="content-wrapper">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <div>
+            <h1>📋 Materiais da Obra</h1>
+            <h3 style="color: #666; margin-top: 5px;">{{obra.nome_obra}}</h3>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <a href="/estoque/obras/{{obra.id}}/materiais/adicionar" class="btn-primary">➕ Adicionar Material</a>
+            <a href="/estoque/obras/{{obra.id}}/materiais/importar" class="btn-secondary" style="background: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px;">📥 Importar Catálogo</a>
+        </div>
+    </div>
+
+    <!-- Estatísticas -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; text-align: center;">
+            <h3>{{stats.totalMateriais}}</h3>
+            <p>Total de Materiais</p>
+        </div>
+        <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 20px; border-radius: 8px; text-align: center;">
+            <h3>{{stats.materiaisComSaldo}}</h3>
+            <p>Com Saldo Disponível</p>
+        </div>
+        <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 8px; text-align: center;">
+            <h3>{{stats.materiaisBaixo}}</h3>
+            <p>Saldo Baixo</p>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <form method="GET" style="display: flex; gap: 15px; align-items: end; flex-wrap: wrap;">
+            <div>
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Buscar:</label>
+                <input type="text" name="busca" value="{{filtros.busca}}" placeholder="Nome do material..." style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 200px;">
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Fase da Obra:</label>
+                <select name="fase_obra" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    <option value="">Todas as Fases</option>
+                    {{#each fases}}
+                        <option value="{{this}}" {{#if (eq this ../filtros.fase_obra)}}selected{{/if}}>{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Categoria:</label>
+                <select name="categoria" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    <option value="">Todas</option>
+                    <option value="Materiais Básicos" {{#if (eq "Materiais Básicos" ../filtros.categoria)}}selected{{/if}}>Materiais Básicos</option>
+                    <option value="Estrutura" {{#if (eq "Estrutura" ../filtros.categoria)}}selected{{/if}}>Estrutura</option>
+                    <option value="Alvenaria" {{#if (eq "Alvenaria" ../filtros.categoria)}}selected{{/if}}>Alvenaria</option>
+                    <option value="Instalações" {{#if (eq "Instalações" ../filtros.categoria)}}selected{{/if}}>Instalações</option>
+                    <option value="Acabamentos" {{#if (eq "Acabamentos" ../filtros.categoria)}}selected{{/if}}>Acabamentos</option>
+                    <option value="Acessórios" {{#if (eq "Acessórios" ../filtros.categoria)}}selected{{/if}}>Acessórios</option>
+                </select>
+            </div>
+            <button type="submit" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">🔍 Filtrar</button>
+            <a href="/estoque/obras/{{obra.id}}/materiais" style="padding: 8px 16px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px;">🗑️ Limpar</a>
+        </form>
+    </div>
+
+    {{#if materiais}}
+        <div style="overflow-x: auto;">
+            <table class="table-users" style="width: 100%; min-width: 1200px;">
+                <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Subcategoria</th>
+                        <th>Nome do Item</th>
+                        <th>Descrição Técnica</th>
+                        <th>Unidade</th>
+                        <th>Qtde Estimada</th>
+                        <th>Qtde Inicial</th>
+                        <th>Saldo Atual</th>
+                        <th>Fase da Obra</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each materiais}}
+                        <tr>
+                            <td style="font-weight: bold; color: #495057;">{{categoria}}</td>
+                            <td>{{subcategoria}}</td>
+                            <td>
+                                <strong>{{material_nome}}</strong>
+                                {{#if descricao}}
+                                    <br><small style="color: #666;">{{descricao}}</small>
+                                {{/if}}
+                            </td>
+                            <td style="max-width: 200px;">
+                                {{#if observacoes_tecnicas}}
+                                    <small>{{observacoes_tecnicas}}</small>
+                                {{else}}
+                                    <em style="color: #999;">Não informado</em>
+                                {{/if}}
+                            </td>
+                            <td style="font-weight: bold;">{{unidade}}</td>
+                            <td style="text-align: center; font-weight: bold;">{{quantidade_estimada}}</td>
+                            <td style="text-align: center;">{{quantidade_inicial}}</td>
+                            <td style="text-align: center;">
+                                <span style="font-weight: bold; {{#if (lt saldo_atual 0)}}color: #dc3545{{else if (lt saldo_atual (multiply quantidade_estimada 0.2))}}color: #ffc107{{else}}color: #28a745{{/if}}">
+                                    {{saldo_atual}}
+                                </span>
+                            </td>
+                            <td style="max-width: 150px;">
+                                <small>{{fase_obra}}</small>
+                            </td>
+                            <td>
+                                {{#if (lt saldo_atual (multiply quantidade_estimada 0.2))}}
+                                    <span style="color: #dc3545; font-weight: bold;">⚠️ BAIXO</span>
+                                {{else if (gt saldo_atual 0)}}
+                                    <span style="color: #28a745;">✅ OK</span>
+                                {{else}}
+                                    <span style="color: #6c757d;">⏳ AGUARDANDO</span>
+                                {{/if}}
+                            </td>
+                            <td>
+                                <a href="/estoque/obras/{{obra_id}}/materiais/{{id}}/editar" style="color: #ffc107; margin-right: 10px;">✏️</a>
+                                <a href="/estoque/obras/{{obra_id}}/movimentacoes/entrada?material_obra_id={{id}}" style="color: #28a745; margin-right: 10px;">📥</a>
+                                <a href="/estoque/obras/{{obra_id}}/movimentacoes/saida?material_obra_id={{id}}" style="color: #dc3545; margin-right: 10px;">📤</a>
+                                <form method="POST" action="/estoque/obras/{{obra_id}}/materiais/{{id}}/deletar" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja remover este material da obra?')">
+                                    <button type="submit" style="background: none; border: none; color: #dc3545; cursor: pointer; font-size: 16px;">🗑️</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    {{else}}
+        <div style="text-align: center; padding: 50px; background: #f8f9fa; border-radius: 8px;">
+            <h3 style="color: #6c757d; margin-bottom: 20px;">📭 Nenhum material cadastrado para esta obra</h3>
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <a href="/estoque/obras/{{obra.id}}/materiais/adicionar" class="btn-primary" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 6px;">➕ Adicionar Primeiro Material</a>
+                <a href="/estoque/obras/{{obra.id}}/materiais/importar" class="btn-primary" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; text-decoration: none; border-radius: 6px;">📥 Importar Catálogo Completo</a>
+            </div>
+        </div>
+    {{/if}}
+
+    <!-- Links de navegação -->
+    <div style="margin-top: 30px; text-align: center;">
+        <a href="/estoque/obras/{{obra.id}}/movimentacoes" style="margin-right: 15px; padding: 10px 20px; background: #17a2b8; color: white; text-decoration: none; border-radius: 6px;">📊 Movimentações</a>
+        <a href="/estoque/obras/{{obra.id}}/relatorios/consumo" style="margin-right: 15px; padding: 10px 20px; background: #ffc107; color: white; text-decoration: none; border-radius: 6px;">📈 Relatório de Consumo</a>
+        <a href="/controlegeral/estoque" style="margin-right: 15px; padding: 10px 20px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px;">← Voltar ao Estoque</a>
+        <a href="/dashboard" style="padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 6px;">🏠 Dashboard</a>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+<div class="content-wrapper">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h1>📦 Materiais em Estoque</h1>
+        <a href="/estoque/materiais/novo" class="btn-primary">➕ Novo Material</a>
+    </div>
+
+    <!-- Filtros -->
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <form method="GET" style="display: flex; gap: 15px; align-items: end;">
+            <div>
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Buscar:</label>
+                <input type="text" name="busca" value="{{filtros.busca}}" placeholder="Nome do material..." style="padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 200px;">
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Categoria:</label>
+                <select name="categoria" style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    <option value="">Todas</option>
+                    {{#each categorias}}
+                        <option value="{{this}}" {{#if (eq this ../filtros.categoria)}}selected{{/if}}>{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <button type="submit" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">🔍 Filtrar</button>
+            <a href="/estoque/materiais" style="padding: 8px 16px; background: #6c757d; color: white; text-decoration: none; border-radius: 4px;">🗑️ Limpar</a>
+        </form>
+    </div>
+
+    {{#if materiais}}
+        <div style="overflow-x: auto;">
+            <table class="table-users" style="width: 100%; min-width: 800px;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Categoria</th>
+                        <th>Unidade</th>
+                        <th>Preço Unit.</th>
+                        <th>Estoque Atual</th>
+                        <th>Estoque Mín.</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each materiais}}
+                        <tr>
+                            <td>{{id}}</td>
+                            <td>
+                                <a href="/estoque/materiais/{{id}}" style="color: #007bff; text-decoration: none; font-weight: bold;">
+                                    {{nome}}
+                                </a>
+                                {{#if descricao}}
+                                    <br><small style="color: #666;">{{descricao}}</small>
+                                {{/if}}
+                            </td>
+                            <td>{{categoria}}</td>
+                            <td>{{unidade}}</td>
+                            <td>R$ {{preco_unitario}}</td>
+                            <td>
+                                <span style="font-weight: bold; {{#if (lt estoque_atual estoque_minimo)}}color: #dc3545{{else}}color: #28a745{{/if}}">
+                                    {{estoque_atual}}
+                                </span>
+                            </td>
+                            <td>{{estoque_minimo}}</td>
+                            <td>
+                                {{#if (lt estoque_atual estoque_minimo)}}
+                                    <span style="color: #dc3545; font-weight: bold;">⚠️ BAIXO</span>
+                                {{else}}
+                                    <span style="color: #28a745;">✅ OK</span>
+                                {{/if}}
+                            </td>
+                            <td>
+                                <a href="/estoque/materiais/{{id}}/editar" style="color: #ffc107; margin-right: 10px;">✏️</a>
+                                <form method="POST" action="/estoque/materiais/{{id}}/deletar" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir este material?')">
+                                    <button type="submit" style="background: none; border: none; color: #dc3545; cursor: pointer; font-size: 16px;">🗑️</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    {{else}}
+        <div style="text-align: center; padding: 50px; background: #f8f9fa; border-radius: 8px;">
+            <h3 style="color: #6c757d; margin-bottom: 20px;">📭 Nenhum material cadastrado</h3>
+            <a href="/estoque/materiais/novo" class="btn-primary" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 6px;">➕ Cadastrar Primeiro Material</a>
+        </div>
+    {{/if}}
+
+    <!-- Links de navegação -->
+    <div style="margin-top: 30px; text-align: center;">
+        <a href="/estoque" style="margin-right: 15px; padding: 10px 20px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px;">← Voltar ao Estoque</a>
+        <a href="/dashboard" style="padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 6px;">🏠 Dashboard</a>
+    </div>
+</div>

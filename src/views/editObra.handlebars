@@ -1,0 +1,239 @@
+<div class="obras-container">
+    <div class="obras-header">
+        <h1>🏗️ Editar Obra</h1>
+        <a href="/dashboard/controle-geral/obras" class="btn-voltar">← Voltar</a>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="/dashboard/controle-geral" class="btn-voltar">← Voltar ao Controle Geral</a>
+    </div>
+
+    <!-- Formulário de Edição -->
+    <div id="form" class="form-container">
+        <h2>📝 Editar Obra</h2>
+        <form action="/dashboard/controle-geral/obras/edit/{{obra.id}}" method="POST" class="obra-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="nome">Nome da Obra *</label>
+                    <input type="text" id="nome" name="nome" required placeholder="Ex: Residencial ABC" value="{{obra.nome}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="endereco">Endereço *</label>
+                    <input type="text" id="endereco" name="endereco" required placeholder="Rua, número, bairro, cidade" value="{{obra.endereco}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="cliente">Cliente *</label>
+                    <input type="text" id="cliente" name="cliente" required placeholder="Nome do cliente" value="{{obra.cliente}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="orcamento">Orçamento (R$)</label>
+                    <input type="number" id="orcamento" name="orcamento" step="0.01" placeholder="0.00" value="{{obra.orcamento}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="data_inicio">Data de Início</label>
+                    <input type="date" id="data_inicio" name="data_inicio" value="{{obra.data_inicio}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="data_fim">Data de Fim</label>
+                    <input type="date" id="data_fim" name="data_fim" value="{{obra.data_fim}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                        <option value="ativo" {{#eq obra.status 'ativo'}}selected{{/eq}}>Ativo</option>
+                        <option value="pausado" {{#eq obra.status 'pausado'}}selected{{/eq}}>Pausado</option>
+                        <option value="finalizado" {{#eq obra.status 'finalizado'}}selected{{/eq}}>Finalizado</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">✅ Salvar Alterações</button>
+                <button type="button" class="btn-cancel" onclick="history.back()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+    {{#if (eq obras.length 0)}}
+    <div style="text-align: center; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h3 style="color: #666; margin: 0;">Nenhuma obra cadastrada</h3>
+        <p style="color: #999; margin: 10px 0 0 0;">Retorne à página anterior.</p>
+    </div>
+    {{/if}}
+</div>
+
+<style>
+.obras-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.obras-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: white;
+    border: 2px solid #FFC300;
+    color: #333;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(255, 195, 0, 0.1);
+}
+
+.obras-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    color: #FFC300;
+}
+
+.btn-novo {
+    padding: 12px 24px;
+    background: #FFC300;
+    color: #1A1A1A;
+    border: 2px solid #FFC300;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-novo:hover {
+    background: #FFD700;
+    border-color: #FFD700;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(255, 195, 0, 0.35);
+}
+
+.form-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    border: 2px solid #FFC300;
+    box-shadow: 0 4px 15px rgba(255, 195, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.form-container h2 {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 10px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #FFC300;
+    box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.2);
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-submit {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #FFC300 0%, #FFD700 100%);
+    color: #1A1A1A;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(255, 195, 0, 0.2);
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(255, 195, 0, 0.35);
+}
+
+.btn-cancel {
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #475569;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-voltar:hover {
+    background: #475569;
+}
+
+@media (max-width: 768px) {
+    .obras-container {
+        padding: 10px;
+    }
+
+    .obras-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .obras-header h1 {
+        font-size: 2rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>

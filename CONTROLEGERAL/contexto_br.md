@@ -1,0 +1,1 @@
+Adaptações para o contexto brasileiro e uso diário em obras.

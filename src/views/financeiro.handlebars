@@ -1,0 +1,661 @@
+<div class="financeiro-layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">RP <i class="fas fa-building"></i></div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/dashboard" class="nav-item">
+        <i class="fas fa-chart-bar"></i> Dashboard
+      </a>
+      <a href="/dashboard/usuarios" class="nav-item">
+        <i class="fas fa-users"></i> Usuários
+      </a>
+      <a href="/dashboard/obras" class="nav-item">
+        <i class="fas fa-building"></i> Obras
+      </a>
+      <a href="/dashboard/progresso" class="nav-item">
+        <i class="fas fa-chart-line"></i> Progresso
+      </a>
+      <a href="/dashboard/controle-geral" class="nav-item">
+        <i class="fas fa-cogs"></i> Controle
+      </a>
+      <a href="/dashboard/historico" class="nav-item">
+        <i class="fas fa-scroll"></i> Histórico
+      </a>
+      <a href="/dashboard/auditoria" class="nav-item">
+        <i class="fas fa-lock"></i> Auditoria
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="/logout" class="btn-logout">Sair</a>
+    </div>
+  </aside>
+
+  <main class="main-content sidebar-closed">
+    <div class="top-bar">
+      <button class="sidebar-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      <h1><i class="fas fa-money-bill-wave"></i> Gestão Financeira</h1>
+      <a href="/dashboard/controle-geral" class="btn-primary-top">← Voltar</a>
+    </div>
+
+    <div class="financeiro-container">
+      <!-- Formulário de Nova Transação -->
+      <div id="form" class="form-section glass-widget">
+        <h2>💳 Registrar Nova Transação</h2>
+        <form action="/controle-geral/financeiro" method="POST" class="transacao-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="tipo">Tipo de Transação *</label>
+              <select id="tipo" name="tipo" required>
+                <option value="">Selecione o tipo...</option>
+                <option value="receita">✅ Receita</option>
+                <option value="despesa">❌ Despesa</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="descricao">Descrição *</label>
+              <input type="text" id="descricao" name="descricao" required placeholder="Ex: Pagamento de cliente">
+            </div>
+
+            <div class="form-group">
+              <label for="valor">Valor (R$) *</label>
+              <input type="number" id="valor" name="valor" step="0.01" required placeholder="0.00">
+            </div>
+
+            <div class="form-group">
+              <label for="data">Data *</label>
+              <input type="date" id="data" name="data" required>
+            </div>
+
+            <div class="form-group">
+              <label for="obra_id">Obra (Opcional)</label>
+              <select id="obra_id" name="obra_id">
+                <option value="">Sem obra específica</option>
+                {{#each obras}}
+                <option value="{{this.id}}">{{this.id}} - {{this.nome}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">✅ Registrar Transação</button>
+            <button type="button" class="btn-cancel" onclick="limparFormulario()">🗑️ Limpar</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Lista de Transações -->
+      {{#if financeiro}}
+        <div class="transacoes-grid">
+          {{#each financeiro}}
+            <div class="transacao-card glass-widget {{#if (eq this.tipo 'receita')}}transacao-receita{{else}}transacao-despesa{{/if}}">
+              <div class="transacao-header">
+                <span class="transacao-tipo">{{#if (eq this.tipo 'receita')}}✅ Receita{{else}}❌ Despesa{{/if}}</span>
+                <span class="transacao-data">{{this.data}}</span>
+              </div>
+
+              <div class="transacao-descricao">{{this.descricao}}</div>
+
+              <div class="transacao-valor {{#if (eq this.tipo 'receita')}}valor-receita{{else}}valor-despesa{{/if}}">
+                {{#if (eq this.tipo 'receita')}}+ {{else}}- {{/if}}R$ {{this.valor}}
+              </div>
+
+              {{#if this.obra_nome}}
+                <div class="transacao-obra">
+                  <span class="obra-label">🏗️ Obra:</span>
+                  <span class="obra-nome">{{this.obra_nome}}</span>
+                </div>
+              {{/if}}
+
+              <div class="transacao-actions">
+                <a href="/dashboard/controle-geral/financeiro/edit/{{this.id}}" class="btn-action btn-edit">✏️ Editar</a>
+                <form action="/dashboard/controle-geral/financeiro/delete/{{this.id}}" method="POST" style="display:inline;">
+                  <button type="submit" class="btn-action btn-delete" onclick="return confirm('Tem certeza que deseja remover esta transação?')">🗑️ Excluir</button>
+                </form>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <div class="empty-state glass-widget">
+          <div class="empty-icon">💰</div>
+          <h3>Nenhuma transação registrada</h3>
+          <p>Clique em "Registrar Nova Transação" acima para começar.</p>
+        </div>
+      {{/if}}
+    </div>
+  </main>
+</div>
+
+<style>
+/* ===== PALETA DE CORES ===== */
+:root {
+  --bg-dark: #0A0A0A;
+  --bg-darker: #1a1a1a;
+  --glass-bg: rgba(30, 30, 30, 0.4);
+  --glass-hover: rgba(30, 30, 30, 0.55);
+  --yellow-primary: #FFC300;
+  --yellow-hover: #FFD700;
+  --text-primary: #FFFFFF;
+  --text-secondary: #B0B0B0;
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+/* ===== GLASS WIDGET BASE ===== */
+.glass-widget {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-widget:hover {
+  background: var(--glass-hover);
+  border: 1px solid rgba(255, 195, 0, 0.15);
+  box-shadow: 0 12px 40px 0 rgba(255, 195, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+/* ===== LAYOUT PRINCIPAL ===== */
+.financeiro-layout {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+  font-family: Inter, Roboto, Poppins, sans-serif;
+  color: var(--text-primary);
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 280px;
+  background: rgba(15, 15, 15, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-right: 2px solid var(--yellow-primary);
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  padding: 30px 20px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 195, 0, 0.2);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 10px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: rgba(255, 195, 0, 0.1);
+  color: var(--yellow-primary);
+  border-left: 3px solid var(--yellow-primary);
+  padding-left: 13px;
+}
+
+.nav-item span {
+  font-size: 1.2rem;
+}
+
+.sidebar-footer {
+  padding: 20px 10px;
+  border-top: 1px solid rgba(255, 195, 0, 0.2);
+}
+
+.btn-logout {
+  display: block;
+  padding: 12px 16px;
+  background: rgba(255, 67, 67, 0.1);
+  color: #FF6B6B;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-logout:hover {
+  background: rgba(255, 67, 67, 0.2);
+  transform: translateY(-2px);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  flex: 1;
+  margin-left: 280px;
+  overflow-y: auto;
+  background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+}
+
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 40px;
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 195, 0, 0.1);
+}
+
+.top-bar h1 {
+  margin: 0;
+  font-size: 2rem;
+  background: linear-gradient(135deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+}
+
+.btn-primary-top {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%);
+  color: var(--bg-dark);
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(255, 195, 0, 0.25);
+}
+
+.btn-primary-top:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 195, 0, 0.35);
+}
+
+/* ===== FINANCEIRO CONTAINER ===== */
+.financeiro-container {
+  padding: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.form-section {
+  margin-bottom: 40px;
+}
+
+.form-section h2 {
+  margin-top: 0;
+  color: var(--yellow-primary);
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--yellow-primary);
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 12px 15px;
+  border: 1px solid rgba(255, 195, 0, 0.2);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  transition: all 0.3s;
+}
+
+.form-group input::placeholder {
+  color: var(--text-secondary);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--yellow-primary);
+  background: rgba(255, 195, 0, 0.05);
+  box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.btn-submit {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%);
+  color: var(--bg-dark);
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(255, 195, 0, 0.25);
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 195, 0, 0.35);
+}
+
+.btn-cancel {
+  padding: 12px 24px;
+  background: rgba(255, 195, 0, 0.1);
+  color: var(--yellow-primary);
+  border: 1px solid rgba(255, 195, 0, 0.3);
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 195, 0, 0.15);
+  border-color: var(--yellow-primary);
+}
+
+/* ===== TRANSACOES GRID ===== */
+.transacoes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+.transacao-card {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  position: relative;
+  overflow: hidden;
+}
+
+.transacao-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--yellow-primary), var(--yellow-hover));
+  border-radius: 16px 0 0 16px;
+}
+
+.transacao-receita::before {
+  background: linear-gradient(180deg, #10b981, #34d399);
+}
+
+.transacao-despesa::before {
+  background: linear-gradient(180deg, #ef4444, #f87171);
+}
+
+.transacao-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.transacao-tipo {
+  background: rgba(255, 195, 0, 0.15);
+  color: var(--yellow-primary);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.transacao-receita .transacao-tipo {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.transacao-despesa .transacao-tipo {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.transacao-data {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.transacao-descricao {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 15px;
+  padding-right: 20px;
+}
+
+.transacao-valor {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 195, 0, 0.1);
+}
+
+.valor-receita {
+  color: #10b981;
+}
+
+.valor-despesa {
+  color: #ef4444;
+}
+
+.transacao-obra {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.obra-label {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.obra-nome {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.transacao-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-action {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.btn-edit {
+  background: rgba(255, 195, 0, 0.2);
+  color: var(--yellow-primary);
+  border: 1px solid rgba(255, 195, 0, 0.3);
+}
+
+.btn-edit:hover {
+  background: rgba(255, 195, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-delete {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.btn-delete:hover {
+  background: rgba(239, 68, 68, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  text-align: center;
+  min-height: 300px;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  margin: 0 0 10px 0;
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* ===== CUSTOM SCROLLBAR ===== */
+.main-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%);
+  border-radius: 10px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: var(--yellow-primary);
+}
+
+/* ===== SIDEBAR TOGGLE ===== */
+.sidebar {
+  transition: left 0.3s ease;
+}
+
+.sidebar-closed {
+  left: -280px;
+}
+
+.main-content {
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.sidebar-closed {
+  margin-left: 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .top-bar { padding: 20px 30px; }
+  .financeiro-container { padding: 30px; }
+}
+
+@media (max-width: 768px) {
+  .sidebar { width: 70px; }
+  .main-content { margin-left: 70px; }
+  .sidebar-header { padding: 20px 10px; }
+  .logo { font-size: 1.2rem; }
+  .nav-item span { font-size: 1rem; }
+  .nav-item { justify-content: center; padding: 12px 8px; }
+  .top-bar { flex-direction: column; gap: 15px; padding: 20px; }
+  .top-bar h1 { font-size: 1.5rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .transacoes-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .sidebar { width: 60px; }
+  .main-content { margin-left: 60px; }
+  .top-bar { padding: 15px; gap: 10px; }
+  .top-bar h1 { font-size: 1.3rem; }
+  .financeiro-container { padding: 15px; }
+}
+</style>
+
+<script>
+function limparFormulario() {
+    document.querySelector('.transacao-form').reset();
+}
+</script>
+
+   
+

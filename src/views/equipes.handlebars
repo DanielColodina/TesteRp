@@ -1,0 +1,781 @@
+<div class="equipes-layout">
+  <aside class="sidebar sidebar-closed">
+    <div class="sidebar-header">
+      <div class="logo">RP <i class="fas fa-building"></i></div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/dashboard" class="nav-item">
+        <i class="fas fa-chart-bar"></i> Dashboard
+      </a>
+      <a href="/dashboard/usuarios" class="nav-item">
+        <i class="fas fa-users"></i> Usuários
+      </a>
+      <a href="/dashboard/obras" class="nav-item">
+        <i class="fas fa-building"></i> Obras
+      </a>
+      <a href="/dashboard/progresso" class="nav-item">
+        <i class="fas fa-chart-line"></i> Progresso
+      </a>
+      <a href="/dashboard/controle-geral" class="nav-item">
+        <i class="fas fa-cogs"></i> Controle
+      </a>
+      <a href="/dashboard/historico" class="nav-item">
+        <i class="fas fa-scroll"></i> Histórico
+      </a>
+      <a href="/dashboard/auditoria" class="nav-item">
+        <i class="fas fa-lock"></i> Auditoria
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="/logout" class="btn-logout">Sair</a>
+    </div>
+  </aside>
+
+  <main class="main-content sidebar-closed">
+    <div class="top-bar">
+      <button class="sidebar-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      <h1><i class="fas fa-users"></i> Gestão de Equipes</h1>
+      <a href="/dashboard/controle-geral" class="btn-primary-top">← Voltar</a>
+    </div>
+
+    <div class="equipes-container">
+      <!-- Formulário de Novo Funcionário -->
+      <div id="form" class="form-section glass-widget">
+        <h2><i class="fas fa-user-plus"></i> Cadastrar Novo Funcionário</h2>
+        <form action="/controle-geral/equipes" method="POST" class="funcionario-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="nome">Nome Completo *</label>
+              <input type="text" id="nome" name="nome" required placeholder="Ex: João da Silva">
+            </div>
+
+            <div class="form-group">
+              <label for="funcao">Função *</label>
+              <select id="funcao" name="funcao" required>
+                <option value="">Selecione uma função...</option>
+                <option value="Encanador">Encanador</option>
+                <option value="Eletricista">Eletricista</option>
+                <option value="Pintor">Pintor</option>
+                <option value="Pedreiro">Pedreiro</option>
+                <option value="Carpinteiro">Carpinteiro</option>
+                <option value="Mestre de Obras">Mestre de Obras</option>
+                <option value="Supervisor">Supervisor</option>
+                <option value="Gerente">Gerente</option>
+                <option value="Administrador">Administrador</option>
+                <option value="Auxiliar">Auxiliar</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="salario">Salário (R$) *</label>
+              <input type="number" id="salario" name="salario" step="0.01" required placeholder="0.00">
+            </div>
+
+            <div class="form-group">
+              <label for="obra_id">Obra *</label>
+              <select id="obra_id" name="obra_id" required>
+                <option value="">Selecione uma obra...</option>
+                {{#each obras}}
+                <option value="{{this.id}}">{{this.id}} - {{this.nome}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Salvar Funcionário</button>
+            <button type="button" class="btn-cancel" onclick="limparFormulario()"><i class="fas fa-trash"></i> Limpar</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Lista de Funcionários -->
+      {{#if funcionarios}}
+        <div class="funcionarios-grid">
+          {{#each funcionarios}}
+            <div class="funcionario-card glass-widget">
+              <div class="funcionario-header">
+                <h3 class="funcionario-nome">{{this.nome}}</h3>
+                <span class="funcionario-badge">{{this.funcao}}</span>
+              </div>
+
+              <div class="funcionario-info">
+                <div class="funcionario-info-item">
+                  <span class="funcionario-info-label">Função</span>
+                  <span class="funcionario-info-value">{{this.funcao}}</span>
+                </div>
+                <div class="funcionario-info-item">
+                  <span class="funcionario-info-label">Salário</span>
+                  <span class="funcionario-info-value">R$ {{this.salario}}</span>
+                </div>
+                <div class="funcionario-info-item">
+                  <span class="funcionario-info-label">Obra</span>
+                  <span class="funcionario-info-value">{{this.obra_nome}}</span>
+                </div>
+              </div>
+
+              <div class="funcionario-actions">
+                <button type="button" class="btn-action btn-edit" onclick="editarFuncionario({{this.id}}, '{{this.nome}}', '{{this.funcao}}', {{this.salario}}, {{this.obra_id}})">✏️ Editar</button>
+                <form action="/dashboard/controle-geral/equipes/delete/{{this.id}}" method="POST" style="display:inline;">
+                  <button type="submit" class="btn-action btn-delete" onclick="return confirm('Tem certeza que deseja remover este funcionário?')">🗑️ Excluir</button>
+                </form>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <div class="empty-state glass-widget">
+          <div class="empty-icon"><i class="fas fa-users"></i></div>
+          <h3>Nenhum funcionário cadastrado</h3>
+          <p>Clique em "Cadastrar Novo Funcionário" acima para começar.</p>
+        </div>
+      {{/if}}
+    </div>
+
+    <!-- Modal de Edição -->
+    <div id="editModal" class="modal">
+      <div class="modal-content glass-widget">
+        <span class="modal-close" onclick="fecharModal()">&times;</span>
+        <h2>✏️ Editar Funcionário</h2>
+        <form action="/dashboard/controle-geral/equipes/update" method="POST" class="edit-form">
+          <input type="hidden" id="edit-id" name="id">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="edit-nome">Nome Completo *</label>
+              <input type="text" id="edit-nome" name="nome" required>
+            </div>
+            <div class="form-group">
+              <label for="edit-funcao">Função *</label>
+              <select id="edit-funcao" name="funcao" required>
+                <option value="">Selecione uma função...</option>
+                <option value="Encanador">Encanador</option>
+                <option value="Eletricista">Eletricista</option>
+                <option value="Pintor">Pintor</option>
+                <option value="Pedreiro">Pedreiro</option>
+                <option value="Carpinteiro">Carpinteiro</option>
+                <option value="Mestre de Obras">Mestre de Obras</option>
+                <option value="Supervisor">Supervisor</option>
+                <option value="Gerente">Gerente</option>
+                <option value="Administrador">Administrador</option>
+                <option value="Auxiliar">Auxiliar</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="edit-salario">Salário (R$) *</label>
+              <input type="number" id="edit-salario" name="salario" step="0.01" required>
+            </div>
+            <div class="form-group">
+              <label for="edit-obra_id">Obra *</label>
+              <select id="edit-obra_id" name="obra_id" required>
+                <option value="">Selecione uma obra...</option>
+                {{#each obras}}
+                <option value="{{this.id}}">{{this.id}} - {{this.nome}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">✅ Salvar Alterações</button>
+            <button type="button" class="btn-cancel" onclick="fecharModal()">❌ Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+<style>
+/* ===== PALETA DE CORES ===== */
+:root {
+  --bg-dark: #0A0A0A;
+  --bg-darker: #1a1a1a;
+  --glass-bg: rgba(30, 30, 30, 0.4);
+  --glass-hover: rgba(30, 30, 30, 0.55);
+  --yellow-primary: #FFC300;
+  --yellow-hover: #FFD700;
+  --text-primary: #FFFFFF;
+  --text-secondary: #B0B0B0;
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+/* ===== GLASS WIDGET BASE ===== */
+.glass-widget {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-widget:hover {
+  background: var(--glass-hover);
+  border: 1px solid rgba(255, 195, 0, 0.15);
+  box-shadow: 0 12px 40px 0 rgba(255, 195, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+/* ===== LAYOUT PRINCIPAL ===== */
+.equipes-layout {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+  font-family: Inter, Roboto, Poppins, sans-serif;
+  color: var(--text-primary);
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 280px;
+  background: rgba(15, 15, 15, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-right: 2px solid var(--yellow-primary);
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  padding: 30px 20px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 195, 0, 0.2);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 10px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: rgba(255, 195, 0, 0.1);
+  color: var(--yellow-primary);
+  border-left: 3px solid var(--yellow-primary);
+  padding-left: 13px;
+}
+
+.nav-item span {
+  font-size: 1.2rem;
+}
+
+.sidebar-footer {
+  padding: 20px 10px;
+  border-top: 1px solid rgba(255, 195, 0, 0.2);
+}
+
+.btn-logout {
+  display: block;
+  padding: 12px 16px;
+  background: rgba(255, 67, 67, 0.1);
+  color: #FF6B6B;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-logout:hover {
+  background: rgba(255, 67, 67, 0.2);
+  transform: translateY(-2px);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  flex: 1;
+  margin-left: 280px;
+  overflow-y: auto;
+  background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+}
+
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 40px;
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 195, 0, 0.1);
+}
+
+.top-bar h1 {
+  margin: 0;
+  font-size: 2rem;
+  background: linear-gradient(135deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+}
+
+.btn-primary-top {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%);
+  color: var(--bg-dark);
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(255, 195, 0, 0.25);
+}
+
+.btn-primary-top:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 195, 0, 0.35);
+}
+
+/* ===== EQUIPES CONTAINER ===== */
+.equipes-container {
+  padding: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.form-section {
+  margin-bottom: 40px;
+}
+
+.form-section h2 {
+  margin-top: 0;
+  color: var(--yellow-primary);
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--yellow-primary);
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 12px 15px;
+  border: 1px solid rgba(255, 195, 0, 0.2);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  transition: all 0.3s;
+}
+
+.form-group input::placeholder {
+  color: var(--text-secondary);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--yellow-primary);
+  background: rgba(255, 195, 0, 0.05);
+  box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.btn-submit {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%);
+  color: var(--bg-dark);
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(255, 195, 0, 0.25);
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 195, 0, 0.35);
+}
+
+.btn-cancel {
+  padding: 12px 24px;
+  background: rgba(255, 195, 0, 0.1);
+  color: var(--yellow-primary);
+  border: 1px solid rgba(255, 195, 0, 0.3);
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 195, 0, 0.15);
+  border-color: var(--yellow-primary);
+}
+
+/* ===== FUNCIONARIOS GRID ===== */
+.funcionarios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+.funcionario-card {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+}
+
+.funcionario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.funcionario-nome {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--yellow-primary);
+}
+
+.funcionario-badge {
+  background: rgba(255, 195, 0, 0.15);
+  color: var(--yellow-primary);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.funcionario-info {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 195, 0, 0.1);
+}
+
+.funcionario-info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.funcionario-info-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.funcionario-info-value {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.funcionario-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-action {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.btn-edit {
+  background: rgba(255, 195, 0, 0.2);
+  color: var(--yellow-primary);
+  border: 1px solid rgba(255, 195, 0, 0.3);
+}
+
+.btn-edit:hover {
+  background: rgba(255, 195, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-delete {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.btn-delete:hover {
+  background: rgba(239, 68, 68, 0.3);
+  transform: translateY(-2px);
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  text-align: center;
+  min-height: 300px;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  margin: 0 0 10px 0;
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* ===== MODAL ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  padding: 20px;
+}
+
+.modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-content h2 {
+  color: var(--yellow-primary);
+  margin-top: 0;
+  margin-bottom: 25px;
+}
+
+.modal-close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--yellow-primary);
+  transition: all 0.3s;
+}
+
+.modal-close:hover {
+  color: var(--yellow-hover);
+}
+
+.edit-form .form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* ===== CUSTOM SCROLLBAR ===== */
+.main-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%);
+  border-radius: 10px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: var(--yellow-primary);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .top-bar { padding: 20px 30px; }
+  .equipes-container { padding: 30px; }
+}
+
+@media (max-width: 768px) {
+  .sidebar { width: 70px; }
+  .main-content { margin-left: 70px; }
+  .sidebar-header { padding: 20px 10px; }
+  .logo { font-size: 1.2rem; }
+  .nav-item span { font-size: 1rem; }
+  .nav-item { justify-content: center; padding: 12px 8px; }
+  .top-bar { flex-direction: column; gap: 15px; padding: 20px; }
+  .top-bar h1 { font-size: 1.5rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .funcionarios-grid { grid-template-columns: 1fr; }
+  .modal-content { max-width: 90vw; }
+}
+
+@media (max-width: 480px) {
+  .sidebar { width: 60px; }
+  .main-content { margin-left: 60px; }
+  .top-bar { padding: 15px; gap: 10px; }
+  .top-bar h1 { font-size: 1.3rem; }
+  .equipes-container { padding: 15px; }
+  .modal-content { max-width: 95vw; padding: 20px; }
+}
+
+.sidebar-toggle {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 10px;
+  margin-right: 15px;
+  transition: color 0.3s;
+}
+
+.sidebar-toggle:hover {
+  color: var(--yellow-primary);
+}
+
+.sidebar {
+  transition: left 0.3s ease;
+}
+
+.sidebar-closed {
+  left: -280px;
+}
+
+.main-content {
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.sidebar-closed {
+  margin-left: 0;
+}
+
+@media (max-width: 480px) {
+  .sidebar-closed {
+    left: -60px;
+  }
+}
+</style>
+
+<script>
+function editarFuncionario(id, nome, funcao, salario, obra_id) {
+    document.getElementById('edit-id').value = id;
+    document.getElementById('edit-nome').value = nome;
+    document.getElementById('edit-funcao').value = funcao;
+    document.getElementById('edit-salario').value = salario;
+    document.getElementById('edit-obra_id').value = obra_id;
+    document.getElementById('editModal').classList.add('show');
+}
+
+function fecharModal() {
+    document.getElementById('editModal').classList.remove('show');
+}
+
+function limparFormulario() {
+    document.querySelector('.funcionario-form').reset();
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('editModal');
+    if (event.target === modal) {
+        modal.classList.remove('show');
+    }
+}
+
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  const mainContent = document.querySelector('.main-content');
+  sidebar.classList.toggle('sidebar-closed');
+  mainContent.classList.toggle('sidebar-closed');
+}
+</script>
+
+    
+

@@ -1,0 +1,147 @@
+<div class="obras-container">
+    <div class="obras-header">
+        <h1>📊 Movimentações de Materiais</h1>
+        <a href="/dashboard/controle-geral/obras" class="btn-voltar">← Voltar</a>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="/dashboard/controle-geral" class="btn-voltar">← Voltar ao Controle Geral</a>
+    </div>
+
+    {{#if obra}}
+    <div class="form-container">
+        <h2>🏗️ {{obra.nome_obra}}</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+            <div>
+                <label style="color: #666; font-weight: 600;">Endereço</label>
+                <p style="margin: 5px 0 0 0; color: #333; font-weight: 600;">{{obra.endereco}}</p>
+            </div>
+            <div>
+                <label style="color: #666; font-weight: 600;">Cliente</label>
+                <p style="margin: 5px 0 0 0; color: #333; font-weight: 600;">{{obra.cliente}}</p>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+    <!-- Tabela de Movimentações -->
+    <div class="form-container">
+        <h3 style="margin-top: 0;">📋 Registro de Movimentações</h3>
+        
+        {{#if movimentacoes}}
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #f3f4f6; border-bottom: 2px solid #FFC300;">
+                        <th style="padding: 12px; text-align: left; font-weight: 600; color: #333;">Data</th>
+                        <th style="padding: 12px; text-align: left; font-weight: 600; color: #333;">Tipo</th>
+                        <th style="padding: 12px; text-align: left; font-weight: 600; color: #333;">Material</th>
+                        <th style="padding: 12px; text-align: left; font-weight: 600; color: #333;">Quantidade</th>
+                        <th style="padding: 12px; text-align: left; font-weight: 600; color: #333;">Unidade</th>
+                        <th style="padding: 12px; text-align: left; font-weight: 600; color: #333;">Responsável</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each movimentacoes}}
+                    <tr style="border-bottom: 1px solid #e5e7eb;">
+                        <td style="padding: 12px; color: #333;">{{this.data_movimentacao}}</td>
+                        <td style="padding: 12px;">
+                            <span style="padding: 4px 8px; border-radius: 4px; font-weight: 600; font-size: 0.85rem; {{#if (eq this.tipo 'entrada')}}background: #dcfce7; color: #166534;{{else if (eq this.tipo 'saida')}}background: #fee2e2; color: #991b1b;{{else}}background: #fef3c7; color: #92400e;{{/if}}">
+                                {{#if (eq this.tipo 'entrada')}}📥 Entrada{{else if (eq this.tipo 'saida')}}📤 Saída{{else}}⚠️ Perda{{/if}}
+                            </span>
+                        </td>
+                        <td style="padding: 12px; color: #666;">{{this.material}}</td>
+                        <td style="padding: 12px; color: #333; font-weight: 600;">{{this.quantidade}}</td>
+                        <td style="padding: 12px; color: #666;">{{this.unidade}}</td>
+                        <td style="padding: 12px; color: #666;">{{this.responsavel}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        {{else}}
+        <p style="color: #999; text-align: center; padding: 20px;">Nenhuma movimentação registrada para esta obra.</p>
+        {{/if}}
+    </div>
+</div>
+
+<style>
+.obras-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.obras-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: white;
+    border: 2px solid #FFC300;
+    color: #333;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(255, 195, 0, 0.1);
+}
+
+.obras-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: #FFC300;
+}
+
+.form-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    border: 2px solid #FFC300;
+    box-shadow: 0 4px 15px rgba(255, 195, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.form-container h2,
+.form-container h3 {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 1.3rem;
+}
+
+.btn-voltar {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #6b7280;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.btn-voltar:hover {
+    background: #475569;
+}
+
+@media (max-width: 768px) {
+    .obras-container {
+        padding: 10px;
+    }
+
+    .obras-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .obras-header h1 {
+        font-size: 1.5rem;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    th, td {
+        padding: 8px !important;
+    }
+}
+</style>

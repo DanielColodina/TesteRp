@@ -1,0 +1,137 @@
+<div class="content-wrapper">
+    <div style="margin-bottom: 30px;">
+        <h1>{{#if (eq tipo 'entrada')}}📥 Registrar Entrada{{else}}📤 Registrar Consumo{{/if}} de Material na Obra</h1>
+        <h3 style="color: #666; margin-top: 5px;">{{obra.nome_obra}}</h3>
+    </div>
+
+    <div style="background: #f8f9fa; padding: 30px; border-radius: 8px; max-width: 800px; margin: 0 auto;">
+        <form method="POST">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+
+                <!-- Material da Obra -->
+                <div style="grid-column: span 2;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Material da Obra:</label>
+                    <select name="material_obra_id" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                        <option value="">Selecione um material...</option>
+                        {{#each materiaisObra}}
+                            <option value="{{id}}" {{#if (eq id ../materialSelecionado.id)}}selected{{/if}}>
+                                {{material_nome}} (Saldo atual: {{saldo_atual}} {{unidade}}) - {{fase_obra}}
+                            </option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <!-- Quantidade -->
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Quantidade {{#if (eq tipo 'entrada')}}a Entrar{{else}}a Consumir{{/if}}:</label>
+                    <input type="number" name="quantidade" step="0.01" min="0.01" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                    {{#if materialSelecionado}}
+                        <small style="color: #666;">Unidade: {{materialSelecionado.unidade}}</small>
+                    {{/if}}
+                </div>
+
+                <!-- Data da Movimentação -->
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Data da Movimentação:</label>
+                    <input type="date" name="data_movimentacao" value="{{dataAtual}}" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+
+                <!-- Etapa da Obra -->
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Etapa da Obra:</label>
+                    <select name="etapa_obra" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                        <option value="">Selecione a etapa...</option>
+                        <option value="Terraplenagem e Fundações">Terraplenagem e Fundações</option>
+                        <option value="Alvenaria Estrutural">Alvenaria Estrutural</option>
+                        <option value="Estrutura (Pilares, Vigas e Lajes)">Estrutura (Pilares, Vigas e Lajes)</option>
+                        <option value="Alvenaria de Vedação">Alvenaria de Vedação</option>
+                        <option value="Cobertura">Cobertura</option>
+                        <option value="Instalações Elétricas">Instalações Elétricas</option>
+                        <option value="Instalações Hidráulicas">Instalações Hidráulicas</option>
+                        <option value="Revestimentos e Acabamentos">Revestimentos e Acabamentos</option>
+                        <option value="Esquadrias e Serralheria">Esquadrias e Serralheria</option>
+                    </select>
+                </div>
+
+                <!-- Motivo -->
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Motivo:</label>
+                    <input type="text" name="motivo" placeholder="{{#if (eq tipo 'entrada')}}Ex: Entrega do fornecedor{{else}}Ex: Utilizado em pilares{{/if}}" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+
+                <!-- Documento -->
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Documento/NF:</label>
+                    <input type="text" name="documento" placeholder="Ex: NF-2024-0015" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+
+                {{#if (eq tipo 'entrada')}}
+                <!-- Abater do Estoque Geral -->
+                <div style="grid-column: span 2;">
+                    <label style="display: flex; align-items: center;">
+                        <input type="checkbox" name="abater_estoque_geral" style="margin-right: 10px;">
+                        <span>Abater quantidade do estoque geral</span>
+                    </label>
+                    <small style="color: #666; display: block; margin-top: 5px;">
+                        Marque esta opção se o material está sendo transferido do estoque geral para a obra
+                    </small>
+                </div>
+                {{/if}}
+
+                <!-- Observações -->
+                <div style="grid-column: span 2;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Observações:</label>
+                    <textarea name="observacoes" rows="3" placeholder="Observações adicionais..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; resize: vertical;"></textarea>
+                </div>
+
+            </div>
+
+            <!-- Botões -->
+            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
+                <button type="submit" style="padding: 12px 30px; background: {{#if (eq tipo 'entrada')}}linear-gradient(135deg, #28a745 0%, #20c997 100%){{else}}linear-gradient(135deg, #dc3545 0%, #fd7e14 100%){{/if}}; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px;">
+                    💾 {{#if (eq tipo 'entrada')}}Registrar Entrada{{else}}Registrar Consumo{{/if}}
+                </button>
+                <a href="/estoque/obras/{{obra.id}}/materiais" style="padding: 12px 30px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px;">❌ Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    {{#if materialSelecionado}}
+    <!-- Informações do Material Selecionado -->
+    <div style="background: #e9ecef; padding: 20px; border-radius: 8px; margin-top: 30px; max-width: 800px; margin-left: auto; margin-right: auto;">
+        <h4 style="margin-bottom: 15px; color: #495057;">📋 Informações do Material Selecionado</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            <div>
+                <strong>Nome:</strong> {{materialSelecionado.material_nome}}
+            </div>
+            <div>
+                <strong>Unidade:</strong> {{materialSelecionado.unidade}}
+            </div>
+            <div>
+                <strong>Saldo Atual:</strong> {{materialSelecionado.saldo_atual}}
+            </div>
+            <div>
+                <strong>Quantidade Estimada:</strong> {{materialSelecionado.quantidade_estimada}}
+            </div>
+            <div>
+                <strong>Fase da Obra:</strong> {{materialSelecionado.fase_obra}}
+            </div>
+            <div>
+                <strong>Categoria:</strong> {{materialSelecionado.categoria}}
+            </div>
+        </div>
+        {{#if (eq tipo 'saida')}}
+            {{#if (lt materialSelecionado.saldo_atual 0.01)}}
+                <div style="margin-top: 15px; padding: 10px; background: #f8d7da; color: #721c24; border-radius: 4px; border: 1px solid #f5c6cb;">
+                    ⚠️ <strong>Atenção:</strong> Este material não possui saldo disponível na obra.
+                </div>
+            {{/if}}
+        {{/if}}
+    </div>
+    {{/if}}
+
+    <!-- Links de navegação -->
+    <div style="margin-top: 30px; text-align: center;">
+        <a href="/estoque/obras/{{obra.id}}/materiais" style="padding: 10px 20px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px;">← Voltar aos Materiais</a>
+    </div>
+</div>

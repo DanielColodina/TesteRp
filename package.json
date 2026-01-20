@@ -1,0 +1,42 @@
+{
+  "name": "rp-emppreendimentos",
+  "version": "1.0.0",
+  "description": "Sistema de Gestão de Obras - RP Empreendimentos",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "dev": "NODE_ENV=development nodemon app.js",
+    "prod": "NODE_ENV=production node app.js"
+  },
+  "keywords": [
+    "obras",
+    "gestão",
+    "empreendimentos"
+  ],
+  "author": "RP-Empreendimentos",
+  "license": "ISC",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-handlebars": "^8.0.3",
+    "express-rate-limit": "^8.2.1",
+    "express-session": "^1.18.2",
+    "helmet": "^7.2.0",
+    "mysql2": "^3.16.0",
+    "npm": "^11.7.0",
+    "sqlite3": "^5.1.7",
+    "start": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}

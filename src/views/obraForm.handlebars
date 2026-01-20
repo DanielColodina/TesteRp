@@ -1,0 +1,157 @@
+<div class="content-wrapper">
+  <div class="page-header">
+    <h1>{{#if (eq action 'create')}}🏗️ Nova Obra{{else}}✏️ Editar Obra{{/if}}</h1>
+    <div class="page-actions">
+      <a href="/obras" class="btn-voltar">← Voltar</a>
+    </div>
+  </div>
+
+  <div class="form-wrapper">
+    <form action="{{#if (eq action 'create')}}/obras{{else}}/obras/{{obra.id}}{{/if}}" method="POST" class="obra-form">
+
+      <div class="form-group">
+        <label for="nome_obra">Nome da Obra *</label>
+        <input type="text" id="nome_obra" name="nome_obra" value="{{obra.nome_obra}}" placeholder="Digite o nome da obra" required>
+      </div>
+
+      <div class="form-group">
+        <label for="usuario_id">Cliente (Opcional)</label>
+        <select id="usuario_id" name="usuario_id">
+          <option value="">-- Selecione um cliente --</option>
+          {{#each usuarios}}
+            <option value="{{id}}" {{#if (eq ../obra.usuario_id id)}}selected{{/if}}>
+              {{nome}} - {{obra}}
+            </option>
+          {{/each}}
+        </select>
+        <small class="form-hint">
+          Vincular a obra a um cliente existente. Deixe em branco para obra independente.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="descricao">Descrição (Opcional)</label>
+        <textarea id="descricao" name="descricao" rows="4" placeholder="Digite uma descrição detalhada da obra">{{obra.descricao}}</textarea>
+      </div>
+
+      <div class="form-actions">
+        <a href="/obras" class="btn-cancel">Cancelar</a>
+        <button type="submit" class="btn-submit">
+          {{#if (eq action 'create')}}✅ Criar Obra{{else}}💾 Salvar Alterações{{/if}}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+.form-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.obra-form {
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #FFC300;
+  box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.2);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-hint {
+  color: #666;
+  display: block;
+  margin-top: 5px;
+  font-size: 0.85rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+.btn-cancel {
+  padding: 10px 20px;
+  background: #6b7280;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-cancel:hover {
+  background: #475569;
+}
+
+.btn-submit {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #FFC300 0%, #FFD700 100%);
+  color: #1A1A1A;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(255, 195, 0, 0.2);
+}
+
+.btn-submit:hover {
+  box-shadow: 0 6px 18px rgba(255, 195, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+.btn-voltar {
+  background: #6b7280;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-voltar:hover {
+  background: #475569;
+}
+</style>
+

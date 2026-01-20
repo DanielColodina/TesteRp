@@ -1,0 +1,142 @@
+<div class="dashboard-layout">
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar sidebar-closed">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-icon"><i class="fas fa-building"></i></span>
+                <h2>RP Emp</h2>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/dashboard" class="nav-item" title="Dashboard">
+                <span class="nav-icon"><i class="fas fa-tachometer-alt"></i></span>
+                <span class="nav-label">Dashboard</span>
+            </a>
+            <a href="/dashboard/tablesUsers" class="nav-item active" title="Usuários">
+                <span class="nav-icon"><i class="fas fa-users"></i></span>
+                <span class="nav-label">Usuários</span>
+            </a>
+            <a href="/obras" class="nav-item" title="Obras">
+                <span class="nav-icon"><i class="fas fa-hard-hat"></i></span>
+                <span class="nav-label">Obras</span>
+            </a>
+            <a href="/dashboard/progresso" class="nav-item" title="Progresso">
+                <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
+                <span class="nav-label">Progresso</span>
+            </a>
+            <a href="/dashboard/controle-geral" class="nav-item" title="Controle Geral">
+                <span class="nav-icon"><i class="fas fa-cogs"></i></span>
+                <span class="nav-label">Controle</span>
+            </a>
+            <a href="/dashboard/historico" class="nav-item" title="Histórico">
+                <span class="nav-icon"><i class="fas fa-history"></i></span>
+                <span class="nav-label">Histórico</span>
+            </a>
+            <a href="/dashboard/auditoria" class="nav-item" title="Auditoria">
+                <span class="nav-icon"><i class="fas fa-search"></i></span>
+                <span class="nav-label">Auditoria</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="btn-sidebar-action" title="Sair"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content sidebar-closed">
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <button class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="top-bar-title">
+                <h1>👥 Usuários Cadastrados</h1>
+                <p>Sistema de Gestão de Obras - Controle Total</p>
+            </div>
+            <a href="/dashboard" class="btn-primary-top">← Voltar</a>
+        </div>
+
+        <!-- DASHBOARD CONTENT -->
+        <div class="dashboard-container">
+            {{#if usuarios}}
+                {{#if usuarios.length}}
+                    <table class="table-users">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                                <th>Endereço</th>
+                                <th>Obra</th>
+                                <th>Criado por</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {{#each usuarios}}
+                                <tr>
+                                    <td>{{id}}</td>
+
+                                    <!-- NOME CLICÁVEL COM DADOS PARA O MODAL -->
+                                    <td>
+                                        <a href="#"
+                                           class="user-link"
+                                           data-id="{{id}}"
+                                           data-nome="{{nome}}"
+                                           data-email="{{email}}"
+                                           data-telefone="{{telefone}}"
+                                           data-endereco="{{endereco}}"
+                                           data-obra="{{obra}}"
+                                           data-admin="{{admin_nome}}"
+                                           data-data="{{created_at}}">
+                                           {{nome}}
+                                        </a>
+                                    </td>
+
+                                    <td>{{email}}</td>
+                                    <td>{{telefone}}</td>
+                                    <td>{{endereco}}</td>
+                                    <td>{{obra}}</td>
+                                    <td>{{admin_nome}}</td>
+                                    <td>{{created_at}}</td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                {{else}}
+                    <div class="empty-state">
+                        <div class="empty-icon">👥</div>
+                        <h3>Nenhum usuário encontrado</h3>
+                        <p>Não há usuários cadastrados no sistema.</p>
+                        <a href="/dashboard" class="btn-primary">← Voltar ao Dashboard</a>
+                    </div>
+                {{/if}}
+            {{else}}
+                <div class="empty-state">
+                    <div class="empty-icon">👥</div>
+                    <h3>Nenhum usuário encontrado</h3>
+                    <p>Não há usuários cadastrados no sistema.</p>
+                    <a href="/dashboard" class="btn-primary">← Voltar ao Dashboard</a>
+                </div>
+            {{/if}}
+        </div>
+    </main>
+</div>
+
+<!-- MODAL PARA DETALHES DO USUÁRIO -->
+<div id="userModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modalTitle">Detalhes do Usuário</h2>
+
+        <div id="userDetails">
+            <!-- Conteúdo será preenchido via JavaScript -->
+        </div>
+    </div>
+</div>
+
+<script src="/js/userModal.js"></script>

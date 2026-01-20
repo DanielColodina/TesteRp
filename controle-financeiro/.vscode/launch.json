@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "ControleFinanceiroApplication",
+            "request": "launch",
+            "mainClass": "com.empresa.controleFinanceiro.ControleFinanceiroApplication",
+            "projectName": "controle-financeiro"
+        },
+        {
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}"
+        }
+    ]
+}

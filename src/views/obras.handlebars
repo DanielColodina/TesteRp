@@ -1,0 +1,94 @@
+<div class="obras-layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">RP 🏗️</div>
+    </div>
+   <nav class="sidebar-nav">
+      <a href="/dashboard" class="nav-item">
+        <i class="fas fa-chart-bar"></i> Dashboard
+      </a>
+      <a href="/dashboard/usuarios" class="nav-item">
+        <i class="fas fa-users"></i> Usuários
+      </a>
+      <a href="/dashboard/obras" class="nav-item">
+        <i class="fas fa-building"></i> Obras
+      </a>
+      <a href="/dashboard/progresso" class="nav-item">
+        <i class="fas fa-chart-line"></i> Progresso
+      </a>
+      <a href="/dashboard/controle-geral" class="nav-item">
+        <i class="fas fa-cogs"></i> Controle
+      </a>
+      <a href="/dashboard/historico" class="nav-item">
+        <i class="fas fa-scroll"></i> Histórico
+      </a>
+      <a href="/dashboard/auditoria" class="nav-item">
+        <i class="fas fa-lock"></i> Auditoria
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="/logout" class="btn-logout">Sair</a>
+    </div>
+  </aside>
+
+  <main class="main-content sidebar-closed">
+    <div class="top-bar">
+      <button class="sidebar-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      <h1>🏗️ Gerenciamento de Obras</h1>
+      <div class="top-actions">
+        <a href="/obras/nova" class="btn-nova-obra">➕ Nova Obra</a>
+        <a href="/dashboard" class="btn-voltar-top">← Voltar</a>
+      </div>
+    </div>
+
+    <div class="obras-container">
+      {{#if obras}}
+        <div class="obras-table glass-widget">
+          <div class="table-wrapper">
+            <table class="obras-table-el">
+              <thead>
+                <tr>
+                  <th>Nome da Obra</th>
+                  <th>Cliente</th>
+                  <th>Endereço</th>
+                  <th>Descrição</th>
+                  <th>Criada em</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each obras}}
+                  <tr>
+                    <td class="cell-nome">{{nome_obra}}</td>
+                    <td>{{usuario_nome}}</td>
+                    <td>{{endereco_obra}}</td>
+                    <td class="cell-descricao">{{descricao}}</td>
+                    <td class="cell-data">{{created_at}}</td>
+                    <td class="cell-actions">
+                      <a href="/obras/{{id}}/editar" class="btn-action btn-edit" title="Editar">✏️</a>
+                      <form action="/obras/{{id}}/excluir" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir esta obra?')">
+                        <button type="submit" class="btn-action btn-delete" title="Excluir">🗑️</button>
+                      </form>
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {{else}}
+        <div class="empty-state glass-widget">
+          <div class="empty-icon">🏗️</div>
+          <h3>Nenhuma obra cadastrada ainda</h3>
+          <p>Clique em "Nova Obra" para começar a gerenciar suas obras.</p>
+          <a href="/obras/nova" class="btn-nova-obra btn-large">➕ Criar Primeira Obra</a>
+        </div>
+      {{/if}}
+    </div>
+  </main>
+</div>
+
+<link rel="stylesheet" href="/css/obras.css">
+

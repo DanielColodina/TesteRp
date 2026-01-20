@@ -1,0 +1,215 @@
+<div class="content-wrapper">
+  <div class="page-header">
+    <h1>✏️ Editar Usuário</h1>
+    <div class="page-actions">
+      <a href="/dashboard/tablesUsers" class="btn-voltar">← Voltar</a>
+    </div>
+  </div>
+
+  {{#if user}}
+    <form action="/dashboard/usuarios/{{user.id}}/edit" method="POST" class="edit-form">
+      <div class="form-group">
+        <label for="nome">👤 Nome:</label>
+        <input type="text" id="nome" name="nome" value="{{user.nome}}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">📧 Email:</label>
+        <input type="email" id="email" name="email" value="{{user.email}}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="telefone">📱 Telefone:</label>
+        <input type="text" id="telefone" name="telefone" value="{{user.telefone}}">
+      </div>
+
+      <div class="form-group">
+        <label for="endereco">🏠 Endereço:</label>
+        <input type="text" id="endereco" name="endereco" value="{{user.endereco}}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="obra">🏗️ Obra:</label>
+        <input type="text" id="obra" name="obra" value="{{user.obra}}" required>
+      </div>
+
+      <!-- CHECKLIST DA OBRA -->
+      <div class="checklist-section">
+        <h3>📋 Checklist da Obra</h3>
+
+        <div class="checklist-grid">
+          <div class="checklist-item">
+            <label for="uso_solo">Uso do Solo:</label>
+            <select id="uso_solo" name="uso_solo">
+              <option value="Nao Tem" {{#eq checklist.uso_solo 'Nao Tem'}}selected{{/eq}}>Não Tem</option>
+              <option value="Andamento" {{#eq checklist.uso_solo 'Andamento'}}selected{{/eq}}>Andamento</option>
+              <option value="Feito" {{#eq checklist.uso_solo 'Feito'}}selected{{/eq}}>Feito</option>
+            </select>
+          </div>
+
+          <div class="checklist-item">
+            <label for="licenca">Licença:</label>
+            <select id="licenca" name="licenca">
+              <option value="Nao Tem" {{#eq checklist.licenca 'Nao Tem'}}selected{{/eq}}>Não Tem</option>
+              <option value="Andamento" {{#eq checklist.licenca 'Andamento'}}selected{{/eq}}>Andamento</option>
+              <option value="Feito" {{#eq checklist.licenca 'Feito'}}selected{{/eq}}>Feito</option>
+            </select>
+          </div>
+
+          <div class="checklist-item">
+            <label for="condominio">Condomínio:</label>
+            <select id="condominio" name="condominio">
+              <option value="Nao Tem" {{#eq checklist.condominio 'Nao Tem'}}selected{{/eq}}>Não Tem</option>
+              <option value="Andamento" {{#eq checklist.condominio 'Andamento'}}selected{{/eq}}>Andamento</option>
+              <option value="Feito" {{#eq checklist.condominio 'Feito'}}selected{{/eq}}>Feito</option>
+            </select>
+          </div>
+
+          <div class="checklist-item">
+            <label for="habite_se">Habite-se:</label>
+            <select id="habite_se" name="habite_se">
+              <option value="Nao Tem" {{#eq checklist.habite_se 'Nao Tem'}}selected{{/eq}}>Não Tem</option>
+              <option value="Andamento" {{#eq checklist.habite_se 'Andamento'}}selected{{/eq}}>Andamento</option>
+              <option value="Feito" {{#eq checklist.habite_se 'Feito'}}selected{{/eq}}>Feito</option>
+            </select>
+          </div>
+
+          <div class="checklist-item">
+            <label for="averbacao">Averbação:</label>
+            <select id="averbacao" name="averbacao">
+              <option value="Nao Tem" {{#eq checklist.averbacao 'Nao Tem'}}selected{{/eq}}>Não Tem</option>
+              <option value="Andamento" {{#eq checklist.averbacao 'Andamento'}}selected{{/eq}}>Andamento</option>
+              <option value="Feito" {{#eq checklist.averbacao 'Feito'}}selected{{/eq}}>Feito</option>
+            </select>
+          </div>
+
+          <div class="checklist-item">
+            <label for="vistoria">Vistoria:</label>
+            <select id="vistoria" name="vistoria">
+              <option value="Nao Tem" {{#eq checklist.vistoria 'Nao Tem'}}selected{{/eq}}>Não Tem</option>
+              <option value="Andamento" {{#eq checklist.vistoria 'Andamento'}}selected{{/eq}}>Andamento</option>
+              <option value="Feito" {{#eq checklist.vistoria 'Feito'}}selected{{/eq}}>Feito</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="observacoes">📝 Observações:</label>
+          <textarea id="observacoes" name="observacoes" rows="3" placeholder="Observações sobre o checklist...">{{checklist.observacoes}}</textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-save">✅ Salvar Alterações</button>
+        <a href="/dashboard/tablesUsers" class="btn-cancel">❌ Cancelar</a>
+      </div>
+    </form>
+  {{else}}
+    <div class="error-message">
+      <p>❌ Usuário não encontrado.</p>
+      <a href="/dashboard/tablesUsers" class="btn-voltar" style="margin-top: 15px;">← Voltar</a>
+    </div>
+  {{/if}}
+</div>
+
+<style>
+.checklist-section {
+  background: rgba(255, 195, 0, 0.08);
+  padding: 20px;
+  border-radius: 8px;
+  border: 2px solid #FFC300;
+  margin: 20px 0;
+}
+
+.checklist-section h3 {
+  margin: 0 0 15px 0;
+  color: #FFC300;
+}
+
+.checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.checklist-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.checklist-item label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #374151;
+}
+
+.checklist-item select {
+  padding: 8px;
+  border: 2px solid #FFC300;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.3s;
+  background: white;
+  color: #333;
+}
+
+.checklist-item select:focus {
+  outline: none;
+  border-color: #FFD700;
+  box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.2);
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #FFC300 0%, #FFD700 100%);
+  color: #1A1A1A;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-right: 10px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(255, 195, 0, 0.2);
+}
+
+.btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 195, 0, 0.35);
+}
+
+.btn-cancel {
+  background: #6b7280;
+  color: white;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: bold;
+  display: inline-block;
+  transition: all 0.3s;
+}
+
+.btn-cancel:hover {
+  background: #475569;
+}
+
+.btn-voltar {
+  background: #FFC300;
+  color: #1A1A1A;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  display: inline-block;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(255, 195, 0, 0.2);
+}
+
+.btn-voltar:hover {
+  background: #FFD700;
+  transform: translateY(-2px);
+}
+</style>
+
+

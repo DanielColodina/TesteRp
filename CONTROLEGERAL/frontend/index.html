@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestão de Construtora</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/controle-geral/style.css">
+</head>
+<body>
+    <header>
+        <h1>Sistema de Gestão de Construtora</h1>
+        <nav>
+            <button onclick="showModule('obras')">Obras</button>
+            <button onclick="showModule('estoque')">Estoque</button>
+            <button onclick="showModule('equipes')">Equipes</button>
+            <button onclick="showModule('financeiro')">Financeiro</button>
+            <button onclick="showModule('comunicacao')">Comunicação</button>
+            <button onclick="showModule('relatorios')">Relatórios</button>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <div id="obras" class="module">
+            <h2>Gestão de Obras</h2>
+            <button onclick="loadObras()">Carregar Obras</button>
+            <button class="btn btn-ghost" onclick="window.location.href='/controle-geral/obras'">Ver Todas as Obras</button>
+            <div id="obras-list"></div>
+            <form id="obra-form">
+                <input type="text" id="nome" placeholder="Nome da Obra" required>
+                <input type="text" id="endereco" placeholder="Endereço" required>
+                <input type="text" id="cliente" placeholder="Cliente" required>
+                <input type="number" id="orcamento" placeholder="Orçamento" step="0.01" required>
+                <input type="date" id="data_inicio" required>
+                <input type="date" id="data_fim" required>
+                <select id="status">
+                    <option value="Planejada">Planejada</option>
+                    <option value="Em Andamento">Em Andamento</option>
+                    <option value="Concluída">Concluída</option>
+                </select>
+                <button type="submit">Adicionar Obra</button>
+            </form>
+        </div>
+
+        <div id="estoque" class="module hidden">
+            <h2>Estoque / Almoxarifado</h2>
+            <button onclick="loadMateriais()">Carregar Materiais</button>
+            <button class="btn btn-ghost" onclick="window.location.href='/controle-geral/materiais'">Ver Todos os Materiais</button>
+            <div id="materiais-list"></div>
+            <form id="material-form">
+                <input type="text" id="codigo" placeholder="Código" required>
+                <input type="text" id="descricao" placeholder="Descrição" required>
+                <input type="text" id="unidade" placeholder="Unidade" required>
+                <input type="number" id="quantidade" placeholder="Quantidade" step="0.01" required>
+                <input type="number" id="preco_medio" placeholder="Preço Médio" step="0.01" required>
+                <input type="number" id="estoque_minimo" placeholder="Estoque Mínimo" step="0.01" required>
+                <button type="submit">Adicionar Material</button>
+            </form>
+        </div>
+
+        <div id="equipes" class="module hidden">
+            <h2>Equipes e Funcionários</h2>
+            <button onclick="loadFuncionarios()">Carregar Funcionários</button>
+            <button class="btn btn-ghost" onclick="window.location.href='/controle-geral/funcionarios'">Ver Todos os Funcionários</button>
+            <div id="funcionarios-list"></div>
+            <form id="funcionario-form">
+                <input type="text" id="nome_func" placeholder="Nome" required>
+                <input type="text" id="funcao" placeholder="Função" required>
+                <input type="number" id="salario" placeholder="Salário" step="0.01" required>
+                <button type="submit">Adicionar Funcionário</button>
+            </form>
+        </div>
+
+        <div id="financeiro" class="module hidden">
+            <h2>Financeiro</h2>
+            <button onclick="loadFinanceiro()">Carregar Lançamentos</button>
+            <button class="btn btn-ghost" onclick="window.location.href='/controle-geral/financeiro'">Ver Todos os Lançamentos</button>
+            <div id="financeiro-list"></div>
+            <form id="financeiro-form">
+                <select id="tipo">
+                    <option value="Receita">Receita</option>
+                    <option value="Despesa">Despesa</option>
+                </select>
+                <input type="text" id="descricao_fin" placeholder="Descrição" required>
+                <input type="number" id="valor" placeholder="Valor" step="0.01" required>
+                <input type="date" id="data_fin" required>
+                <input type="number" id="obra_id" placeholder="ID da Obra" required>
+                <button type="submit">Adicionar Lançamento</button>
+            </form>
+        </div>
+
+        <div id="comunicacao" class="module hidden">
+            <h2>Comunicação Interna</h2>
+            <button onclick="loadMensagens()">Carregar Mensagens</button>
+            <button class="btn btn-ghost" onclick="window.location.href='/controle-geral/mensagens'">Ver Todas as Mensagens</button>
+            <div id="mensagens-list"></div>
+            <form id="mensagem-form">
+                <input type="text" id="de" placeholder="De" required>
+                <input type="text" id="para" placeholder="Para" required>
+                <textarea id="mensagem" placeholder="Mensagem" required></textarea>
+                <input type="date" id="data_msg" required>
+                <input type="number" id="obra_id_msg" placeholder="ID da Obra" required>
+                <button type="submit">Enviar Mensagem</button>
+            </form>
+        </div>
+
+        <div id="relatorios" class="module hidden">
+            <h2>Relatórios</h2>
+            <button onclick="gerarRelatorioObras()">Relatório de Obras</button>
+            <button onclick="gerarRelatorioEstoque()">Relatório de Estoque</button>
+            <div id="relatorio-content"></div>
+        </div>
+    </main>
+
+    <script src="/controle-geral/script.js"></script>
+</body>
+</html>

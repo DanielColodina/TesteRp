@@ -1,0 +1,28 @@
+
+# Dependências
+node_modules/
+
+# Variáveis de ambiente (SENHAS!)
+.env
+.env.local
+.env.production
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build
+dist/
+build/.env 
+CONTROLEGERAL/backend/.env 
