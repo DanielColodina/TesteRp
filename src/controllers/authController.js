@@ -12,6 +12,8 @@ exports.loginPage = (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
+  console.log('🔐 Tentativa de login:', { email, password_length: password?.length });
+
   // Validar entrada
   if (!email || !password) {
     return res.status(400).send('❌ Email e senha são obrigatórios');
@@ -27,14 +29,19 @@ exports.login = async (req, res) => {
 
   try {
     const admin = await Admin.findByEmail(email.toLowerCase().trim());
+    
     if (!admin) {
+      console.log('❌ Admin não encontrado:', email);
       return res.status(401).send('❌ Email ou senha incorretos');
     }
+
+    console.log('✅ Admin encontrado:', admin.email);
 
     // Comparar senha
     const ok = await bcrypt.compare(password.trim(), admin.password);
     
     if (!ok) {
+      console.log('❌ Senha incorreta para:', email);
       return res.status(401).send('❌ Email ou senha incorretos');
     }
 
@@ -46,7 +53,8 @@ exports.login = async (req, res) => {
     res.redirect('/dashboard');
     
   } catch (err) {
-    console.error('❌ Erro no login:', err);
+    console.error('❌ Erro no login:', err.message);
+    console.error('Stack:', err.stack);
     res.status(500).send('❌ Erro ao processar login');
   }
 };

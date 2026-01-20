@@ -18,14 +18,20 @@ const connection = mysql.createPool ({
     }
 });
 
-// Testar conexão na inicialização
+// Testar conexão na inicialização e mostrar configuração
+console.log('[LOG] Tentando conectar ao banco de dados...');
 connection.getConnection()
   .then(conn => {
-    console.log('✅ Conectado ao banco de dados');
+    console.log('[LOG] ✅ Conectado ao banco de dados');
+    console.log('[LOG] 📊 Configuração:');
+    console.log(`[LOG]    HOST: ${process.env.DB_HOST || 'localhost'}`);
+    console.log(`[LOG]    PORT: ${process.env.DB_PORT || 3306}`);
+    console.log(`[LOG]    USER: ${process.env.DB_USER || 'root'}`);
+    console.log(`[LOG]    DB: ${process.env.DB_NAME || 'rp_empreendimentos'}`);
     conn.release();
   })
   .catch(err => {
-    console.error('❌ Erro ao conectar ao banco:', err.message);
+    console.error('[LOG] ❌ Erro ao conectar ao banco:', err.message);
   });
 
 module.exports = connection;

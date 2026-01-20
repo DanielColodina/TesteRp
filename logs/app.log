@@ -13336,3 +13336,87 @@
 [2026-01-20T00:50:41.911Z] INFO: Ambiente: development
 [2026-01-20T01:01:34.506Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
 [2026-01-20T01:01:34.514Z] INFO: Ambiente: development
+[2026-01-20T02:31:25.974Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:31:25.976Z] INFO: Ambiente: development
+[2026-01-20T02:31:36.072Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:31:36.074Z] INFO: Ambiente: development
+[2026-01-20T02:31:38.767Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:31:38.769Z] INFO: Ambiente: development
+[2026-01-20T02:31:41.778Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:31:41.780Z] INFO: Ambiente: development
+[2026-01-20T02:31:59.231Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:31:59.232Z] INFO: Ambiente: development
+[2026-01-20T02:34:03.404Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:34:03.405Z] INFO: Ambiente: development
+[2026-01-20T02:35:19.984Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:35:19.987Z] INFO: Ambiente: development
+[2026-01-20T02:35:28.864Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:35:28.866Z] INFO: Ambiente: development
+[2026-01-20T02:36:24.350Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:36:24.352Z] INFO: Ambiente: development
+[2026-01-20T02:37:25.054Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:37:25.056Z] INFO: Ambiente: development
+[2026-01-20T02:37:25.079Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:37:25.081Z] INFO: Ambiente: development
+[2026-01-20T02:40:02.640Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:40:02.641Z] INFO: Ambiente: development
+[2026-01-20T02:42:11.124Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:42:11.126Z] INFO: Ambiente: development
+[2026-01-20T02:44:09.614Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:44:09.616Z] INFO: Ambiente: development
+[2026-01-20T02:44:43.430Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:44:43.432Z] INFO: Ambiente: development
+[2026-01-20T02:48:31.070Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:48:31.071Z] INFO: Ambiente: development
+[2026-01-20T02:49:27.094Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:49:27.096Z] INFO: Ambiente: development
+[2026-01-20T02:49:27.986Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:49:27.988Z] INFO: Ambiente: development
+[2026-01-20T02:50:16.579Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:50:16.581Z] INFO: Ambiente: development
+[2026-01-20T02:52:50.675Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:52:50.677Z] INFO: Ambiente: development
+[2026-01-20T02:53:39.097Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:53:39.100Z] INFO: Ambiente: development
+[2026-01-20T02:55:31.294Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:55:31.296Z] INFO: Ambiente: development
+[2026-01-20T02:56:09.261Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:56:09.263Z] INFO: Ambiente: development
+[2026-01-20T02:56:11.113Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:56:11.115Z] INFO: Ambiente: development
+[2026-01-20T02:57:04.159Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T02:57:04.161Z] INFO: Ambiente: development
+[2026-01-20T02:57:17.027Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-01-20T02:57:17.028Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T02:57:22.109Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-01-20T02:57:22.110Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T02:57:22.117Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-01-20T02:57:22.118Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T02:57:22.214Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-01-20T02:57:22.215Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T02:57:27.080Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-01-20T02:57:27.082Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T02:57:34.754Z] INFO: [AUTH] Verificando autenticação para /dashboard/tablesUsers
+[2026-01-20T02:57:34.756Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T02:57:38.406Z] INFO: [AUTH] Verificando autenticação para /obras
+[2026-01-20T02:57:38.407Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T02:57:41.664Z] INFO: [AUTH] Verificando autenticação para /dashboard/progresso
+[2026-01-20T02:57:41.665Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T02:57:52.084Z] INFO: [AUTH] Verificando autenticação para /dashboard/controle-geral/obras
+[2026-01-20T02:57:52.085Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T02:57:57.176Z] INFO: [AUTH] Verificando autenticação para /dashboard/controle-geral/estoque
+[2026-01-20T02:57:57.177Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T02:58:01.433Z] INFO: [AUTH] Verificando autenticação para /dashboard/controle-geral/equipes
+[2026-01-20T02:58:01.434Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T02:58:03.949Z] INFO: [AUTH] Verificando autenticação para /dashboard/controle-geral/financeiro
+[2026-01-20T02:58:03.951Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T02:58:06.068Z] INFO: [AUTH] Verificando autenticação para /dashboard/controle-geral/comunicacao
+[2026-01-20T02:58:06.069Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T02:58:07.582Z] INFO: [AUTH] Verificando autenticação para /dashboard/controle-geral/relatorios
+[2026-01-20T02:58:07.582Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T02:58:30.708Z] INFO: [AUTH] Verificando autenticação para /dashboard/usuarios
+[2026-01-20T02:58:30.709Z] INFO: [AUTH] Usuário autenticado: 1
+[2026-01-20T03:00:27.346Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T03:00:27.385Z] INFO: Ambiente: development
+[2026-01-20T03:00:29.194Z] INFO: Servidor rodando na porta 5001 (host: 0.0.0.0)
+[2026-01-20T03:00:29.197Z] INFO: Ambiente: development

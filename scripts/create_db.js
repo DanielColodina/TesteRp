@@ -16,9 +16,8 @@ const pool = mysql.createPool({
 });
 
 const setupSQL = `
--- Criar banco de dados
-CREATE DATABASE IF NOT EXISTS rp_empreendimentos;
-USE rp_empreendimentos;
+-- Usar banco de dados existente
+USE defaultdb;
 
 -- 1. Tabela ADMINS - Drop em ordem reversa das dependências
 DROP TABLE IF EXISTS auditoria;

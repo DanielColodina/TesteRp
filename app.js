@@ -65,7 +65,7 @@ app.set('views', path.join(__dirname, 'src', 'views'));
 // ---------------- MIDDLEWARES DE SEGURANÇA ----------------
 app.use(helmet());
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: process.env.NODE_ENV === 'production' ? false : 'http://localhost:3000',
   credentials: true
 }));
 
@@ -180,7 +180,11 @@ app.use((err, req, res, next) => {
 // -------- SERVER --------
 const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || '0.0.0.0';
+console.log(`[LOG] Tentando iniciar servidor na porta ${PORT}, host ${HOST}`);
 app.listen(PORT, HOST, () => {
+  console.log(`[LOG] Servidor rodando na porta ${PORT} (host: ${HOST})`);
   logger.info(`Servidor rodando na porta ${PORT} (host: ${HOST})`);
   logger.info(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
+}).on('error', (err) => {
+  console.error(`[LOG] Erro ao iniciar servidor: ${err.message}`);
 });
