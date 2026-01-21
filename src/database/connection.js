@@ -14,7 +14,7 @@ const connection = mysql.createPool ({
     enableKeepAlive: true,
     // ⭐ SSL OBRIGATÓRIO PARA AIVEN (certificado auto-assinado)
     ssl: {
-        rejectUnauthorized: false
+        rejectUnauthorized: true
     }
 });
 

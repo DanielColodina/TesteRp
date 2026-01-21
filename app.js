@@ -64,6 +64,7 @@ app.set('views', path.join(__dirname, 'src', 'views'));
 
 // ---------------- MIDDLEWARES DE SEGURANÇA ----------------
 app.use(helmet());
+app.set('trust proxy', 1); // Fix for rate limit behind proxy
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' ? false : 'http://localhost:3000',
   credentials: true
