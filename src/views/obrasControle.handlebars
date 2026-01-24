@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Obras - Controle Geral</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/controlegeral.css">
+    <script src="/js/sidebar.js"></script>
+</head>
+<body>
 <div class="controle-layout">
   <aside class="sidebar sidebar-closed">
     <div class="sidebar-header">
@@ -334,6 +346,15 @@ function limparFormulario() {
   margin-left: 280px;
   overflow-y: auto;
   background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.sidebar-closed {
+  margin-left: 0;
+}
+
+.sidebar-closed {
+  left: -280px;
 }
 
 .top-bar {
@@ -733,6 +754,8 @@ margin-left: 0;
 }
 }
 </style>
+</body>
+</html>
 
 <script>
 function toggleSidebar() {

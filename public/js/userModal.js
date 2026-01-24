@@ -21,29 +21,108 @@ document.addEventListener('DOMContentLoaded', () => {
 
       currentUserId = link.dataset.id;
 
-      // Preencher informações do usuário
-      const nomeEl = document.getElementById('uNome');
-      const emailEl = document.getElementById('uEmail');
-      const telefoneEl = document.getElementById('uTelefone');
-      const enderecoEl = document.getElementById('uEndereco');
-      const obraEl = document.getElementById('uObra');
-      const adminEl = document.getElementById('uAdmin');
-      const dataEl = document.getElementById('uData');
+      // Gerar HTML completo do modal
+      const userDetails = document.getElementById('userDetails');
+      if (userDetails) {
+        userDetails.innerHTML = `
+          <div class="user-info">
+            <h3>👤 Informações do Usuário</h3>
+            <p><strong>Nome:</strong> ${link.dataset.nome || 'N/A'}</p>
+            <p><strong>Email:</strong> ${link.dataset.email || 'N/A'}</p>
+            <p><strong>Telefone:</strong> ${link.dataset.telefone || 'N/A'}</p>
+            <p><strong>Endereço da Obra:</strong> ${link.dataset.endereco || 'N/A'}</p>
+            <p><strong>Nome da Obra:</strong> ${link.dataset.obra || 'N/A'}</p>
+            <p><strong>Administrador:</strong> ${link.dataset.admin || 'N/A'}</p>
+            <p><strong>Data de Cadastro:</strong> ${link.dataset.data || 'N/A'}</p>
+          </div>
 
-      if (nomeEl) nomeEl.innerText = link.dataset.nome || 'N/A';
-      if (emailEl) emailEl.innerText = link.dataset.email || 'N/A';
-      if (telefoneEl) telefoneEl.innerText = link.dataset.telefone || 'N/A';
-      if (enderecoEl) enderecoEl.innerText = link.dataset.endereco || 'N/A';
-      if (obraEl) obraEl.innerText = link.dataset.obra || 'N/A';
-      if (adminEl) adminEl.innerText = link.dataset.admin || 'N/A';
-      if (dataEl) dataEl.innerText = link.dataset.data || 'N/A';
+          <div id="progressoObra" class="user-info">
+            <h3>📊 Progresso da Obra</h3>
+            <p>Carregando...</p>
+          </div>
+
+          <div class="user-info">
+            <h3>📋 Checklist da Obra</h3>
+            <div class="checklist-container">
+              <div class="check-item">
+                <label for="uso_solo">Uso do Solo:</label>
+                <select id="uso_solo" data-field="uso_solo">
+                  <option value="Nao Tem">❌ Não Tem</option>
+                  <option value="Andamento">⏳ Andamento</option>
+                  <option value="Feito">✅ Feito</option>
+                </select>
+              </div>
+              <div class="check-item">
+                <label for="licenca">Licença:</label>
+                <select id="licenca" data-field="licenca">
+                  <option value="Nao Tem">❌ Não Tem</option>
+                  <option value="Andamento">⏳ Andamento</option>
+                  <option value="Feito">✅ Feito</option>
+                </select>
+              </div>
+              <div class="check-item">
+                <label for="condominio">Condomínio:</label>
+                <select id="condominio" data-field="condominio">
+                  <option value="Nao Tem">❌ Não Tem</option>
+                  <option value="Andamento">⏳ Andamento</option>
+                  <option value="Feito">✅ Feito</option>
+                </select>
+              </div>
+              <div class="check-item">
+                <label for="habite_se">Habite-se:</label>
+                <select id="habite_se" data-field="habite_se">
+                  <option value="Nao Tem">❌ Não Tem</option>
+                  <option value="Andamento">⏳ Andamento</option>
+                  <option value="Feito">✅ Feito</option>
+                </select>
+              </div>
+              <div class="check-item">
+                <label for="averbacao">Averbação:</label>
+                <select id="averbacao" data-field="averbacao">
+                  <option value="Nao Tem">❌ Não Tem</option>
+                  <option value="Andamento">⏳ Andamento</option>
+                  <option value="Feito">✅ Feito</option>
+                </select>
+              </div>
+              <div class="check-item">
+                <label for="vistoria">Vistoria:</label>
+                <select id="vistoria" data-field="vistoria">
+                  <option value="Nao Tem">❌ Não Tem</option>
+                  <option value="Andamento">⏳ Andamento</option>
+                  <option value="Feito">✅ Feito</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-top: 15px;">
+              <label for="observacoesChecklist"><strong>📝 Observações:</strong></label>
+              <textarea id="observacoesChecklist" rows="3" style="width: 100%; margin-top: 5px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" placeholder="Observações sobre o checklist..."></textarea>
+            </div>
+          </div>
+
+          <div class="user-info">
+            <h3>📜 Histórico de Atividades</h3>
+            <ul id="uHistorico">
+              <li>⏳ Carregando histórico...</li>
+            </ul>
+          </div>
+
+          <div class="user-actions">
+            <button id="btnEdit" class="btn-edit">✏️ Editar Usuário</button>
+            <form id="formDelete" method="POST" style="display: inline;">
+              <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza que deseja excluir este usuário?')">🗑️ Excluir Usuário</button>
+            </form>
+          </div>
+        `;
+      }
 
       // Configurar rota de exclusão
+      const formDelete = document.getElementById('formDelete');
       if (formDelete) {
         formDelete.action = `/dashboard/usuarios/${currentUserId}/delete`;
       }
 
       // Botão editar
+      const btnEdit = document.getElementById('btnEdit');
       if (btnEdit) {
         btnEdit.onclick = () => {
           window.location.href = `/dashboard/usuarios/${currentUserId}/edit`;
@@ -51,14 +130,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Carregar histórico
+      const historicoList = document.getElementById('uHistorico');
       if (historicoList) {
-        historicoList.innerHTML = '<li>⏳ Carregando histórico...</li>';
-
         try {
           const res = await fetch(`/dashboard/usuarios/${currentUserId}/historico`);
-          
+
           if (!res.ok) throw new Error('Erro ao carregar histórico');
-          
+
           const data = await res.json();
 
           historicoList.innerHTML = '';
@@ -81,6 +159,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Carregar e renderizar checklist editável
       await carregarChecklist(currentUserId);
+
+      // Adicionar evento para salvar observações
+      const observacoesEl = document.getElementById('observacoesChecklist');
+      if (observacoesEl) {
+        observacoesEl.addEventListener('blur', async () => {
+          const observacoes = observacoesEl.value;
+          try {
+            const res = await fetch(`/dashboard/usuarios/${currentUserId}/observacoes`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ observacoes })
+            });
+
+            if (!res.ok) throw new Error('Erro ao salvar observações');
+
+            const result = await res.json();
+            if (result.success) {
+              console.log('✅ Observações salvas automaticamente');
+            }
+          } catch (err) {
+            console.error('❌ Erro ao salvar observações:', err);
+          }
+        });
+      }
 
       // Mostrar modal
       if (userModal) {
@@ -196,43 +300,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Event listener para salvar observações
-  const btnSalvarObservacoes = document.getElementById('btnSalvarObservacoes');
-  if (btnSalvarObservacoes) {
-    btnSalvarObservacoes.addEventListener('click', async () => {
-      const observacoesEl = document.getElementById('observacoesChecklist');
-      if (!observacoesEl || !currentUserId) return;
-
-      const observacoes = observacoesEl.value;
-      btnSalvarObservacoes.disabled = true;
-      btnSalvarObservacoes.textContent = 'Salvando...';
-
-      try {
-        const res = await fetch(`/dashboard/usuarios/${currentUserId}/observacoes`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ observacoes })
-        });
-
-        if (!res.ok) throw new Error('Erro ao salvar observações');
-
-        const result = await res.json();
-        if (result.success) {
-          alert('✅ Observações salvas com sucesso!');
-        } else {
-          alert('❌ Erro ao salvar observações');
-        }
-      } catch (err) {
-        console.error('❌ Erro ao salvar observações:', err);
-        alert('❌ Erro ao salvar observações');
-      } finally {
-        btnSalvarObservacoes.disabled = false;
-        btnSalvarObservacoes.textContent = '💾 Salvar Observações';
-      }
-    });
-  }
 
   // Fechar modal ao clicar fora
   window.addEventListener('click', (e) => {

@@ -1,0 +1,276 @@
+/* Estilos específicos para a página de auditoria */
+
+/* Layout da auditoria */
+.audit-layout {
+    display: flex;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 100%);
+    font-family: Inter, Roboto, Poppins, sans-serif;
+    color: #FFFFFF;
+}
+
+/* Sidebar */
+.audit-layout .sidebar {
+    width: 280px;
+    background: rgba(15, 15, 15, 0.8);
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 195, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999;
+}
+
+.audit-layout .sidebar-closed {
+    left: -280px;
+}
+
+.audit-layout .sidebar-header {
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 195, 0, 0.1);
+}
+
+.audit-layout .logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #FFC300 0%, #FFD700 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.audit-layout .sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.audit-layout .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    color: #B0B0B0;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.audit-layout .nav-item:hover {
+    background: rgba(255, 195, 0, 0.08);
+    color: #FFFFFF;
+    border-left-color: #FFC300;
+}
+
+.audit-layout .nav-item.active {
+    background: rgba(255, 195, 0, 0.15);
+    color: #FFC300;
+    border-left-color: #FFC300;
+    box-shadow: 0 4px 12px rgba(255, 195, 0, 0.1);
+}
+
+.audit-layout .sidebar-footer {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 195, 0, 0.1);
+}
+
+/* Main content */
+.audit-layout .main-content {
+    flex: 1;
+    margin-left: 280px;
+    height: 100vh;
+    overflow-y: auto;
+    background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 100%);
+    transition: margin-left 0.3s ease;
+}
+
+.audit-layout .main-content.sidebar-closed {
+    margin-left: 0;
+}
+
+/* Top bar */
+.audit-layout .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background: rgba(30, 30, 30, 0.4);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.audit-layout .sidebar-toggle {
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 10px;
+    margin-right: 15px;
+    transition: color 0.3s;
+}
+
+.audit-layout .sidebar-toggle:hover {
+    color: #FFC300;
+}
+
+.audit-layout .top-bar h1 {
+    color: #FFC300;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Container da auditoria */
+.audit-container {
+    padding: 30px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Filtros */
+.audit-filters {
+    background: rgba(30, 30, 30, 0.6);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.audit-filters h3 {
+    color: #FFC300;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.filter-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: end;
+}
+
+.filter-group select,
+.filter-group input {
+    padding: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    background: rgba(30, 30, 30, 0.8);
+    color: #FFFFFF;
+    font-size: 14px;
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+    outline: none;
+    border-color: #FFC300;
+    box-shadow: 0 0 8px rgba(255, 195, 0, 0.3);
+}
+
+.btn-filter {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #FFC300 0%, #FFD700 100%);
+    color: #1A1A1A;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-filter:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 195, 0, 0.4);
+}
+
+/* Tabela de auditoria */
+.audit-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    background: rgba(30, 30, 30, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.audit-table th,
+.audit-table td {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    text-align: left;
+    color: #FFFFFF;
+}
+
+.audit-table th {
+    background: rgba(30, 30, 30, 0.8);
+    font-weight: bold;
+    color: #FFC300;
+}
+
+.audit-table tr:hover {
+    background: rgba(30, 30, 30, 0.8);
+}
+
+/* Responsividade */
+@media (max-width: 500px) {
+    .audit-layout .sidebar {
+        width: 70px;
+    }
+
+    .audit-layout .main-content {
+        margin-left: 70px;
+    }
+
+    .audit-layout .sidebar-closed {
+        left: -70px;
+    }
+
+    .audit-layout .nav-item {
+        justify-content: center;
+        padding: 12px 8px;
+    }
+
+    .audit-layout .nav-item span {
+        display: none;
+    }
+
+    .audit-layout .top-bar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .audit-layout .top-bar h1 {
+        font-size: 1.5rem;
+    }
+
+    .audit-layout .filter-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .audit-layout .audit-table {
+        font-size: 12px;
+        overflow-x: auto;
+        display: block;
+    }
+
+    .audit-layout .audit-table th,
+    .audit-layout .audit-table td {
+        padding: 8px;
+        white-space: nowrap;
+    }
+}

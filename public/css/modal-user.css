@@ -1,0 +1,203 @@
+/* Estilos específicos para o modal de criação de usuário no dashboard */
+
+/* Modal de criação de usuário */
+#modal .modal-content {
+    max-height: 80vh;
+    overflow-y: auto;
+    width: 500px; /* Aumentei um pouco para acomodar melhor */
+    margin: 5% auto;
+    padding: 30px;
+}
+
+/* Seção do checklist no modal */
+.checklist-section-modal {
+    margin-top: 20px;
+}
+
+.checklist-section-modal h4 {
+    color: #FFC300;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.checklist-section-modal p {
+    color: #B0B0B0;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* Grid do checklist */
+.checklist-grid-modal {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.checklist-item-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.checklist-item-modal label {
+    color: #FFC300;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.checklist-item-modal select {
+    padding: 8px 12px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    background: rgba(30, 30, 30, 0.8);
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.checklist-item-modal select:focus {
+    outline: none;
+    border-color: #FFC300;
+    box-shadow: 0 0 8px rgba(255, 195, 0, 0.3);
+}
+
+/* Observações no modal */
+#modal_observacoes {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    background: rgba(30, 30, 30, 0.8);
+    color: #FFFFFF;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 60px;
+}
+
+#modal_observacoes:focus {
+    outline: none;
+    border-color: #FFC300;
+    box-shadow: 0 0 8px rgba(255, 195, 0, 0.3);
+}
+
+/* Links dos cards de métricas */
+.stat-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.stat-link:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px 0 rgba(255, 195, 0, 0.2);
+}
+
+/* Estilos para elementos dinâmicos do modal de usuário */
+.checklist-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.check-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.check-item label {
+    font-weight: 600;
+    color: #FFC300;
+    font-size: 14px;
+}
+
+.check-item select {
+    padding: 8px 12px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    background: rgba(30, 30, 30, 0.8);
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.check-item select:focus {
+    outline: none;
+    border-color: #FFC300;
+    box-shadow: 0 0 8px rgba(255, 195, 0, 0.3);
+}
+
+.user-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.user-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-edit {
+    background-color: #FFC300;
+    color: #1A1A1A;
+}
+
+.btn-edit:hover {
+    background-color: #FFD700;
+    transform: translateY(-2px);
+}
+
+.btn-delete {
+    background: rgba(239, 68, 68, 0.8);
+    color: #FFFFFF;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.btn-delete:hover {
+    background: rgba(239, 68, 68, 1);
+    transform: translateY(-2px);
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 500px) {
+    #modal .modal-content {
+        width: 90%;
+        max-height: 90vh;
+        margin: 5% auto;
+        padding: 20px;
+    }
+
+    .checklist-grid-modal {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .checklist-container {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .user-actions {
+        flex-direction: column;
+    }
+
+    .user-actions button {
+        width: 100%;
+    }
+}

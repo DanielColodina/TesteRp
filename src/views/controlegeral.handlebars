@@ -1,3 +1,4 @@
+ 
 <div class="controle-layout">
   <aside class="sidebar sidebar-closed">
     <div class="sidebar-header">
@@ -83,6 +84,7 @@
         </a>
       </div>
     </div>
+    
   </main>
 </div>
 
@@ -471,11 +473,6 @@
 </style>
 
 <script>
-function toggleSidebar() {
-  const sidebar = document.querySelector('.sidebar');
-  const mainContent = document.querySelector('.main-content');
-  sidebar.classList.toggle('sidebar-closed');
-  mainContent.classList.toggle('sidebar-closed');
-}
+/* sidebar toggle handled by global /js/sidebar.js - avoid duplicate handlers */
 </script>
 

@@ -11,10 +11,10 @@ const mysql = require('mysql2/promise');
 // } catch (err) {
 //   console.error('Erro ao conectar ao banco CONTROLEGERAL:', err.message);
 // }
-const db = null;
-
 // Main database for obras
 const mainDb = require('../database/connection');
+
+const db = mainDb;
 
 // CONTROLE GERAL
 exports.controleGeral = async (req, res) => {
@@ -29,8 +29,7 @@ exports.controleGeral = async (req, res) => {
 // OBRAS
 exports.obras = async (req, res) => {
   try {
-    // SQLite desabilitado no Render
-    const obras = [];
+    const [obras] = await db.execute('SELECT * FROM obras ORDER BY id DESC');
     res.render('obrasControle', { obras: obras || [] });
   } catch (err) {
     console.error('Erro ao carregar obras:', err);
@@ -41,7 +40,7 @@ exports.obras = async (req, res) => {
 exports.criarObra = async (req, res) => {
    try {
      const { nome, endereco, cliente, orcamento, data_inicio, data_fim, status } = req.body;
-     db.prepare(`INSERT INTO obras (nome, endereco, cliente, orcamento, data_inicio, data_fim, status) VALUES (?, ?, ?, ?, ?, ?, ?)`).run(nome, endereco, cliente, orcamento, data_inicio, data_fim, status);
+     await db.execute(`INSERT INTO obras (nome, endereco, cliente, orcamento, data_inicio, data_fim, status) VALUES (?, ?, ?, ?, ?, ?, ?)`, [nome, endereco, cliente, orcamento, data_inicio, data_fim, status]);
      res.redirect('/dashboard/controle-geral/obras');
    } catch (err) {
      console.error('Erro ao criar obra:', err);
@@ -52,11 +51,11 @@ exports.criarObra = async (req, res) => {
 exports.editarObraPage = async (req, res) => {
   try {
     const { id } = req.params;
-    const obra = db.prepare('SELECT * FROM obras WHERE id = ?').get(id);
-    if (!obra) {
+    const [obra] = await db.execute('SELECT * FROM obras WHERE id = ?', [id]);
+    if (!obra[0]) {
       return res.status(404).render('error', { message: 'Obra não encontrada' });
     }
-    res.render('editObra', { obra });
+    res.render('editObra', { obra: obra[0] });
   } catch (err) {
     console.error('Erro ao carregar página de edição:', err);
     res.status(500).render('error', { message: 'Erro interno do servidor' });
@@ -67,7 +66,7 @@ exports.editarObra = async (req, res) => {
   try {
     const { id } = req.params;
     const { nome, endereco, cliente, orcamento, data_inicio, data_fim, status } = req.body;
-    db.prepare(`UPDATE obras SET nome = ?, endereco = ?, cliente = ?, orcamento = ?, data_inicio = ?, data_fim = ?, status = ? WHERE id = ?`).run(nome, endereco, cliente, orcamento, data_inicio, data_fim, status, id);
+    await db.execute(`UPDATE obras SET nome = ?, endereco = ?, cliente = ?, orcamento = ?, data_inicio = ?, data_fim = ?, status = ? WHERE id = ?`, [nome, endereco, cliente, orcamento, data_inicio, data_fim, status, id]);
     res.redirect('/dashboard/controle-geral/obras');
   } catch (err) {
     console.error('Erro ao editar obra:', err);
@@ -78,13 +77,8 @@ exports.editarObra = async (req, res) => {
 exports.excluirObra = async (req, res) => {
   try {
     const { id } = req.params;
-    db.run('DELETE FROM obras WHERE id = ?', [id], function(err) {
-      if (err) {
-        console.error('Erro ao excluir obra:', err);
-        return res.status(500).render('error', { message: 'Erro ao excluir obra' });
-      }
-      res.redirect('/dashboard/controle-geral/obras');
-    });
+    await db.execute('DELETE FROM obras WHERE id = ?', [id]);
+    res.redirect('/dashboard/controle-geral/obras');
   } catch (err) {
     console.error('Erro ao excluir obra:', err);
     res.status(500).render('error', { message: 'Erro interno do servidor' });
@@ -94,14 +88,13 @@ exports.excluirObra = async (req, res) => {
 // ESTOQUE
 exports.estoque = async (req, res) => {
   try {
-    const materiais = db.prepare(`
-      SELECT m.*, o.nome as obra_nome
+    const [materiais] = await db.execute(`
+      SELECT m.*, '' as obra_nome
       FROM materiais m
-      LEFT JOIN obras o ON m.obra_id = o.id
       ORDER BY m.id DESC
-    `).all();
+    `);
     // Buscar obras para o dropdown
-    const obras = db.prepare('SELECT id, nome FROM obras ORDER BY nome').all();
+    const [obras] = await db.execute('SELECT id, nome_obra as nome FROM obras ORDER BY nome_obra');
     res.render('estoque', { materiais: materiais || [], obras: obras || [] });
   } catch (err) {
     console.error('Erro ao carregar estoque:', err);
@@ -112,14 +105,9 @@ exports.estoque = async (req, res) => {
 exports.criarMaterial = async (req, res) => {
     try {
       const { codigo, descricao, unidade, quantidade, preco_medio, estoque_minimo, obra_id } = req.body;
-      db.run(`INSERT INTO materiais (codigo, descricao, unidade, quantidade, preco_medio, estoque_minimo, obra_id) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-        [codigo, descricao, unidade, quantidade, preco_medio, estoque_minimo, obra_id], function(err) {
-        if (err) {
-          console.error('Erro ao criar material:', err);
-          return res.status(500).json({ error: err.message });
-        }
-        res.redirect('/dashboard/controle-geral/estoque');
-      });
+      await db.execute(`INSERT INTO materiais (codigo, descricao, unidade, quantidade, preco_medio, estoque_minimo, obra_id) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [codigo, descricao, unidade, quantidade, preco_medio, estoque_minimo, obra_id]);
+      res.redirect('/dashboard/controle-geral/estoque');
     } catch (err) {
       console.error('Erro ao criar material:', err);
       res.status(500).json({ error: 'Erro interno do servidor' });
@@ -129,22 +117,13 @@ exports.criarMaterial = async (req, res) => {
 exports.editarMaterialPage = async (req, res) => {
   try {
     const { id } = req.params;
-    db.get('SELECT * FROM materiais WHERE id = ?', [id], (err, material) => {
-      if (err) {
-        console.error('Erro ao buscar material:', err);
-        return res.status(500).render('error', { message: 'Erro ao carregar material' });
-      }
-      if (!material) {
-        return res.status(404).render('error', { message: 'Material não encontrado' });
-      }
-      // Buscar obras para o dropdown
-      db.all('SELECT id, nome FROM obras ORDER BY nome', [], (err2, obras) => {
-        if (err2) {
-          console.error('Erro ao buscar obras:', err2);
-        }
-        res.render('editMaterial', { material, obras: obras || [] });
-      });
-    });
+    const [material] = await db.execute('SELECT * FROM materiais WHERE id = ?', [id]);
+    if (!material[0]) {
+      return res.status(404).render('error', { message: 'Material não encontrado' });
+    }
+    // Buscar obras para o dropdown
+    const [obras] = await db.execute('SELECT id, nome FROM obras ORDER BY nome');
+    res.render('editMaterial', { material: material[0], obras: obras || [] });
   } catch (err) {
     console.error('Erro ao carregar página de edição:', err);
     res.status(500).render('error', { message: 'Erro interno do servidor' });
@@ -155,14 +134,9 @@ exports.editarMaterial = async (req, res) => {
   try {
     const { id } = req.params;
     const { codigo, descricao, unidade, quantidade, preco_medio, estoque_minimo, obra_id } = req.body;
-    db.run(`UPDATE materiais SET codigo = ?, descricao = ?, unidade = ?, quantidade = ?, preco_medio = ?, estoque_minimo = ?, obra_id = ? WHERE id = ?`,
-      [codigo, descricao, unidade, quantidade, preco_medio, estoque_minimo, obra_id, id], function(err) {
-      if (err) {
-        console.error('Erro ao editar material:', err);
-        return res.status(500).render('error', { message: 'Erro ao editar material' });
-      }
-      res.redirect('/dashboard/controle-geral/estoque');
-    });
+    await db.execute(`UPDATE materiais SET codigo = ?, descricao = ?, unidade = ?, quantidade = ?, preco_medio = ?, estoque_minimo = ?, obra_id = ? WHERE id = ?`,
+      [codigo, descricao, unidade, quantidade, preco_medio, estoque_minimo, obra_id, id]);
+    res.redirect('/dashboard/controle-geral/estoque');
   } catch (err) {
     console.error('Erro ao editar material:', err);
     res.status(500).render('error', { message: 'Erro interno do servidor' });
@@ -172,13 +146,8 @@ exports.editarMaterial = async (req, res) => {
 exports.excluirMaterial = async (req, res) => {
   try {
     const { id } = req.params;
-    db.run('DELETE FROM materiais WHERE id = ?', [id], function(err) {
-      if (err) {
-        console.error('Erro ao excluir material:', err);
-        return res.status(500).render('error', { message: 'Erro ao excluir material' });
-      }
-      res.redirect('/dashboard/controle-geral/estoque');
-    });
+    await db.execute('DELETE FROM materiais WHERE id = ?', [id]);
+    res.redirect('/dashboard/controle-geral/estoque');
   } catch (err) {
     console.error('Erro ao excluir material:', err);
     res.status(500).render('error', { message: 'Erro interno do servidor' });
@@ -189,25 +158,16 @@ exports.excluirMaterial = async (req, res) => {
 exports.equipes = async (req, res) => {
   try {
     // Buscar funcionários com informações da obra
-    db.all(`
-      SELECT f.*, o.nome as obra_nome
+    const [funcionarios] = await db.execute(`
+      SELECT f.*, o.nome_obra as obra_nome
       FROM funcionarios f
       LEFT JOIN obras o ON f.obra_id = o.id
       ORDER BY f.id DESC
-    `, [], (err, funcionarios) => {
-      if (err) {
-        console.error('Erro ao buscar funcionários:', err);
-        return res.status(500).render('error', { message: 'Erro ao carregar funcionários' });
-      }
+    `);
 
-      // Buscar obras para o dropdown
-      db.all('SELECT id, nome FROM obras ORDER BY nome', [], (err2, obras) => {
-        if (err2) {
-          console.error('Erro ao buscar obras:', err2);
-        }
-        res.render('equipes', { funcionarios: funcionarios || [], obras: obras || [] });
-      });
-    });
+    // Buscar obras para o dropdown
+    const [obras] = await db.execute('SELECT id, nome_obra as nome FROM obras ORDER BY nome_obra');
+    res.render('equipes', { funcionarios: funcionarios || [], obras: obras || [] });
   } catch (err) {
     console.error('Erro ao carregar equipes:', err);
     res.status(500).render('error', { message: 'Erro interno do servidor' });
@@ -217,14 +177,9 @@ exports.equipes = async (req, res) => {
 exports.criarFuncionario = async (req, res) => {
     try {
       const { nome, funcao, salario, obra_id } = req.body;
-      db.run(`INSERT INTO funcionarios (nome, funcao, salario, obra_id) VALUES (?, ?, ?, ?)`,
-        [nome, funcao, salario, obra_id || null], function(err) {
-        if (err) {
-          console.error('Erro ao criar funcionário:', err);
-          return res.status(500).json({ error: err.message });
-        }
-        res.redirect('/dashboard/controle-geral/equipes');
-      });
+      await db.execute(`INSERT INTO funcionarios (nome, funcao, salario, obra_id) VALUES (?, ?, ?, ?)`,
+        [nome, funcao, salario, obra_id || null]);
+      res.redirect('/dashboard/controle-geral/equipes');
     } catch (err) {
       console.error('Erro ao criar funcionário:', err);
       res.status(500).json({ error: 'Erro interno do servidor' });
@@ -234,14 +189,9 @@ exports.criarFuncionario = async (req, res) => {
 exports.editarFuncionario = async (req, res) => {
     try {
       const { id, nome, funcao, salario, obra_id } = req.body;
-      db.run(`UPDATE funcionarios SET nome = ?, funcao = ?, salario = ?, obra_id = ? WHERE id = ?`,
-        [nome, funcao, salario, obra_id || null, id], function(err) {
-        if (err) {
-          console.error('Erro ao editar funcionário:', err);
-          return res.status(500).json({ error: err.message });
-        }
-        res.redirect('/dashboard/controle-geral/equipes');
-      });
+      await db.execute(`UPDATE funcionarios SET nome = ?, funcao = ?, salario = ?, obra_id = ? WHERE id = ?`,
+        [nome, funcao, salario, obra_id || null, id]);
+      res.redirect('/dashboard/controle-geral/equipes');
     } catch (err) {
       console.error('Erro ao editar funcionário:', err);
       res.status(500).json({ error: 'Erro interno do servidor' });
@@ -251,24 +201,15 @@ exports.editarFuncionario = async (req, res) => {
 // FINANCEIRO
 exports.financeiro = async (req, res) => {
   try {
-    db.all(`
-      SELECT f.*, o.nome as obra_nome
+    const [financeiro] = await db.execute(`
+      SELECT f.*, o.nome_obra as obra_nome
       FROM financeiro f
       LEFT JOIN obras o ON f.obra_id = o.id
       ORDER BY f.id DESC
-    `, [], (err, financeiro) => {
-      if (err) {
-        console.error('Erro ao buscar financeiro:', err);
-        return res.status(500).render('error', { message: 'Erro ao carregar financeiro' });
-      }
-      // Buscar obras para o dropdown
-      db.all('SELECT id, nome FROM obras ORDER BY nome', [], (err2, obras) => {
-        if (err2) {
-          console.error('Erro ao buscar obras:', err2);
-        }
-        res.render('financeiro', { financeiro: financeiro || [], obras: obras || [] });
-      });
-    });
+    `);
+    // Buscar obras para o dropdown
+    const [obras] = await db.execute('SELECT id, nome_obra as nome FROM obras ORDER BY nome_obra');
+    res.render('financeiro', { financeiro: financeiro || [], obras: obras || [] });
   } catch (err) {
     console.error('Erro ao carregar financeiro:', err);
     res.status(500).render('error', { message: 'Erro interno do servidor' });
@@ -276,43 +217,29 @@ exports.financeiro = async (req, res) => {
 };
 
 exports.criarFinanceiro = async (req, res) => {
-   try {
-     const { tipo, descricao, valor, data, obra_id } = req.body;
-     db.run(`INSERT INTO financeiro (tipo, descricao, valor, data, obra_id) VALUES (?, ?, ?, ?, ?)`,
-       [tipo, descricao, valor, data, obra_id], function(err) {
-       if (err) {
-         console.error('Erro ao criar transação financeira:', err);
-         return res.status(500).json({ error: err.message });
-       }
-       res.redirect('/dashboard/controle-geral/financeiro');
-     });
-   } catch (err) {
-     console.error('Erro ao criar transação financeira:', err);
-     res.status(500).json({ error: 'Erro interno do servidor' });
-   }
- };
+    try {
+      const { tipo, descricao, valor, data, obra_id } = req.body;
+      await db.execute(`INSERT INTO financeiro (tipo, descricao, valor, data, obra_id) VALUES (?, ?, ?, ?, ?)`,
+        [tipo, descricao, valor, data, obra_id]);
+      res.redirect('/dashboard/controle-geral/financeiro');
+    } catch (err) {
+      console.error('Erro ao criar transação financeira:', err);
+      res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+  };
 
 // COMUNICAÇÃO
 exports.comunicacao = async (req, res) => {
   try {
-    db.all(`
-      SELECT m.*, o.nome as obra_nome
+    const [mensagens] = await db.execute(`
+      SELECT m.*, o.nome_obra as obra_nome
       FROM mensagens m
       LEFT JOIN obras o ON m.obra_id = o.id
       ORDER BY m.id DESC
-    `, [], (err, mensagens) => {
-      if (err) {
-        console.error('Erro ao buscar mensagens:', err);
-        return res.status(500).render('error', { message: 'Erro ao carregar mensagens' });
-      }
-      // Buscar obras para o dropdown
-      db.all('SELECT id, nome FROM obras ORDER BY nome', [], (err2, obras) => {
-        if (err2) {
-          console.error('Erro ao buscar obras:', err2);
-        }
-        res.render('comunicacao', { mensagens: mensagens || [], obras: obras || [] });
-      });
-    });
+    `);
+    // Buscar obras para o dropdown
+    const [obras] = await db.execute('SELECT id, nome_obra as nome FROM obras ORDER BY nome_obra');
+    res.render('comunicacao', { mensagens: mensagens || [], obras: obras || [] });
   } catch (err) {
     console.error('Erro ao carregar comunicação:', err);
     res.status(500).render('error', { message: 'Erro interno do servidor' });
@@ -320,21 +247,16 @@ exports.comunicacao = async (req, res) => {
 };
 
 exports.criarMensagem = async (req, res) => {
-   try {
-     const { de, para, mensagem, data, obra_id } = req.body;
-     db.run(`INSERT INTO mensagens (de, para, mensagem, data, obra_id) VALUES (?, ?, ?, ?, ?)`,
-       [de, para, mensagem, data, obra_id], function(err) {
-       if (err) {
-         console.error('Erro ao criar mensagem:', err);
-         return res.status(500).json({ error: err.message });
-       }
-       res.redirect('/dashboard/controle-geral/comunicacao');
-     });
-   } catch (err) {
-     console.error('Erro ao criar mensagem:', err);
-     res.status(500).json({ error: 'Erro interno do servidor' });
-   }
- };
+    try {
+      const { de, para, mensagem, data, obra_id } = req.body;
+      await db.execute(`INSERT INTO mensagens (de, para, mensagem, data, obra_id) VALUES (?, ?, ?, ?, ?)`,
+        [de, para, mensagem, data, obra_id]);
+      res.redirect('/dashboard/controle-geral/comunicacao');
+    } catch (err) {
+      console.error('Erro ao criar mensagem:', err);
+      res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+  };
 
 // MATERIAIS POR OBRA (MySQL)
 exports.materiaisObra = async (req, res) => {
@@ -575,24 +497,15 @@ exports.registrarSaidaObra = async (req, res) => {
 // RELATÓRIOS
 exports.relatorios = async (req, res) => {
   try {
-    db.all(`
-      SELECT r.*, o.nome as obra_nome
+    const [relatorios] = await db.execute(`
+      SELECT r.*, o.nome_obra as obra_nome
       FROM relatorios r
       LEFT JOIN obras o ON r.obra_id = o.id
       ORDER BY r.id DESC
-    `, [], (err, relatorios) => {
-      if (err) {
-        console.error('Erro ao buscar relatórios:', err);
-        return res.status(500).render('error', { message: 'Erro ao carregar relatórios' });
-      }
-      // Buscar obras para o dropdown
-      db.all('SELECT id, nome FROM obras ORDER BY nome', [], (err2, obras) => {
-        if (err2) {
-          console.error('Erro ao buscar obras:', err2);
-        }
-        res.render('relatorios', { relatorios: relatorios || [], obras: obras || [] });
-      });
-    });
+    `);
+    // Buscar obras para o dropdown
+    const [obras] = await db.execute('SELECT id, nome_obra as nome FROM obras ORDER BY nome_obra');
+    res.render('relatorios', { relatorios: relatorios || [], obras: obras || [] });
   } catch (err) {
     console.error('Erro ao carregar relatórios:', err);
     res.status(500).render('error', { message: 'Erro interno do servidor' });
