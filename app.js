@@ -48,7 +48,6 @@ handlebars.registerHelper('or', (a, b) => a || b);
 const hbs = exphbs.create({
   defaultLayout: 'main',
   layoutsDir: path.join(__dirname, 'src', 'views', 'layouts'),
-  partialsDir: path.join(__dirname, 'src', 'views', 'partials'),
   helpers: {
     eq: (a, b) => a === b,
     gt: (a, b) => a > b,
