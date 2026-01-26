@@ -30,10 +30,10 @@ const hbs = exphbs.create({
   defaultLayout: 'main',
   layoutsDir: path.join(__dirname, 'views', 'layouts'),
   helpers: {
-    eq: (a, b) => a === b,
-    gt: (a, b) => a > b,
-    lt: (a, b) => a < b,
-    ne: (a, b) => a !== b
+    eq: function(a, b) { return a === b; },
+    gt: function(a, b) { return a > b; },
+    lt: function(a, b) { return a < b; },
+    ne: function(a, b) { return a !== b; }
   }
 });
 app.engine('handlebars', hbs.engine);
