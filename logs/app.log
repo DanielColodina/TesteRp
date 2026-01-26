@@ -17650,3 +17650,5 @@
 [2026-01-24T10:06:24.486Z] INFO: [AUTH] Usuário autenticado: 2
 [2026-01-24T10:06:24.913Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
 [2026-01-24T10:06:24.913Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-26T23:00:11.381Z] INFO: Servidor rodando na porta 5000 (host: 0.0.0.0)
+[2026-01-26T23:00:11.383Z] INFO: Ambiente: development
