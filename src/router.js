@@ -2,15 +2,15 @@ const express = require('express');
 const router = express.Router();
 
 // Middlewares
-const isAuth = require('./src/middlewares/isAuth');
+const isAuth = require('./middlewares/isAuth');
 
 // Routes
-const authRoutes = require('./src/routes/authRoutes');
-const { obrasRouter, materiaisRouter, funcionariosRouter, financeiroRouter, mensagensRouter, relatoriosRouter } = require('./src/routes/controleGeralRoutes');
-const estoqueRoutes = require('./src/modules/estoque/routes/estoqueRoutes');
+const authRoutes = require('./routes/authRoutes');
+const { obrasRouter, materiaisRouter, funcionariosRouter, financeiroRouter, mensagensRouter, relatoriosRouter } = require('./routes/controleGeralRoutes');
+const estoqueRoutes = require('./modules/estoque/routes/estoqueRoutes');
 
 // Controllers
-const controleGeralController = require('./src/controllers/controleGeralController');
+const controleGeralController = require('./controllers/controleGeralController');
 
 // Mount routes
 router.use('/', authRoutes);
