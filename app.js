@@ -7,7 +7,7 @@ const app = express();
 const path = require('path');
 
 // Logger
-const logger = require('./utils/logger');
+const logger = require('./src/utils/logger');
 
 // View engine
 const exphbs = require('express-handlebars');
@@ -19,7 +19,7 @@ const session = require('express-session');
 const rateLimit = require('express-rate-limit');
 
 // Database connection
-const db = require('./database/connection');
+const db = require('./src/database/connection');
 
 // Configuração de segurança
 const helmet = require('helmet');
@@ -28,7 +28,7 @@ const cors = require('cors');
 // ---------------- VIEW ENGINE ----------------
 const hbs = exphbs.create({
   defaultLayout: 'main',
-  layoutsDir: path.join(__dirname, 'views', 'layouts'),
+  layoutsDir: path.join(__dirname, 'src', 'views', 'layouts'),
   helpers: {
     eq: (a, b) => a === b,
     gt: (a, b) => a > b,
@@ -40,7 +40,7 @@ const hbs = exphbs.create({
 });
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'src', 'views'));
 
 // ---------------- MIDDLEWARES DE SEGURANÇA ----------------
 app.use(helmet());
@@ -50,8 +50,8 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(express.static(path.join(__dirname, '..', 'public')));
-app.use('/controle-geral', express.static(path.join(__dirname, '..', 'CONTROLEGERAL', 'frontend')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/controle-geral', express.static(path.join(__dirname, 'CONTROLEGERAL', 'frontend')));
 app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }));
 app.use(bodyParser.json({ limit: '10mb' }));
 

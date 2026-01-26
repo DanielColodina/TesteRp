@@ -2,12 +2,12 @@
   "name": "rp-emppreendimentos",
   "version": "1.0.0",
   "description": "Sistema de Gestão de Obras - RP Empreendimentos",
-  "main": "src/app.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/app.js",
-    "dev": "NODE_ENV=development nodemon src/app.js",
-    "prod": "NODE_ENV=production node src/app.js"
+    "start": "node app.js",
+    "dev": "NODE_ENV=development nodemon app.js",
+    "prod": "NODE_ENV=production node app.js"
   },
   "keywords": [
     "obras",
