@@ -17,6 +17,7 @@ const handlebars = require('handlebars');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const rateLimit = require('express-rate-limit');
+const compression = require('compression');
 
 // Database connection
 const db = require('./database/connection');
@@ -48,8 +49,11 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(express.static(path.join(__dirname, '..', 'public')));
-app.use('/controle-geral', express.static(path.join(__dirname, '..', 'CONTROLEGERAL', 'frontend')));
+// Compressão gzip
+app.use(compression());
+
+app.use(express.static(path.join(__dirname, '..', 'public'), { maxAge: '1d' }));
+app.use('/controle-geral', express.static(path.join(__dirname, '..', 'CONTROLEGERAL', 'frontend'), { maxAge: '1d' }));
 app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }));
 app.use(bodyParser.json({ limit: '10mb' }));
 
