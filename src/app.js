@@ -89,8 +89,9 @@ app.use((req, res) => {
   res.status(404).render('error', {
     status: 404,
     message: 'Página não encontrada',
-    error: 'A página que você está procurando não existe.'
-  }, { layout: false });
+    error: 'A página que você está procurando não existe.',
+    layout: false
+  });
 });
 
 // -------- TRATAMENTO DE ERROS GLOBAL --------
