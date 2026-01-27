@@ -1,0 +1,122 @@
+/* ===== DASHBOARD PROGRESSO STYLES ===== */
+/* Purpose: Page-specific styles for the Progress Dashboard page.
+   Affects: Statistics cards, progress table, status badges.
+   Components: Progress dashboard components. */
+
+.stat-label {
+  color: var(--yellow-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.status-done {
+  color: var(--success);
+  font-weight: 600;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.status-progress {
+  color: var(--warning);
+  font-weight: 600;
+  background: rgba(245, 158, 11, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.status-none {
+  color: var(--error);
+  font-weight: 600;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.status-default {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* Progress visualization */
+.progress-visualization {
+  margin-top: 20px;
+}
+
+.progress-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding: 15px;
+  background: var(--glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.progress-info {
+  flex: 1;
+}
+
+.progress-info h4 {
+  color: var(--yellow-primary);
+  margin: 0 0 5px 0;
+  font-size: 1rem;
+}
+
+.progress-info p {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.progress-bar-container {
+  flex: 2;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  color: var(--bg-dark);
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .progress-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .progress-bar-container {
+    width: 100%;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+}

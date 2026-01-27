@@ -1,23 +1,11 @@
 /* ===== RP-EMPREENDIMENTOS - MOBILE-FIRST RESPONSIVE STYLES ===== */
+/* Purpose: Main stylesheet for the RP-Empreendimentos application.
+   Affects: All pages, layouts, and components globally.
+   Organization: Base/Reset, Layout, Components, Pages, Utilities. */
 
-/* ===== CSS VARIABLES ===== */
-:root {
-  --bg-dark: #0A0A0A;
-  --bg-darker: #1a1a1a;
-  --glass-bg: rgba(30, 30, 30, 0.6);
-  --glass-hover: rgba(30, 30, 30, 0.75);
-  --yellow-primary: #FFC300;
-  --yellow-hover: #FFD700;
-  --text-primary: #FFFFFF;
-  --text-secondary: #B0B0B0;
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --border-color: rgba(255, 255, 255, 0.1);
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #ef4444;
-}
-
-/* ===== BASE STYLES ===== */
+/* ===== BASE / RESET ===== */
+/* Purpose: Reset and base styles for consistent rendering across browsers.
+   Affects: All HTML elements globally. */
 * {
   box-sizing: border-box;
 }
@@ -40,7 +28,28 @@ img {
   object-fit: cover;
 }
 
-/* Buttons and inputs - touch-friendly */
+/* ===== CSS VARIABLES ===== */
+/* Purpose: Define global design tokens for colors, backgrounds, and other properties.
+   Affects: All components and pages that use CSS custom properties. */
+:root {
+  --bg-dark: #0A0A0A;
+  --bg-darker: #1a1a1a;
+  --glass-bg: rgba(30, 30, 30, 0.6);
+  --glass-hover: rgba(30, 30, 30, 0.75);
+  --yellow-primary: #FFC300;
+  --yellow-hover: #FFD700;
+  --text-primary: #FFFFFF;
+  --text-secondary: #B0B0B0;
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+}
+
+/* ===== FORM ELEMENTS ===== */
+/* Purpose: Styling for form inputs, buttons, and interactive elements.
+   Affects: Buttons, inputs, selects, textareas across all forms. */
 button, input, select, textarea {
   font-size: 16px;
   padding: 10px;
@@ -70,7 +79,9 @@ button:focus, input:focus, select:focus, textarea:focus {
   }
 }
 
-/* ===== LAYOUT SYSTEM - FLEXBOX BASED ===== */
+/* ===== LAYOUT SYSTEM ===== */
+/* Purpose: Defines the main layout structure using flexbox.
+   Affects: App layout, sidebar, main content, top bar. */
 .app-layout {
   display: flex;
   flex-direction: column;
@@ -265,6 +276,8 @@ button:focus, input:focus, select:focus, textarea:focus {
 }
 
 /* ===== COMPONENTS ===== */
+/* Purpose: Reusable UI components like cards, grids, tables, modals, forms.
+   Affects: Cards, grids, tables, modals, forms, buttons, status badges, progress bars. */
 
 /* Cards */
 .card {
@@ -594,6 +607,10 @@ button:focus, input:focus, select:focus, textarea:focus {
   background: var(--glass-hover);
 }
 
+/* ===== PAGES ===== */
+/* Purpose: Page-specific styles.
+   Affects: Login page layout and form. */
+
 /* ===== LOGIN PAGE ===== */
 .login-page {
   margin: 0;
@@ -687,6 +704,8 @@ button:focus, input:focus, select:focus, textarea:focus {
 }
 
 /* ===== RESPONSIVE BREAKPOINTS ===== */
+/* Purpose: Media queries for mobile-first responsive design.
+   Affects: Layout adjustments for different screen sizes. */
 @media (max-width: 500px) {
   .app-container {
     padding: 10px;
@@ -794,6 +813,8 @@ button:focus, input:focus, select:focus, textarea:focus {
 }
 
 /* ===== UTILITIES ===== */
+/* Purpose: Utility classes for common styling needs.
+   Affects: Text alignment, margins, flexbox, visibility. */
 .text-center {
   text-align: center;
 }
@@ -839,6 +860,8 @@ button:focus, input:focus, select:focus, textarea:focus {
 }
 
 /* ===== SCROLLBAR ===== */
+/* Purpose: Custom scrollbar styling for webkit browsers.
+   Affects: Scrollbars across the application. */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -857,6 +880,8 @@ button:focus, input:focus, select:focus, textarea:focus {
 }
 
 /* ===== DASHBOARD ENHANCEMENTS ===== */
+/* Purpose: Special animations and effects for dashboard cards and buttons.
+   Affects: Dashboard page components. */
 @keyframes fadeInUp {
   from {
     opacity: 0;

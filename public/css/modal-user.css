@@ -1,0 +1,163 @@
+/* ===== MODAL USER STYLES ===== */
+/* Purpose: Styles for the user modal dialog.
+   Affects: User modal, user info sections, checklist items, user actions.
+   Components: User modal components. */
+
+#userModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+}
+
+#userModal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content-user {
+  max-height: 80vh;
+  overflow-y: auto;
+  width: 90%;
+  max-width: 600px;
+  margin: 5% auto;
+  padding: 20px;
+  box-sizing: border-box;
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+  position: relative;
+}
+
+.close-user {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 28px;
+  color: var(--yellow-primary);
+  transition: color 0.3s;
+}
+
+.close-user:hover {
+  color: var(--yellow-hover);
+}
+
+.user-info {
+  margin-bottom: 20px;
+}
+
+.user-info h3 {
+  color: var(--yellow-primary);
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.user-info p {
+  margin: 5px 0;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.user-info p strong {
+  color: var(--text-secondary);
+}
+
+.checklist-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.check-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.check-item label {
+  font-weight: bold;
+  color: var(--yellow-primary);
+  font-size: 0.9rem;
+}
+
+.check-item select {
+  padding: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--glass-hover);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+#observacoesChecklist {
+  width: 100%;
+  margin-top: 5px;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--glass-hover);
+  color: var(--text-primary);
+  font-family: inherit;
+  resize: vertical;
+}
+
+.user-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+
+.btn-edit, .btn-delete {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.btn-edit {
+  background: var(--warning);
+  color: var(--text-primary);
+}
+
+.btn-edit:hover {
+  background: #d97706;
+}
+
+.btn-delete {
+  background: var(--error);
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #dc2626;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .modal-content-user {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .checklist-container {
+    grid-template-columns: 1fr;
+  }
+
+  .user-actions {
+    flex-direction: column;
+  }
+
+  .btn-edit, .btn-delete {
+    width: 100%;
+  }
+}

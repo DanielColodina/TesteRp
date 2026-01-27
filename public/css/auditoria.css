@@ -1,0 +1,107 @@
+/* ===== AUDITORIA PAGE STYLES ===== */
+/* Purpose: Page-specific styles for the Auditoria (Audit Logs) page.
+   Affects: Audit header, list, items, grid, fields, values, timestamps.
+   Components: Audit log display components. */
+
+.audit-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.audit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.audit-item {
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.audit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.audit-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.audit-field label {
+  font-weight: bold;
+  color: var(--yellow-primary);
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.audit-field p {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.audit-values {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.value-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.value-section label {
+  font-weight: bold;
+  color: var(--yellow-primary);
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.value-section p {
+  margin: 0;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  word-break: break-word;
+}
+
+.value-old {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--error);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.value-new {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.audit-timestamp {
+  text-align: right;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .audit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .audit-values {
+    grid-template-columns: 1fr;
+  }
+
+  .audit-item {
+    padding: 15px;
+  }
+}

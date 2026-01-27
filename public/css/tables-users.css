@@ -1,0 +1,79 @@
+/* ===== TABLES USERS PAGE STYLES ===== */
+/* Purpose: Page-specific styles for the Tables Users page.
+   Affects: User table, empty states, user links.
+   Components: User table display and interactions. */
+
+.user-link {
+  color: var(--yellow-primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.user-link:hover {
+  color: var(--yellow-hover);
+  text-decoration: underline;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+
+.empty-state h3 {
+  color: var(--yellow-primary);
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+/* Table specific enhancements */
+.table th {
+  position: sticky;
+  top: 0;
+  background: var(--glass-hover);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+.table tbody tr:hover {
+  background: rgba(255, 195, 0, 0.05);
+  transform: scale(1.01);
+  transition: all 0.2s ease;
+}
+
+/* Responsive table adjustments */
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.9rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px 4px;
+  }
+
+  .empty-state {
+    padding: 40px 15px;
+  }
+
+  .empty-icon {
+    font-size: 3rem;
+  }
+}

@@ -1,0 +1,108 @@
+/* ===== HISTORICO PAGE STYLES ===== */
+/* Purpose: Page-specific styles for the Historico (History) page.
+   Affects: History header, list, items, grid, fields, descriptions, timestamps.
+   Components: History log display components. */
+
+.historico-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.historico-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.historico-item {
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.historico-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.historico-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.historico-field label {
+  font-weight: bold;
+  color: var(--yellow-primary);
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.historico-field p {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.tipo-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.tipo-badge[data-tipo="criacao"] {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+.tipo-badge[data-tipo="edicao"] {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+}
+
+.tipo-badge[data-tipo="exclusao"] {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--error);
+}
+
+.historico-description {
+  margin-bottom: 15px;
+}
+
+.historico-description label {
+  font-weight: bold;
+  color: var(--yellow-primary);
+  margin-bottom: 5px;
+  display: block;
+  font-size: 0.9rem;
+}
+
+.historico-description p {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.historico-timestamp {
+  text-align: right;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-top: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .historico-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .historico-item {
+    padding: 15px;
+  }
+}
