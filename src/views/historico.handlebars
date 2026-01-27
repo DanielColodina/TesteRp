@@ -1,30 +1,30 @@
  
-<div class="historico-layout">
+<div class="app-layout">
   <aside class="sidebar sidebar-closed">
     <div class="sidebar-header">
-      <div class="logo">RP 🏗️</div>
+      <div class="logo">RP</div>
     </div>
     <nav class="sidebar-nav">
       <a href="/dashboard" class="nav-item">
-        <span>📊</span> Dashboard
+        <i class="fas fa-chart-bar"></i> <span>Dashboard</span>
       </a>
       <a href="/dashboard/usuarios" class="nav-item">
-        <span>👥</span> Usuários
+        <i class="fas fa-users"></i> <span>Usuários</span>
       </a>
       <a href="/dashboard/obras" class="nav-item">
-        <span>🏗️</span> Obras
+        <i class="fas fa-building"></i> <span>Obras</span>
       </a>
       <a href="/dashboard/progresso" class="nav-item">
-        <span>📈</span> Progresso
+        <i class="fas fa-chart-line"></i> <span>Progresso</span>
       </a>
       <a href="/dashboard/controle-geral" class="nav-item">
-        <span>🎛️</span> Controle
+        <i class="fas fa-cogs"></i> <span>Controle</span>
       </a>
       <a href="/dashboard/historico" class="nav-item active">
-        <span>📜</span> Histórico
+        <i class="fas fa-history"></i> <span>Histórico</span>
       </a>
       <a href="/dashboard/auditoria" class="nav-item">
-        <span>🔒</span> Auditoria
+        <i class="fas fa-search"></i> <span>Auditoria</span>
       </a>
     </nav>
     <div class="sidebar-footer">
@@ -38,10 +38,10 @@
         <i class="fas fa-bars"></i>
       </button>
       <h1>📜 Histórico Completo de Mudanças</h1>
-      <a href="/dashboard" class="btn-primary-top">← Voltar</a>
+      <a href="/dashboard" class="btn btn-secondary">← Voltar</a>
     </div>
 
-    <div class="historico-container">
+    <div class="app-container">
       {{#if historico}}
         <div class="historico-header glass-widget">
           <p style="text-align: center; color: #FFC300; margin: 0; font-weight: 700;">

@@ -1,41 +1,40 @@
-<div class="dashboard-layout">
+<div class="app-layout">
     <!-- SIDEBAR NAVIGATION -->
     <aside class="sidebar sidebar-closed">
         <div class="sidebar-header">
             <div class="logo">
-                <span class="logo-icon"><i class="fas fa-building"></i></span>
                 <h2>RP Emp</h2>
             </div>
         </div>
 
         <nav class="sidebar-nav">
             <a href="/dashboard" class="nav-item active" title="Dashboard">
-                <span class="nav-icon"><i class="fas fa-tachometer-alt"></i></span>
-                <span class="nav-label">Dashboard</span>
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
             </a>
             <a href="/dashboard/tablesUsers" class="nav-item" title="Usuários">
-                <span class="nav-icon"><i class="fas fa-users"></i></span>
-                <span class="nav-label">Usuários</span>
+                <i class="fas fa-users"></i>
+                <span>Usuários</span>
             </a>
             <a href="/obras" class="nav-item" title="Obras">
-                <span class="nav-icon"><i class="fas fa-hard-hat"></i></span>
-                <span class="nav-label">Obras</span>
+                <i class="fas fa-hard-hat"></i>
+                <span>Obras</span>
             </a>
             <a href="/dashboard/progresso" class="nav-item" title="Progresso">
-                <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
-                <span class="nav-label">Progresso</span>
+                <i class="fas fa-chart-line"></i>
+                <span>Progresso</span>
             </a>
             <a href="/dashboard/controle-geral" class="nav-item" title="Controle Geral">
-                <span class="nav-icon"><i class="fas fa-cogs"></i></span>
-                <span class="nav-label">Controle</span>
+                <i class="fas fa-cogs"></i>
+                <span>Controle</span>
             </a>
             <a href="/dashboard/historico" class="nav-item" title="Histórico">
-                <span class="nav-icon"><i class="fas fa-history"></i></span>
-                <span class="nav-label">Histórico</span>
+                <i class="fas fa-history"></i>
+                <span>Histórico</span>
             </a>
             <a href="/dashboard/auditoria" class="nav-item" title="Auditoria">
-                <span class="nav-icon"><i class="fas fa-search"></i></span>
-                <span class="nav-label">Auditoria</span>
+                <i class="fas fa-search"></i>
+                <span>Auditoria</span>
             </a>
         </nav>
 
@@ -51,23 +50,20 @@
             <button class="sidebar-toggle">
               <i class="fas fa-bars"></i>
             </button>
-            <div class="top-bar-title">
-                <h1>Dashboard RP Empreendimentos</h1>
-                <p>Sistema de Gestão de Obras - Controle Total</p>
-            </div>
+            <h1>Dashboard RP Empreendimentos</h1>
             <button id="openModal" class="btn-primary-top">
-                <span class="btn-icon"><i class="fas fa-user-plus"></i></span>
+                <i class="fas fa-user-plus"></i>
                 Novo Usuário
             </button>
         </div>
 
         <!-- DASHBOARD CONTENT -->
-        <div class="dashboard-container">
+        <div class="app-container">
             <!-- Cards de Estatísticas -->
             <section class="metrics-section">
                 <h2 class="section-title"><i class="fas fa-chart-bar"></i> Métricas Chave</h2>
-                <div class="stats-grid">
-                    <a href="/dashboard/tablesUsers" class="stat-card glass-widget stat-link">
+                <div class="grid grid-3">
+                    <a href="/dashboard/tablesUsers" class="card stat-link">
                         <div class="stat-header">
                             <span class="stat-icon"><i class="fas fa-users"></i></span>
                             <span class="stat-label">Usuários</span>
@@ -78,7 +74,7 @@
                         <div class="stat-footer">Cadastrados no sistema</div>
                     </a>
 
-                    <a href="/obras" class="stat-card glass-widget stat-link">
+                    <a href="/obras" class="card stat-link">
                         <div class="stat-header">
                             <span class="stat-icon"><i class="fas fa-hard-hat"></i></span>
                             <span class="stat-label">Obras</span>
@@ -89,7 +85,7 @@
                         <div class="stat-footer">Projetos ativos</div>
                     </a>
 
-                    <a href="/dashboard/progresso" class="stat-card glass-widget stat-link">
+                    <a href="/dashboard/progresso" class="card stat-link">
                         <div class="stat-header">
                             <span class="stat-icon"><i class="fas fa-chart-line"></i></span>
                             <span class="stat-label">Progresso</span>
@@ -102,7 +98,7 @@
                         </div>
                     </a>
 
-                    <a href="/dashboard/controle-geral" class="stat-card glass-widget stat-link">
+                    <a href="/dashboard/controle-geral" class="card stat-link">
                         <div class="stat-header">
                             <span class="stat-icon"><i class="fas fa-tasks"></i></span>
                             <span class="stat-label">Atividades</span>
@@ -118,22 +114,22 @@
             <!-- Ações Rápidas -->
             <section class="actions-section">
                 <h2 class="section-title"><i class="fas fa-bolt"></i> Ações Rápidas</h2>
-                <div class="quick-actions">
-                    <a href="/dashboard/tablesUsers" class="action-btn glass-widget">
-                        <span class="action-icon"><i class="fas fa-users"></i></span>
-                        <span class="action-text">Gerenciar<br>Usuários</span>
+                <div class="flex flex-wrap gap-15 justify-center">
+                    <a href="/dashboard/tablesUsers" class="btn btn-primary">
+                        <i class="fas fa-users"></i>
+                        <span>Gerenciar Usuários</span>
                     </a>
-                    <a href="/obras" class="action-btn glass-widget">
-                        <span class="action-icon"><i class="fas fa-hard-hat"></i></span>
-                        <span class="action-text">Gerenciar<br>Obras</span>
+                    <a href="/obras" class="btn btn-primary">
+                        <i class="fas fa-hard-hat"></i>
+                        <span>Gerenciar Obras</span>
                     </a>
-                    <a href="/dashboard/progresso" class="action-btn glass-widget">
-                        <span class="action-icon"><i class="fas fa-chart-line"></i></span>
-                        <span class="action-text">Ver<br>Progresso</span>
+                    <a href="/dashboard/progresso" class="btn btn-primary">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Ver Progresso</span>
                     </a>
-                    <a href="/dashboard/controle-geral" class="action-btn glass-widget">
-                        <span class="action-icon"><i class="fas fa-cogs"></i></span>
-                        <span class="action-text">Controle<br>Geral</span>
+                    <a href="/dashboard/controle-geral" class="btn btn-primary">
+                        <i class="fas fa-cogs"></i>
+                        <span>Controle Geral</span>
                     </a>
                 </div>
             </section>
@@ -141,15 +137,15 @@
             <!-- Resumo de Obras Recentes -->
             <section class="recent-section">
                 <h2 class="section-title"><i class="fas fa-clock"></i> Obras Recentes</h2>
-                <div class="content-grid">
-                    <div class="content-card glass-widget">
+                <div class="grid grid-2">
+                    <div class="card">
                         <div id="recentWorksList" class="works-list">
                             <p class="loading">Carregando obras...</p>
                         </div>
                     </div>
 
                     <!-- Atividades Recentes -->
-                    <div class="content-card glass-widget">
+                    <div class="card">
                         <h3 class="card-title"><i class="fas fa-list"></i> Atividades Recentes</h3>
                         <div id="recentActivities" class="activities-list">
                             <p class="loading">Carregando atividades...</p>

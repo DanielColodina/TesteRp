@@ -1,42 +1,41 @@
  
-<div class="dashboard-layout">
+<div class="app-layout">
     <!-- SIDEBAR NAVIGATION -->
     <aside class="sidebar sidebar-closed">
         <div class="sidebar-header">
             <div class="logo">
-                <span class="logo-icon"><i class="fas fa-building"></i></span>
                 <h2>RP Emp</h2>
             </div>
         </div>
 
         <nav class="sidebar-nav">
             <a href="/dashboard" class="nav-item" title="Dashboard">
-                <span class="nav-icon"><i class="fas fa-tachometer-alt"></i></span>
-                <span class="nav-label">Dashboard</span>
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
             </a>
             <a href="/dashboard/tablesUsers" class="nav-item active" title="Usuários">
-                <span class="nav-icon"><i class="fas fa-users"></i></span>
-                <span class="nav-label">Usuários</span>
+                <i class="fas fa-users"></i>
+                <span>Usuários</span>
             </a>
             <a href="/obras" class="nav-item" title="Obras">
-                <span class="nav-icon"><i class="fas fa-hard-hat"></i></span>
-                <span class="nav-label">Obras</span>
+                <i class="fas fa-hard-hat"></i>
+                <span>Obras</span>
             </a>
             <a href="/dashboard/progresso" class="nav-item" title="Progresso">
-                <span class="nav-icon"><i class="fas fa-chart-line"></i></span>
-                <span class="nav-label">Progresso</span>
+                <i class="fas fa-chart-line"></i>
+                <span>Progresso</span>
             </a>
             <a href="/dashboard/controle-geral" class="nav-item" title="Controle Geral">
-                <span class="nav-icon"><i class="fas fa-cogs"></i></span>
-                <span class="nav-label">Controle</span>
+                <i class="fas fa-cogs"></i>
+                <span>Controle</span>
             </a>
             <a href="/dashboard/historico" class="nav-item" title="Histórico">
-                <span class="nav-icon"><i class="fas fa-history"></i></span>
-                <span class="nav-label">Histórico</span>
+                <i class="fas fa-history"></i>
+                <span>Histórico</span>
             </a>
             <a href="/dashboard/auditoria" class="nav-item" title="Auditoria">
-                <span class="nav-icon"><i class="fas fa-search"></i></span>
-                <span class="nav-label">Auditoria</span>
+                <i class="fas fa-search"></i>
+                <span>Auditoria</span>
             </a>
         </nav>
 
@@ -52,18 +51,15 @@
             <button class="sidebar-toggle">
                 <i class="fas fa-bars"></i>
             </button>
-            <div class="top-bar-title">
-                <h1>👥 Usuários Cadastrados</h1>
-                <p>Sistema de Gestão de Obras - Controle Total</p>
-            </div>
+            <h1>👥 Usuários Cadastrados</h1>
             <a href="/dashboard" class="btn-primary-top">← Voltar</a>
         </div>
 
         <!-- DASHBOARD CONTENT -->
-        <div class="dashboard-container">
+        <div class="app-container">
             {{#if usuarios}}
                 {{#if usuarios.length}}
-                    <table class="table-users">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>ID</th>
