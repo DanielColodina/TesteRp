@@ -278,6 +278,14 @@ function toggleSidebar() {
     sidebar.classList.toggle('sidebar-closed');
     mainContent.classList.toggle('sidebar-closed');
 }
+
+// Auto attach sidebar toggle to button on load
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', toggleSidebar);
+    }
+});
 </script>
 
 <style>
@@ -786,11 +794,33 @@ html, body {
     border-radius: 20px;
     width: 90%;
     max-width: 550px;
+    max-height: 85vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 195, 0, 0.3) rgba(255, 195, 0, 0.1);
     box-shadow: 0 25px 50px rgba(255, 195, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 195, 0, 0.15);
     position: relative;
-    overflow: hidden;
     animation: slideUp 0.4s ease;
+}
+
+.modal-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: rgba(255, 195, 0, 0.05);
+    border-radius: 5px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(255, 195, 0, 0.4), rgba(255, 195, 0, 0.2));
+    border-radius: 5px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(255, 195, 0, 0.7), rgba(255, 195, 0, 0.4));
 }
 
 @keyframes slideUp {
@@ -1088,6 +1118,7 @@ html, body {
     .modal-content {
         width: 95%;
         margin: 20% auto;
+        max-height: 80vh;
     }
 
     .form-row {
@@ -1095,9 +1126,10 @@ html, body {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
     .sidebar {
         width: 60px;
+        padding: 8px;
     }
 
     .main-content {
@@ -1114,6 +1146,7 @@ html, body {
     }
 
     .stats-grid {
+        grid-template-columns: 1fr;
         gap: 12px;
     }
 
@@ -1127,33 +1160,88 @@ html, body {
 
     .quick-actions {
         grid-template-columns: 1fr;
+        gap: 8px;
     }
 
     .action-btn {
-        padding: 16px;
+        padding: 12px;
     }
 
     .top-bar {
-        padding: 16px 12px;
+        padding: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .top-bar h1 {
+        font-size: 1.1rem;
     }
 
     .btn-primary-top {
         width: 100%;
         justify-content: center;
+        padding: 10px 12px;
+        font-size: 0.85rem;
     }
 
     .modal-content {
-        width: 98%;
-        margin: 30% auto;
+        width: 95%;
+        margin: 25% auto;
         max-width: none;
+        max-height: 75vh;
     }
 
     .user-form {
-        padding: 24px;
+        padding: 20px;
+    }
+
+    .user-form h3 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 10px 12px;
+        font-size: 16px;
     }
 
     .checklist-grid-modal {
         grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .checklist-section-modal {
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    .checklist-section-modal h4 {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 20px;
+    }
+
+    .btn-cancel,
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
     }
 }
 </style>

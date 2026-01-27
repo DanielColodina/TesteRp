@@ -17702,3 +17702,21 @@
 [2026-01-27T01:57:18.488Z] INFO: [AUTH] Usuário autenticado: 2
 [2026-01-27T01:57:18.930Z] INFO: [AUTH] Verificando autenticação para /dashboard/usuarios/6/checklist
 [2026-01-27T01:57:18.931Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T02:31:39.261Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-01-27T02:31:39.263Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T02:31:41.173Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-01-27T02:31:41.174Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T02:31:41.179Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-01-27T02:31:41.180Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T02:31:41.194Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-01-27T02:31:41.196Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T02:31:42.888Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-01-27T02:31:42.889Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T02:32:11.187Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-01-27T02:32:11.188Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T02:32:11.487Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-01-27T02:32:11.488Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T02:32:11.490Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-01-27T02:32:11.491Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T02:32:12.531Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-01-27T02:32:12.532Z] INFO: [AUTH] Usuário autenticado: 2
