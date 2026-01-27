@@ -41,4 +41,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (toggleButton) {
         toggleButton.addEventListener('click', toggleSidebar);
     }
+
+    // Add event listener to logout button
+    const logoutButton = document.querySelector('.btn-sidebar-action');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Redirect to logout endpoint
+            window.location.href = '/logout';
+        });
+    }
 });

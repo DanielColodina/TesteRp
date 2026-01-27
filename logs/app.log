@@ -17654,3 +17654,5 @@
 [2026-01-26T23:00:11.383Z] INFO: Ambiente: development
 [2026-01-27T01:14:31.362Z] INFO: Servidor rodando na porta 5000 (host: 0.0.0.0)
 [2026-01-27T01:14:31.372Z] INFO: Ambiente: development
+[2026-01-27T01:50:18.889Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-01-27T01:50:18.891Z] WARN: [AUTH] Acesso negado para /dashboard - sessão inválida
