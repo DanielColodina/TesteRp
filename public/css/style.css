@@ -372,10 +372,6 @@ button:focus, input:focus, select:focus, textarea:focus {
     padding: 8px;
     font-size: 0.9rem;
   }
-
-  .login-page {
-    background: var(--bg-dark);
-  }
 }
 
 /* Status badges */
