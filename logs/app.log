@@ -17656,3 +17656,19 @@
 [2026-01-27T01:14:31.372Z] INFO: Ambiente: development
 [2026-01-27T01:50:18.889Z] INFO: [AUTH] Verificando autenticação para /dashboard
 [2026-01-27T01:50:18.891Z] WARN: [AUTH] Acesso negado para /dashboard - sessão inválida
+[2026-01-27T01:54:58.169Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-01-27T01:54:58.172Z] WARN: [AUTH] Acesso negado para /dashboard - sessão inválida
+[2026-01-27T01:55:24.097Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-01-27T01:55:24.098Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T01:55:25.119Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-01-27T01:55:25.121Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T01:55:25.124Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-01-27T01:55:25.125Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T01:55:25.422Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-01-27T01:55:25.422Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T01:55:26.438Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-01-27T01:55:26.439Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T01:55:38.116Z] INFO: [AUTH] Verificando autenticação para /dashboard/tablesUsers
+[2026-01-27T01:55:38.117Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-01-27T01:55:39.775Z] INFO: [AUTH] Verificando autenticação para /obras
+[2026-01-27T01:55:39.776Z] INFO: [AUTH] Usuário autenticado: 2
