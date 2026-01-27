@@ -1,68 +1,133 @@
-/* ===== DASHBOARD PROGRESSO STYLES ===== */
-/* Purpose: Page-specific styles for the Progress Dashboard page.
-   Affects: Statistics cards, progress table, status badges.
-   Components: Progress dashboard components. */
+/* ===== PREMIUM PROGRESS DASHBOARD STYLES ===== */
+
+:root {
+  --yellow-primary: #FFC300;
+  --yellow-hover: #FFD700;
+  --text-primary: #FFFFFF;
+  --text-secondary: #C0C0C0;
+  --success: #10b981;
+  --success-light: #34d399;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --glass-bg: rgba(30, 30, 46, 0.7);
+  --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 .stat-label {
-  color: var(--yellow-primary);
-  font-size: 1rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.stat-label i {
+  color: var(--yellow-primary);
+  font-size: 1.1rem;
 }
 
 .stat-value {
-  font-size: 2rem;
-  font-weight: 800;
+  font-size: 2.8rem;
+  font-weight: 900;
   color: var(--text-primary);
   margin: 0;
+  transition: var(--transition-smooth);
+  letter-spacing: -1px;
+  line-height: 1.1;
 }
 
+/* Status Badge Styles */
 .status-done {
-  color: var(--success);
-  font-weight: 600;
-  background: rgba(16, 185, 129, 0.1);
-  padding: 4px 8px;
-  border-radius: 4px;
+  color: var(--success-light);
+  font-weight: 700;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  transition: var(--transition-smooth);
+}
+
+.status-done:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(16, 185, 129, 0.15));
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
 }
 
 .status-progress {
   color: var(--warning);
-  font-weight: 600;
-  background: rgba(245, 158, 11, 0.1);
-  padding: 4px 8px;
-  border-radius: 4px;
+  font-weight: 700;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.1));
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  transition: var(--transition-smooth);
+}
+
+.status-progress:hover {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(245, 158, 11, 0.15));
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
 }
 
 .status-none {
   color: var(--error);
-  font-weight: 600;
-  background: rgba(239, 68, 68, 0.1);
-  padding: 4px 8px;
-  border-radius: 4px;
+  font-weight: 700;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1));
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  transition: var(--transition-smooth);
+}
+
+.status-none:hover {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(239, 68, 68, 0.15));
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
 }
 
 .status-default {
   color: var(--text-secondary);
   font-weight: 600;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
-/* Progress visualization */
+/* Progress Visualization */
 .progress-visualization {
-  margin-top: 20px;
+  margin-top: 28px;
 }
 
 .progress-item {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 15px;
-  padding: 15px;
-  background: var(--glass-bg);
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
+  gap: 18px;
+  margin-bottom: 18px;
+  padding: 18px;
+  background: linear-gradient(135deg, rgba(31, 31, 46, 0.8), rgba(26, 26, 38, 0.6));
+  border-radius: 14px;
+  border: 1px solid rgba(255, 195, 0, 0.1);
+  transition: var(--transition-smooth);
+}
+
+.progress-item:hover {
+  background: linear-gradient(135deg, rgba(31, 31, 46, 0.95), rgba(26, 26, 38, 0.8));
+  border-color: rgba(255, 195, 0, 0.25);
+  box-shadow: 0 8px 24px rgba(255, 195, 0, 0.12);
+  transform: translateX(6px);
 }
 
 .progress-info {
@@ -71,45 +136,137 @@
 
 .progress-info h4 {
   color: var(--yellow-primary);
-  margin: 0 0 5px 0;
-  font-size: 1rem;
+  margin: 0 0 6px 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .progress-info p {
   color: var(--text-secondary);
   margin: 0;
   font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .progress-bar-container {
   flex: 2;
-  height: 20px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
+  height: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
   overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 195, 0, 0.1);
 }
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%);
+  background: linear-gradient(90deg, var(--yellow-primary), var(--yellow-hover));
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 20px;
-  transition: width 0.5s ease;
+  min-width: 24px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 6px;
+  box-shadow: 0 0 16px rgba(255, 195, 0, 0.4);
+  position: relative;
+}
+
+.progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .progress-text {
-  color: var(--bg-dark);
-  font-size: 10px;
-  font-weight: bold;
+  color: #1a1a1a;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+/* Card Progress Enhancement */
+.card {
+  background: linear-gradient(135deg, rgba(31, 31, 46, 0.8), rgba(26, 26, 38, 0.6));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 195, 0, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  transition: var(--transition-smooth);
+}
+
+.card:hover {
+  background: linear-gradient(135deg, rgba(31, 31, 46, 0.95), rgba(26, 26, 38, 0.8));
+  border-color: rgba(255, 195, 0, 0.25);
+  box-shadow: 0 12px 40px rgba(255, 195, 0, 0.12);
+  transform: translateY(-8px);
+}
+
+.card h3 {
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.card h2 {
+  color: var(--yellow-primary);
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card h2 i {
+  font-size: 1.3rem;
 }
 
 /* Responsive adjustments */
+@media (max-width: 1024px) {
+  .progress-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .progress-bar-container {
+    width: 100%;
+    flex: unset;
+  }
+
+  .progress-info {
+    width: 100%;
+  }
+
+  .stat-value {
+    font-size: 2.2rem;
+  }
+}
+
 @media (max-width: 768px) {
   .progress-item {
     flex-direction: column;
     text-align: center;
+    padding: 14px;
+    margin-bottom: 12px;
   }
 
   .progress-bar-container {
@@ -117,6 +274,67 @@
   }
 
   .stat-value {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .card h2 {
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+  }
+
+  .progress-info h4 {
+    font-size: 0.95rem;
+  }
+
+  .progress-info p {
+    font-size: 0.8rem;
+  }
+
+  .progress-text {
+    font-size: 0.65rem;
+  }
+}
+
+/* Animations for stat cards */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+
+/* Loading state */
+.progress-bar.loading {
+  background: linear-gradient(90deg, var(--yellow-primary), var(--yellow-hover), var(--yellow-primary));
+  background-size: 200% 100%;
+  animation: loading 2s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }

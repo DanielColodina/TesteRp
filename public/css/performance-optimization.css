@@ -1,0 +1,299 @@
+/* ===== OTIMIZAÇÕES DE PERFORMANCE ===== */
+/* Arquivo otimizado para máxima performance e renderização */
+
+/* Critical CSS - Prioridade Alta */
+/* Carregue este arquivo em primeiro lugar para melhor Core Web Vitals */
+
+/* ===== FONT OPTIMIZATION ===== */
+@font-feature-settings: "kern" 1;
+text-rendering: optimizeLegibility;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+
+/* ===== IMAGE OPTIMIZATION ===== */
+/* Lazy loading para imagens */
+img[loading="lazy"] {
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0.1) 0%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    rgba(255, 255, 255, 0.1) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* ===== WILL-CHANGE ESTRATEGICO ===== */
+/* Use com moderação - apenas em elementos que animam frequentemente */
+.dashboard-card {
+  will-change: transform, box-shadow;
+}
+
+.table tbody tr {
+  will-change: background-color;
+}
+
+.progress-bar {
+  will-change: width;
+}
+
+/* Remover will-change após animação */
+.animation-complete {
+  will-change: auto;
+}
+
+/* ===== GPU ACCELERATION ===== */
+/* Force GPU rendering para elementos críticos */
+.card,
+.modulo-card,
+.dashboard-card {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* ===== CONTENÇÃO VISUAL ===== */
+/* Limite o escopo das reflows e repaints */
+.table tbody {
+  contain: layout style paint;
+}
+
+.grid {
+  contain: layout style;
+}
+
+/* ===== OTIMIZAÇÃO DE TRANSIÇÕES ===== */
+/* Use transform e opacity para melhor performance */
+@media (prefers-reduced-motion: no-preference) {
+  /* Transições seguras para performance */
+  .card {
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.35s ease;
+  }
+
+  /* Evitar animar propriedades caras */
+  /* ❌ Ruim: transition: all 0.3s ease;
+  /* ✅ Bom: transition: transform 0.3s ease; */
+}
+
+/* ===== RENDERIZAÇÃO EM CAMADAS ===== */
+.sidebar {
+  z-index: 999;
+  contain: layout style paint;
+}
+
+.top-bar {
+  z-index: 100;
+  contain: layout style;
+}
+
+.main-content {
+  z-index: 1;
+}
+
+/* ===== DICAS DE PERFORMANCE ===== */
+
+/*
+1. LAZY LOADING DE IMAGENS
+   <img src="image.jpg" loading="lazy" alt="Descrição">
+
+2. CRÍTICO CSS
+   - Minimize o CSS crítico carregado no head
+   - Carregue CSS não-crítico async
+
+3. REDUZIR TAMANHO DE FONTES
+   - FontAwesome: Use apenas ícones necessários
+   - Custom fonts: Limitar variações (weight, style)
+
+4. EVITAR PROPRIEDADES CARAS
+   ❌ box-shadow (muitos elementos)
+   ❌ border-radius (em larga escala)
+   ❌ filter/backdrop-filter (não otimizado)
+   ✅ transform
+   ✅ opacity
+   ✅ visibidad
+
+5. OTIMIZAR ANIMAÇÕES
+   - Use keyframes em vez de transitions onde possível
+   - Limite o número de elementos animados
+   - Use requestAnimationFrame para JavaScript
+   - Considere usar WAAPI (Web Animations API)
+
+6. MEDIA QUERIES
+   - Mobile first
+   - Use min-width em vez de max-width quando possível
+   - Evite nested media queries
+
+7. SELETORES CSS
+   ❌ Evitar: html div p span
+   ✅ Preferir: .card p
+   - Mantenha especificidade baixa
+   - Evite !important
+
+8. ESTRUTURA DE PASTAS
+   - style.css (crítico)
+   - premium-effects.css (não-crítico)
+   - specific-pages/*.css (page-specific)
+*/
+
+/* ===== VERIFICAÇÃO INTERATIVA ===== */
+
+/* Mostrar quais elementos estão sendo renderizados */
+@media (prefers-color-scheme: dark) {
+  /* Paint timing visual */
+  body.show-paints * {
+    outline: 1px solid rgba(255, 195, 0, 0.2);
+  }
+}
+
+/* Modo de teste para verificar reflows */
+body.test-mode * {
+  background: rgba(255, 0, 0, 0.01) !important;
+}
+
+/* ===== NETWORK HINTS ===== */
+
+/* Preload críticos */
+/* Adicione no <head>:
+<link rel="preload" href="/css/style.css" as="style">
+<link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin>
+*/
+
+/* DNS Prefetch */
+/* <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com"> */
+
+/* Preconnect */
+/* <link rel="preconnect" href="https://cdnjs.cloudflare.com"> */
+
+/* ===== CRITICAL METRICS OPTIMIZATION ===== */
+
+/* Largest Contentful Paint (LCP) */
+.section-title,
+.stat-value h3 {
+  /* Otimizar para pintura rápida */
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Cumulative Layout Shift (CLS) */
+.dashboard-card {
+  /* Reserve espaço antes de carregar */
+  min-height: 200px;
+}
+
+.card {
+  min-height: 150px;
+}
+
+/* First Input Delay (FID) */
+button,
+a,
+input {
+  /* Adicione feedback imediato */
+  cursor: pointer;
+  transition: none; /* Remova delay em resposta inicial */
+}
+
+button:active {
+  /* Feedback visual instantâneo */
+  transform: scale(0.98);
+  transition: none;
+}
+
+/* ===== SCROLLING PERFORMANCE ===== */
+
+/* Otimizar scroll para listas longas */
+.table {
+  contain: strict;
+}
+
+.table tbody {
+  contain: layout style paint;
+}
+
+/* Virtualização de listas (considere usar library) */
+@supports (contain: layout) {
+  .table tbody {
+    contain: layout style paint;
+    overflow-y: auto;
+  }
+}
+
+/* ===== MODO IMPRESSÃO ===== */
+@media print {
+  /* Simplificar para impressão */
+  .card,
+  .modulo-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  /* Forçar quebras de página apropriadas */
+  .card {
+    page-break-inside: avoid;
+  }
+}
+
+/* ===== DEBUG MODE ===== */
+
+/* Ativar com: document.body.classList.add('debug-mode') */
+body.debug-mode {
+  /* Mostrar grid de debug */
+  background-image: 
+    linear-gradient(0deg, transparent 24%, rgba(255, 0, 0, 0.05) 25%, rgba(255, 0, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 0, 0.05) 75%, rgba(255, 0, 0, 0.05) 76%, transparent 77%, transparent),
+    linear-gradient(90deg, transparent 24%, rgba(255, 0, 0, 0.05) 25%, rgba(255, 0, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 0, 0.05) 75%, rgba(255, 0, 0, 0.05) 76%, transparent 77%, transparent);
+  background-size: 50px 50px;
+}
+
+/* Mostrar layout issues */
+body.debug-mode .card {
+  border: 2px solid red;
+}
+
+body.debug-mode .app-layout {
+  border: 2px solid blue;
+}
+
+/* ===== CONSOLE COMMANDS ===== */
+
+/*
+// Ativar modo debug
+document.body.classList.add('debug-mode');
+
+// Verificar performance
+console.time('render');
+// ... código ...
+console.timeEnd('render');
+
+// Analisar paintings
+window.addEventListener('paint', (e) => {
+  console.log('Paint event:', e);
+});
+
+// Monitorar reflows
+const observer = new PerformanceObserver((list) => {
+  for (const entry of list.getEntries()) {
+    console.log('Layout shift:', entry);
+  }
+});
+observer.observe({entryTypes: ['layout-shift']});
+*/
+
+/* ===== CHECKLIST DE PERFORMANCE ===== */
+
+/*
+□ Compressar imagens (WEBP, AVIF)
+□ Minificar CSS
+□ Remover CSS não usado (PurgeCSS)
+□ Lazy load de imagens
+□ Critical CSS inline
+□ Defer JavaScript
+□ Enable GZIP compression
+□ Enable caching
+□ Use CDN para assets estáticos
+□ Optimize font loading
+□ Reduce bundle size
+□ Monitor Core Web Vitals
+□ Use Lighthouse para auditoria
+□ Test em 3G slow
+□ Test em dispositivos baixa-end
+*/

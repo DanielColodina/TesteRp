@@ -1,79 +1,258 @@
-/* ===== TABLES USERS PAGE STYLES ===== */
-/* Purpose: Page-specific styles for the Tables Users page.
-   Affects: User table, empty states, user links.
-   Components: User table display and interactions. */
+/* ===== PREMIUM USERS TABLE STYLES ===== */
+
+:root {
+  --yellow-primary: #FFC300;
+  --yellow-hover: #FFD700;
+  --text-primary: #FFFFFF;
+  --text-secondary: #C0C0C0;
+  --border-color: rgba(255, 255, 255, 0.08);
+}
 
 .user-link {
   color: var(--yellow-primary);
   text-decoration: none;
   font-weight: 600;
-  transition: color 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.user-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--yellow-primary), var(--yellow-hover));
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .user-link:hover {
   color: var(--yellow-hover);
-  text-decoration: underline;
+  background: rgba(255, 195, 0, 0.1);
+  padding: 2px 8px;
 }
 
+.user-link:hover::after {
+  width: 100%;
+}
+
+/* Empty State - Premium */
 .empty-state {
   text-align: center;
-  padding: 60px 20px;
-  background: var(--glass-bg);
-  backdrop-filter: blur(15px);
-  border-radius: 16px;
+  padding: 80px 24px;
+  background: linear-gradient(135deg, rgba(31, 31, 46, 0.8) 0%, rgba(26, 26, 38, 0.6) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 18px;
   border: 1px solid var(--border-color);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  margin: 40px auto;
+  max-width: 500px;
+  animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .empty-icon {
-  font-size: 4rem;
-  margin-bottom: 20px;
-  opacity: 0.7;
+  font-size: 4.5rem;
+  margin-bottom: 24px;
+  opacity: 0.8;
+  filter: drop-shadow(0 4px 12px rgba(255, 195, 0, 0.2));
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 .empty-state h3 {
   color: var(--yellow-primary);
-  margin-bottom: 10px;
-  font-size: 1.5rem;
+  margin-bottom: 12px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .empty-state p {
   color: var(--text-secondary);
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   font-size: 1rem;
+  line-height: 1.6;
+}
+
+.empty-state .btn-primary {
+  background: linear-gradient(135deg, var(--yellow-primary), var(--yellow-hover));
+  color: #1a1a1a;
+  padding: 12px 32px;
+  font-weight: 700;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(255, 195, 0, 0.3);
+  text-decoration: none;
+  display: inline-block;
+  letter-spacing: 0.5px;
+}
+
+.empty-state .btn-primary:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(255, 195, 0, 0.45);
 }
 
 /* Table specific enhancements */
+.table {
+  background: linear-gradient(135deg, rgba(31, 31, 46, 0.8) 0%, rgba(26, 26, 38, 0.6) 100%);
+  backdrop-filter: blur(15px);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
 .table th {
   position: sticky;
   top: 0;
-  background: var(--glass-hover);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, rgba(255, 195, 0, 0.12), rgba(255, 215, 0, 0.06));
+  backdrop-filter: blur(12px);
+  border-bottom: 2px solid rgba(255, 195, 0, 0.2);
+  color: var(--yellow-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  font-size: 0.8rem;
   z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.table th:hover {
+  background: linear-gradient(135deg, rgba(255, 195, 0, 0.15), rgba(255, 215, 0, 0.08));
+}
+
+.table tbody tr {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .table tbody tr:hover {
-  background: rgba(255, 195, 0, 0.05);
+  background: linear-gradient(90deg, rgba(255, 195, 0, 0.1), rgba(255, 195, 0, 0.04));
+  box-shadow: inset 4px 0 0 rgba(255, 195, 0, 0.3);
   transform: scale(1.01);
-  transition: all 0.2s ease;
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table td {
+  padding: 14px 16px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table td:first-child {
+  color: var(--yellow-primary);
+  font-weight: 600;
 }
 
 /* Responsive table adjustments */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .table {
     font-size: 0.9rem;
   }
 
   .table th,
   .table td {
-    padding: 8px 4px;
+    padding: 12px 12px;
   }
+}
 
+@media (max-width: 768px) {
   .empty-state {
-    padding: 40px 15px;
+    padding: 60px 20px;
+    margin: 20px auto;
   }
 
   .empty-icon {
     font-size: 3rem;
+    margin-bottom: 16px;
   }
+
+  .empty-state h3 {
+    font-size: 1.2rem;
+  }
+
+  .empty-state p {
+    font-size: 0.9rem;
+  }
+
+  .table {
+    font-size: 0.85rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .table th,
+  .table td {
+    padding: 10px 8px;
+    font-size: 0.8rem;
+  }
+
+  .table th {
+    font-size: 0.7rem;
+    letter-spacing: 0.3px;
+  }
+
+  /* Horizontal scroll for mobile */
+  .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+  }
+}
+
+/* Accessibility improvements */
+.table tbody tr:focus-within {
+  background: rgba(255, 195, 0, 0.15);
+  outline: none;
+}
+
+.table a:focus-visible {
+  outline: 2px solid var(--yellow-primary);
+  outline-offset: 2px;
+}
+
+/* Loading state */
+.table.loading tbody tr {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.table.loading::after {
+  content: 'Carregando...';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--yellow-primary);
+  font-weight: 600;
+  font-size: 1rem;
 }
