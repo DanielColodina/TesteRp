@@ -619,6 +619,32 @@
   background: var(--yellow-primary);
 }
 
+/* ===== FORM CONTAINER SCROLLBAR ===== */
+.form-container {
+  max-height: 85vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 195, 0, 0.3) rgba(255, 195, 0, 0.1);
+}
+
+.form-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.form-container::-webkit-scrollbar-track {
+  background: rgba(255, 195, 0, 0.05);
+  border-radius: 5px;
+}
+
+.form-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(255, 195, 0, 0.4), rgba(255, 195, 0, 0.2));
+  border-radius: 5px;
+}
+
+.form-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(255, 195, 0, 0.7), rgba(255, 195, 0, 0.4));
+}
+
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 1024px) {
   .top-bar {
@@ -649,5 +675,27 @@
 
   .sidebar-closed {
     left: -70px;
+  }
+
+  .form-container {
+    max-height: 80vh;
+  }
+
+  .form-container::-webkit-scrollbar {
+    width: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    max-height: 75vh;
+  }
+
+  .form-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr !important;
   }
 }
