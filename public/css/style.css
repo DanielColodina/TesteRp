@@ -1,53 +1,270 @@
+/* Mobile-first base styles */
 body {
     background: #1A1A1A; /* Fundo escuro profissional */
     color: #FFFFFF; /* Texto branco puro */
     font-family: 'Inter', sans-serif; /* Tipografia moderna */
     margin: 0;
     min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.5;
 }
 
-/* ===== MERGED: dashboard-progresso.css ===== */
-/* Estilos específicos para o dashboard de progresso (migrado) */
+/* Images responsive */
+img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Buttons and inputs - touch-friendly */
+button, input, select, textarea {
+    font-size: 16px; /* Prevent zoom on iOS */
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: #FFFFFF;
+    transition: all 0.3s ease;
+}
+
+button:hover, input:hover, select:hover, textarea:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+button:focus, input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--yellow-primary);
+    background: rgba(255,255,255,0.15);
+}
+
+/* Mobile touch targets */
+@media (max-width: 768px) {
+    button, input[type="submit"], input[type="button"] {
+        min-height: 44px; /* iOS touch target */
+        padding: 12px 16px;
+        font-size: 16px;
+    }
+}
+
+/* ===== PROGRESSO LAYOUT - MOBILE FIRST ===== */
 .progresso-layout {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
   font-family: Inter, Roboto, Poppins, sans-serif;
   color: var(--text-primary);
 }
 
+/* Sidebar - hidden on mobile by default */
 .progresso-layout .sidebar {
+  display: none; /* Hidden on mobile */
   width: 280px;
   background: rgba(15, 15, 15, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   position: fixed;
   height: 100vh;
-  left: 0;
+  left: -280px; /* Start closed */
   top: 0;
   z-index: 999;
-  display: flex;
   flex-direction: column;
   overflow-y: auto;
+  transition: left 0.3s ease;
 }
 
-.progresso-layout .sidebar-closed { left: -280px; }
+.progresso-layout .sidebar.open { left: 0; } /* Open state for mobile */
 
-.progresso-layout .sidebar-header { padding: 30px 20px; text-align: center; border-bottom: 1px solid rgba(255,195,0,0.2); }
-.progresso-layout .logo { font-size:1.8rem; font-weight:800; background:linear-gradient(135deg,var(--yellow-primary) 0%, var(--yellow-hover) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-.progresso-layout .sidebar-nav { flex:1; display:flex; flex-direction:column; gap:8px; padding:20px; }
-.progresso-layout .nav-item { display:flex; align-items:center; gap:14px; padding:14px 16px; color:var(--text-secondary); text-decoration:none; border-radius:12px; transition:all .3s; border-left:3px solid transparent; font-weight:500; font-size:0.95rem; }
-.progresso-layout .nav-item:hover { background: rgba(255,195,0,0.08); color:var(--text-primary); border-left-color:var(--yellow-primary); }
-.progresso-layout .nav-item.active { background: rgba(255,195,0,0.15); color:var(--yellow-primary); border-left-color:var(--yellow-primary); box-shadow:0 4px 12px rgba(255,195,0,0.1); }
-.progresso-layout .sidebar-footer { padding:20px; border-top:1px solid rgba(255,195,0,0.1); }
+.progresso-layout .sidebar-header {
+  padding: 20px 15px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,195,0,0.2);
+}
+.progresso-layout .logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg,var(--yellow-primary) 0%, var(--yellow-hover) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.progresso-layout .sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 15px;
+}
+.progresso-layout .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.3s;
+  border-left: 3px solid transparent;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.progresso-layout .nav-item:hover {
+  background: rgba(255,195,0,0.08);
+  color: var(--text-primary);
+  border-left-color: var(--yellow-primary);
+}
+.progresso-layout .nav-item.active {
+  background: rgba(255,195,0,0.15);
+  color: var(--yellow-primary);
+  border-left-color: var(--yellow-primary);
+  box-shadow: 0 4px 12px rgba(255,195,0,0.1);
+}
+.progresso-layout .sidebar-footer {
+  padding: 15px;
+  border-top: 1px solid rgba(255,195,0,0.1);
+}
 
-.progresso-layout .main-content { flex:1; margin-left:280px; height:100vh; overflow-y:auto; background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%); transition: margin-left .3s ease; }
-.progresso-layout .main-content.sidebar-closed { margin-left:0; }
+/* Main content - full width on mobile */
+.progresso-layout .main-content {
+  flex: 1;
+  margin-left: 0; /* No margin on mobile */
+  min-height: 100vh;
+  overflow-y: auto;
+  background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+  transition: margin-left 0.3s ease;
+}
 
-.progresso-layout .top-bar { display:flex; justify-content:space-between; align-items:center; padding:20px 30px; background: rgba(30,30,30,0.4); backdrop-filter: blur(10px); border-bottom:1px solid rgba(255,255,255,0.1); }
-.progresso-layout .sidebar-toggle{ background:none; border:none; color:var(--text-primary); font-size:1.2rem; cursor:pointer; padding:10px; margin-right:15px; transition:color .3s; }
-.progresso-layout .sidebar-toggle:hover { color:var(--yellow-primary); }
-.progresso-layout .top-bar h1 { color:var(--yellow-primary); font-size:1.8rem; font-weight:700; margin:0; }
-.progresso-layout .btn-primary-top { padding:10px 20px; background: linear-gradient(135deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%); color: var(--bg-dark); text-decoration:none; border-radius:8px; font-weight:bold; }
+/* Top bar - responsive */
+.progresso-layout .top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: rgba(30,30,30,0.4);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.progresso-layout .sidebar-toggle {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 8px;
+  margin-right: 10px;
+  transition: color 0.3s;
+  display: block; /* Always show on mobile */
+}
+.progresso-layout .sidebar-toggle:hover {
+  color: var(--yellow-primary);
+}
+.progresso-layout .top-bar h1 {
+  color: var(--yellow-primary);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0;
+  flex: 1;
+  text-align: center;
+}
+.progresso-layout .btn-primary-top {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%);
+  color: var(--bg-dark);
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* ===== OTHER LAYOUTS RESPONSIVE ===== */
+.historico-layout,
+.obras-layout,
+.auditoria-layout,
+.controle-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.historico-layout .sidebar,
+.obras-layout .sidebar,
+.auditoria-layout .sidebar,
+.controle-layout .sidebar {
+  display: none; /* Hidden on mobile */
+}
+
+.historico-container,
+.obras-container,
+.auditoria-container,
+.controle-container {
+  padding: 20px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ===== DESKTOP STYLES ===== */
+@media (min-width: 769px) {
+  .progresso-layout {
+    flex-direction: row;
+  }
+
+  .progresso-layout .sidebar {
+    display: flex; /* Show on desktop */
+    left: 0; /* Always visible */
+  }
+
+  .progresso-layout .sidebar.open {
+    left: 0; /* No change on desktop */
+  }
+
+  .progresso-layout .main-content {
+    margin-left: 280px; /* Margin on desktop */
+  }
+
+  .progresso-layout .top-bar {
+    padding: 20px 30px;
+  }
+
+  .progresso-layout .sidebar-toggle {
+    display: none; /* Hide toggle on desktop */
+  }
+
+  .progresso-layout .top-bar h1 {
+    font-size: 1.8rem;
+    text-align: left;
+  }
+
+  .progresso-layout .btn-primary-top {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+
+  /* Other layouts desktop */
+  .historico-layout,
+  .obras-layout,
+  .auditoria-layout,
+  .controle-layout {
+    flex-direction: row;
+  }
+
+  .historico-layout .sidebar,
+  .obras-layout .sidebar,
+  .auditoria-layout .sidebar,
+  .controle-layout .sidebar {
+    display: block;
+    width: 280px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999;
+  }
+
+  .historico-container,
+  .obras-container,
+  .auditoria-container,
+  .controle-container {
+    margin-left: 280px;
+    padding: 30px;
+  }
+}
 
 /* Cards, tabelas e badges (resumido) */
 .progresso-container { padding:30px; width:100%; margin:0 auto; }
@@ -72,8 +289,24 @@ body {
 .historico-layout .sidebar { width:280px; background:rgba(15,15,15,0.8); position:fixed; left:0; top:0; z-index:999; }
 .historico-container { padding:30px; width:100%; margin:0 auto; }
 
-/* ===== MERGED: modal-user.css ===== */
-#modal .modal-content { max-height:80vh; overflow-y:auto; width:500px; margin:5% auto; padding:30px; }
+/* ===== MODALS - RESPONSIVE ===== */
+#modal .modal-content {
+  max-height: 80vh;
+  overflow-y: auto;
+  width: 90%;
+  max-width: 500px;
+  margin: 5% auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  #modal .modal-content {
+    width: 95%;
+    padding: 15px;
+    margin: 10% auto;
+  }
+}
 .checklist-section-modal { margin-top:20px; }
 .checklist-item-modal label { color:var(--yellow-primary); font-weight:500; }
 
@@ -82,9 +315,37 @@ body {
 .obras-layout .sidebar { width:280px; background:rgba(15,15,15,0.8); position:fixed; left:0; top:0; z-index:999; }
 .obras-container { padding:30px; width:100%; margin:0 auto; }
 
-/* ===== MERGED: tables-users.css ===== */
-.table-users { width:100%; border-collapse:collapse; margin-top:20px; background: rgba(30,30,30,0.6); border-radius:8px; overflow:hidden; border:1px solid rgba(255,255,255,0.1); }
-.table-users th, .table-users td { border:1px solid rgba(255,255,255,0.1); padding:12px; color:var(--text-primary); }
+/* ===== TABLES - RESPONSIVE ===== */
+.table-users {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: rgba(30,30,30,0.6);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.table-users th,
+.table-users td {
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 12px;
+  color: var(--text-primary);
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* Mobile table scroll */
+@media (max-width: 768px) {
+  .table-users {
+    overflow-x: auto;
+    display: block;
+  }
+  .table-users th,
+  .table-users td {
+    min-width: 120px; /* Minimum width for readability */
+    padding: 8px;
+  }
+}
 .modal-user-content { background: var(--glass-bg); border:1px solid rgba(255,255,255,0.1); width:500px; max-height:70vh; overflow-y:auto; margin:5% auto; padding:30px; border-radius:16px; }
 
 /* End of merged page-specific CSS */
@@ -120,32 +381,41 @@ h1 {
     margin-bottom: 30px;
 }
 
-.login-page{
+/* Login page - responsive */
+.login-page {
     margin: 0;
+    min-height: 100vh;
     background-image: url(../img/banner_BODY.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    border-radius: 16px;
-    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
 .login-content {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-#h2-login{
-    color: rgba(255,255,255,0.7);
-    font-size: 28px;
-    margin-bottom: 25px;
-    margin-top: 10PX;
+#h2-login {
+    color: rgba(255,255,255,0.9);
+    font-size: 24px;
+    margin-bottom: 20px;
+    margin-top: 0;
 }
 
 #form-login {
-  width: 400px;
-  height: 600px;
+  width: 100%;
+  max-width: 400px;
+  min-height: 500px;
   display: flex;
   flex-direction: column;
   background: rgba(255, 255, 255, 0.15);
@@ -156,12 +426,15 @@ h1 {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
   text-align: center;
   color: rgba(255,255,255,0.7);
+  padding: 30px 20px;
+  box-sizing: border-box;
 }
 
 #form-login input,
 #form-login input:focus {
-  width: 400px;
-  margin: 0 auto 15px auto ;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto 15px auto;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
