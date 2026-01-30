@@ -141,7 +141,7 @@ img[loading="lazy"] {
 @media (prefers-color-scheme: dark) {
   /* Paint timing visual */
   body.show-paints * {
-    outline: 1px solid rgba(255, 195, 0, 0.2);
+    outline: 1px solid rgba(77, 77, 77, 0.2);
   }
 }
 

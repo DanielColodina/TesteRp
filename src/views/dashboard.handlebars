@@ -1,55 +1,8 @@
 <div class="app-layout">
-    <!-- SIDEBAR NAVIGATION -->
-    <aside class="sidebar sidebar-closed">
-        <div class="sidebar-header">
-            <div class="logo">
-                <h2>RP Emp</h2>
-            </div>
-        </div>
-
-        <nav class="sidebar-nav">
-            <a href="/dashboard" class="nav-item active" title="Dashboard">
-                <i class="fas fa-tachometer-alt"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="/dashboard/tablesUsers" class="nav-item" title="Usuários">
-                <i class="fas fa-users"></i>
-                <span>Usuários</span>
-            </a>
-            <a href="/obras" class="nav-item" title="Obras">
-                <i class="fas fa-hard-hat"></i>
-                <span>Obras</span>
-            </a>
-            <a href="/dashboard/progresso" class="nav-item" title="Progresso">
-                <i class="fas fa-chart-line"></i>
-                <span>Progresso</span>
-            </a>
-            <a href="/dashboard/controle-geral" class="nav-item" title="Controle Geral">
-                <i class="fas fa-cogs"></i>
-                <span>Controle</span>
-            </a>
-            <a href="/dashboard/historico" class="nav-item" title="Histórico">
-                <i class="fas fa-history"></i>
-                <span>Histórico</span>
-            </a>
-            <a href="/dashboard/auditoria" class="nav-item" title="Auditoria">
-                <i class="fas fa-search"></i>
-                <span>Auditoria</span>
-            </a>
-        </nav>
-
-        <div class="sidebar-footer">
-            <button class="btn-sidebar-action" title="Sair"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
-        </div>
-    </aside>
-
     <!-- MAIN CONTENT AREA -->
-    <main class="main-content sidebar-closed">
+    <main class="main-content">
         <!-- TOP BAR -->
         <div class="top-bar">
-            <button class="sidebar-toggle">
-              <i class="fas fa-bars"></i>
-            </button>
             <h1>Dashboard RP Empreendimentos</h1>
             <button id="openModal" class="btn-primary-top">
                 <i class="fas fa-user-plus"></i>
@@ -65,33 +18,39 @@
                 <div class="grid grid-3">
                     <a href="/dashboard/tablesUsers" class="card stat-link dashboard-card">
                         <div class="stat-header">
-                            <span class="stat-icon"><i class="fas fa-users"></i></span>
+                            <span style="color: #ffffff; font-size: 1.6rem; margin-right: 10px;">👤</span>
                             <span class="stat-label">Usuários</span>
                         </div>
                         <div class="stat-value">
-                            <h3 id="totalUsuarios">{{totalUsuarios}}</h3>
+                            <div class="number-box">
+                                <h3 id="totalUsuarios"><i class="fas fa-users" style="color: #ffffff; margin-right: 8px;"></i>{{totalUsuarios}}</h3>
+                            </div>
                         </div>
                         <div class="stat-footer">Cadastrados no sistema</div>
                     </a>
 
                     <a href="/obras" class="card stat-link dashboard-card">
                         <div class="stat-header">
-                            <span class="stat-icon"><i class="fas fa-hard-hat"></i></span>
+                            <span style="color: #ffffff; font-size: 1.6rem; margin-right: 10px;">🏗️</span>
                             <span class="stat-label">Obras</span>
                         </div>
                         <div class="stat-value">
-                            <h3 id="totalObras">{{totalObras}}</h3>
+                            <div class="number-box">
+                                <h3 id="totalObras"><i class="fas fa-building" style="color: #ffffff; margin-right: 8px;"></i>{{totalObras}}</h3>
+                            </div>
                         </div>
                         <div class="stat-footer">Projetos ativos</div>
                     </a>
 
                     <a href="/dashboard/progresso" class="card stat-link dashboard-card">
                         <div class="stat-header">
-                            <span class="stat-icon"><i class="fas fa-chart-line"></i></span>
+                            <span style="color: #ffffff; font-size: 1.6rem; margin-right: 10px;">📊</span>
                             <span class="stat-label">Progresso</span>
                         </div>
                         <div class="stat-value">
-                            <h3 id="progressoMedio">{{progressoMedio}}<span class="percent">%</span></h3>
+                            <div class="number-box">
+                                <h3 id="progressoMedio"><i class="fas fa-chart-pie" style="color: #ffffff; margin-right: 8px;"></i>{{progressoMedio}}<span class="percent">%</span></h3>
+                            </div>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: {{progressoMedio}}%"></div>
@@ -100,11 +59,13 @@
 
                     <a href="/dashboard/controle-geral" class="card stat-link dashboard-card">
                         <div class="stat-header">
-                            <span class="stat-icon"><i class="fas fa-tasks"></i></span>
+                            <span style="color: #ffffff; font-size: 1.6rem; margin-right: 10px;">📅</span>
                             <span class="stat-label">Atividades</span>
                         </div>
                         <div class="stat-value">
-                            <h3 id="atividadesHoje">--</h3>
+                            <div class="number-box">
+                                <h3 id="atividadesHoje"><i class="fas fa-calendar-check" style="color: #ffffff; margin-right: 8px;"></i>--</h3>
+                            </div>
                         </div>
                         <div class="stat-footer">Atividades hoje</div>
                     </a>
@@ -751,6 +712,24 @@ html, body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    overflow: auto;
+    height: 250px; /* Altura fixa para permitir rolagem interna */
+}
+
+.number-box {
+    border: 2px solid #FFC300;
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    background: rgba(255, 195, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(255, 195, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.number-box:hover {
+    background: rgba(255, 195, 0, 0.2);
+    box-shadow: 0 6px 16px rgba(255, 195, 0, 0.3);
+    transform: translateY(-2px);
 }
 
 .loading {

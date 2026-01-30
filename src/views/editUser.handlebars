@@ -41,6 +41,7 @@
           <div class="checklist-item">
             <label for="uso_solo">Uso do Solo:</label>
             <select id="uso_solo" name="uso_solo">
+              <option value="" {{#unless checklist.uso_solo}}selected{{/unless}}></option>
               <option value="Nao Tem" {{#eq checklist.uso_solo 'Nao Tem'}}selected{{/eq}}>Não Tem</option>
               <option value="Andamento" {{#eq checklist.uso_solo 'Andamento'}}selected{{/eq}}>Andamento</option>
               <option value="Feito" {{#eq checklist.uso_solo 'Feito'}}selected{{/eq}}>Feito</option>
@@ -50,6 +51,7 @@
           <div class="checklist-item">
             <label for="licenca">Licença:</label>
             <select id="licenca" name="licenca">
+              <option value="" {{#unless checklist.licenca}}selected{{/unless}}></option>
               <option value="Nao Tem" {{#eq checklist.licenca 'Nao Tem'}}selected{{/eq}}>Não Tem</option>
               <option value="Andamento" {{#eq checklist.licenca 'Andamento'}}selected{{/eq}}>Andamento</option>
               <option value="Feito" {{#eq checklist.licenca 'Feito'}}selected{{/eq}}>Feito</option>
@@ -59,6 +61,7 @@
           <div class="checklist-item">
             <label for="condominio">Condomínio:</label>
             <select id="condominio" name="condominio">
+              <option value="" {{#unless checklist.condominio}}selected{{/unless}}></option>
               <option value="Nao Tem" {{#eq checklist.condominio 'Nao Tem'}}selected{{/eq}}>Não Tem</option>
               <option value="Andamento" {{#eq checklist.condominio 'Andamento'}}selected{{/eq}}>Andamento</option>
               <option value="Feito" {{#eq checklist.condominio 'Feito'}}selected{{/eq}}>Feito</option>
@@ -68,6 +71,7 @@
           <div class="checklist-item">
             <label for="habite_se">Habite-se:</label>
             <select id="habite_se" name="habite_se">
+              <option value="" {{#unless checklist.habite_se}}selected{{/unless}}></option>
               <option value="Nao Tem" {{#eq checklist.habite_se 'Nao Tem'}}selected{{/eq}}>Não Tem</option>
               <option value="Andamento" {{#eq checklist.habite_se 'Andamento'}}selected{{/eq}}>Andamento</option>
               <option value="Feito" {{#eq checklist.habite_se 'Feito'}}selected{{/eq}}>Feito</option>
@@ -77,6 +81,7 @@
           <div class="checklist-item">
             <label for="averbacao">Averbação:</label>
             <select id="averbacao" name="averbacao">
+              <option value="" {{#unless checklist.averbacao}}selected{{/unless}}></option>
               <option value="Nao Tem" {{#eq checklist.averbacao 'Nao Tem'}}selected{{/eq}}>Não Tem</option>
               <option value="Andamento" {{#eq checklist.averbacao 'Andamento'}}selected{{/eq}}>Andamento</option>
               <option value="Feito" {{#eq checklist.averbacao 'Feito'}}selected{{/eq}}>Feito</option>
@@ -86,6 +91,7 @@
           <div class="checklist-item">
             <label for="vistoria">Vistoria:</label>
             <select id="vistoria" name="vistoria">
+              <option value="" {{#unless checklist.vistoria}}selected{{/unless}}></option>
               <option value="Nao Tem" {{#eq checklist.vistoria 'Nao Tem'}}selected{{/eq}}>Não Tem</option>
               <option value="Andamento" {{#eq checklist.vistoria 'Andamento'}}selected{{/eq}}>Andamento</option>
               <option value="Feito" {{#eq checklist.vistoria 'Feito'}}selected{{/eq}}>Feito</option>

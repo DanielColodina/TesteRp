@@ -3,8 +3,16 @@ body {
     color: #e2e8f0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0;
     min-height: 100vh;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 header {
@@ -49,9 +57,9 @@ nav button:hover {
 }
 
 main {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: 2rem 2rem 2rem 0;
+    max-width: none;
+    margin: 0;
 }
 
 .module {
@@ -90,7 +98,7 @@ form {
 }
 
 .form-group label {
-    color: #38bdf8;
+    color: #2691be;
     font-weight: bold;
     margin-bottom: 8px;
 }
@@ -101,7 +109,7 @@ form input, form select {
     border: 2px solid #38bdf8;
     border-radius: 6px;
     background: #1e293b;
-    color: #e2e8f0;
+    color: #fcfcfc;
     font-size: 14px;
     transition: all 0.3s;
     box-sizing: border-box;
@@ -182,7 +190,7 @@ form button:hover {
 /* ===== RESPONSIVIDADE ===== */
 @media (max-width: 768px) {
   main {
-    padding: 1rem;
+    padding: 1rem 1rem 1rem 0;
   }
 
   .module {

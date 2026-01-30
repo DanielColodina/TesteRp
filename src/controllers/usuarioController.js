@@ -185,17 +185,16 @@ exports.editpage = async(req,res) => {
     }
 
     // Carregar checklist
-    await Checklist.createIfNotExists(id);
     let checklist = await Checklist.findByUser(id);
     if (!checklist) {
       checklist = {
         usuario_id: id,
-        uso_solo: 'Nao Tem',
-        licenca: 'Nao Tem',
-        condominio: 'Nao Tem',
-        habite_se: 'Nao Tem',
-        averbacao: 'Nao Tem',
-        vistoria: 'Nao Tem',
+        uso_solo: null,
+        licenca: null,
+        condominio: null,
+        habite_se: null,
+        averbacao: null,
+        vistoria: null,
         observacoes: ''
       };
     }

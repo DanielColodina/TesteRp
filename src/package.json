@@ -5,9 +5,9 @@
   "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "pm2-runtime start src/app.js --name rp-app",
-    "dev": "NODE_ENV=development nodemon src/app.js",
-    "prod": "NODE_ENV=production pm2-runtime start src/app.js --name rp-app"
+    "start": "pm2-runtime start app.js --name rp-app",
+    "dev": "NODE_ENV=development nodemon app.js",
+    "prod": "NODE_ENV=production pm2-runtime start app.js --name rp-app"
   },
   "keywords": [
     "obras",

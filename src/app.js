@@ -1,11 +1,17 @@
 // Carrega variáveis de ambiente
-require('dotenv').config();
+
 
 // Core
 const express = require('express');
 const app = express();
 const path = require('path');
+const dotenv = require('dotenv');
 
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({
+    path: path.resolve(__dirname, '../.env')
+  });
+}
 // Logger
 const logger = require('./utils/logger');
 
@@ -52,8 +58,8 @@ app.use(cors({
 // Compressão gzip
 app.use(compression());
 
-app.use(express.static(path.join(__dirname, '..', 'public'), { maxAge: '1d' }));
-app.use('/controle-geral', express.static(path.join(__dirname, '..', 'CONTROLEGERAL', 'frontend'), { maxAge: '1d' }));
+app.use(express.static(path.join(__dirname, '..', 'public'), { maxAge: process.env.NODE_ENV === 'production' ? '1d' : 0 }));
+app.use('/controle-geral', express.static(path.join(__dirname, '..', 'CONTROLEGERAL', 'frontend'), { maxAge: process.env.NODE_ENV === 'production' ? '1d' : 0 }));
 app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }));
 app.use(bodyParser.json({ limit: '10mb' }));
 
