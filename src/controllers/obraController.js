@@ -230,11 +230,11 @@ exports.desvincular = async (req, res) => {
             return res.status(404).json({ error: 'Obra não encontrada ou não pertence ao admin' });
         }
 
-        // Desvincular: definir usuario_id como NULL
-        await db.execute('UPDATE obras SET usuario_id = NULL WHERE id = ?', [id]);
+        // Desvincular: excluir a obra desvinculada
+        await db.execute('DELETE FROM obras WHERE id = ?', [id]);
 
-        console.log(`✅ Obra ${id} desvinculada do usuário ${usuario_id}`);
-        res.json({ success: true, message: 'Obra desvinculada com sucesso' });
+        console.log(`✅ Obra ${id} excluída (desvinculada)`);
+        res.json({ success: true, message: 'Obra excluída com sucesso' });
 
     } catch (err) {
         console.error('❌ Erro ao desvincular obra:', err);

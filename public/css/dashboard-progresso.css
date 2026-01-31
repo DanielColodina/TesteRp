@@ -1,5 +1,12 @@
 /* ===== PREMIUM PROGRESS DASHBOARD STYLES ===== */
 
+.table-container {
+  overflow: auto;
+  max-height: 400px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 195, 0, 0.1);
+}
+
 :root {
   --yellow-primary: #FFC300;
   --yellow-hover: #FFD700;

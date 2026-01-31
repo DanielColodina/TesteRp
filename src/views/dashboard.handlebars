@@ -732,6 +732,38 @@ html, body {
     transform: translateY(-2px);
 }
 
+/* Responsividade para Obras Recentes */
+@media (max-width: 768px) {
+    .works-list {
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .works-list {
+        height: 150px;
+    }
+}
+
+/* Responsividade para Ações Rápidas */
+@media (max-width: 768px) {
+    .actions-section .flex {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .actions-section .btn span {
+        display: none;
+    }
+    .actions-section .btn {
+        padding: 12px;
+        font-size: 1.2rem;
+    }
+}
+
 .loading {
     text-align: center;
     color: #B0B0B0;

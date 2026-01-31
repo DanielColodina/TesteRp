@@ -78,7 +78,7 @@ async function carregarObrasRecentes() {
 
             // Gerar HTML dos campos do checklist
             const checklistItems = [
-                { key: 'uso_solo', name: 'Uso do Solo' },
+                { key: 'uso_solo', name: 'Uso Solo' },
                 { key: 'licenca', name: 'Licença' },
                 { key: 'condominio', name: 'Condomínio' },
                 { key: 'habite_se', name: 'Habite-se' },
@@ -89,48 +89,47 @@ async function carregarObrasRecentes() {
             const checklistHtml = checklistItems.map(item => {
                 const status = obra.checklist[item.key] || 'Nao Tem';
                 const info = getStatusInfo(status);
+                const shortStatus = status === 'Nao Tem' ? 'Não' : status === 'Andamento' ? 'And.' : status;
                 return `
-                    <div class="checklist-item" style="display: inline-block; margin: 2px; padding: 2px 6px; border-radius: 4px; background: ${info.bg}; border: 1px solid ${info.color}20;">
-                        <span style="font-size: 0.7rem; color: ${info.color};">
-                            ${info.iconsEmpresariais} ${item.name}: ${status === 'Nao Tem' ? 'Não Tem' : status}
+                    <div class="checklist-item" style="display: inline-block; margin: 1px; padding: 1px 4px; border-radius: 3px; background: ${info.bg}; border: 1px solid ${info.color}20;">
+                        <span style="font-size: 0.6rem; color: ${info.color};">
+                            ${info.iconsEmpresariais} ${item.name}: ${shortStatus}
                         </span>
                     </div>
                 `;
             }).join('');
 
             return `
-                <div class="work-item" style="border: 2px solid #e5e7eb; border-radius: 8px; padding: 15px; margin-bottom: 15px; background: #fafafa;">
-                    <div class="work-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
-                        <div class="work-info">
-                            <h4 style="margin: 0 0 5px 0; color: #1f2937;">${obra.nome || 'Obra sem nome'}</h4>
-                            <p style="margin: 0; color: #6b7280; font-size: 0.9rem;">Cliente: ${obra.usuario_nome || 'N/A'}</p>
-                            <p style="margin: 0; color: #6b7280; font-size: 0.8rem;">Criada: ${new Date(obra.created_at).toLocaleDateString('pt-BR')}</p>
+                <div class="work-item" style="border: 1px solid rgba(255, 195, 0, 0.1); border-radius: 12px; padding: 15px; margin-bottom: 12px; background: linear-gradient(135deg, rgba(31, 31, 46, 0.8), rgba(26, 26, 38, 0.6)); backdrop-filter: blur(10px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
+                    <div class="work-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div class="work-info" style="flex: 1;">
+                            <h4 style="margin: 0 0 3px 0; color: #1f2937; font-size: 1rem;">${obra.nome || 'Obra sem nome'}</h4>
+                            <p style="margin: 0; color: #6b7280; font-size: 0.75rem;">Cliente: ${obra.usuario_nome || 'N/A'} | Criada: ${new Date(obra.created_at).toLocaleDateString('pt-BR')}</p>
                         </div>
-                        <div class="work-actions">
-                            <button class="btn-edit" title="Editar cliente" data-user-id="${obra.usuario_id}">✏️</button>
-                            <button class="btn-unlink" title="Remover das obras recentes" data-obra-id="${obra.id}" data-obra-nome="${obra.nome}" data-user-id="${obra.usuario_id}">❌</button>
+                        <div class="work-actions" style="display: flex; gap: 5px;">
+                            <button class="btn-edit" title="Editar cliente" data-user-id="${obra.usuario_id}" style="font-size: 0.8rem; padding: 4px;">✏️</button>
+                            <button class="btn-unlink" title="Remover das obras recentes" data-obra-id="${obra.id}" data-obra-nome="${obra.nome}" data-user-id="${obra.usuario_id}" style="font-size: 0.8rem; padding: 4px;">❌</button>
                         </div>
                     </div>
 
-                    <div class="work-progress" style="margin-bottom: 10px;">
-                        <div style="display: flex; align-items: center; margin-bottom: 5px;">
-                            <span style="font-size: 0.8rem; color: #6b7280; margin-right: 10px;">Progresso:</span>
-                            <div class="progress-bar" style="flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden;">
+                    <div class="work-progress" style="margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center;">
+                            <span style="font-size: 0.7rem; color: #6b7280; margin-right: 8px;">Progresso:</span>
+                            <div class="progress-bar" style="flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden;">
                                 <div class="progress-fill" style="width: ${progresso}%; height: 100%; background: linear-gradient(90deg, #10b981 0%, #059669 100%); transition: width 0.3s;"></div>
                             </div>
-                            <span class="progress-text" style="margin-left: 10px; font-weight: bold; color: #1f2937;">${progresso}%</span>
+                            <span class="progress-text" style="margin-left: 8px; font-weight: bold; color: #1f2937; font-size: 0.8rem;">${progresso}%</span>
                         </div>
                     </div>
 
-                    <div class="work-checklist" style="margin-top: 10px;">
-                        <div style="font-size: 0.8rem; color: #6b7280; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
-                            <span>Status Inicial do Checklist:</span>
-                            <button class="btn-edit-checklist" title="Editar checklist completo" data-user-id="${obra.usuario_id}" style="background: none; border: 1px solid #3b82f6; color: #3b82f6; padding: 2px 6px; border-radius: 3px; font-size: 0.7rem; cursor: pointer;">Editar</button>
+                    <div class="work-checklist">
+                        <div style="font-size: 0.7rem; color: #6b7280; margin-bottom: 3px; display: flex; justify-content: space-between; align-items: center;">
+                            <span>Checklist:</span>
+                            <button class="btn-edit-checklist" title="Editar checklist completo" data-user-id="${obra.usuario_id}" style="background: none; border: 1px solid #3b82f6; color: #3b82f6; padding: 1px 4px; border-radius: 2px; font-size: 0.6rem; cursor: pointer;">Editar</button>
                         </div>
-                        <div class="checklist-grid">
+                        <div class="checklist-grid" style="display: flex; flex-wrap: wrap; gap: 2px;">
                             ${checklistHtml}
                         </div>
-                        <div style="font-size: 0.7rem; color: #059669; margin-top: 5px;">🔒 Status definido no cadastro - só muda na edição completa</div>
                     </div>
                 </div>
             `;
