@@ -8,7 +8,7 @@ const connection = mysql.createPool({
     database: process.env.DB_NAME,
 
     waitForConnections: true,
-    connectionLimit: 9, // 🔥 REDUZIDO PARA 3 (LIMITE CLEVER CLOUD)
+    connectionLimit: 9,
     queueLimit: 0,
     enableKeepAlive: true,
 
@@ -17,18 +17,13 @@ const connection = mysql.createPool({
     }
 });
 
-// LOGS PARA DEBUG DE CONEXÕES
-connection.on('connection', (conn) => {
-  console.log(`[POOL] Nova conexão criada. Total ativo: ${connection.pool._allConnections.length}, Disponível: ${connection.pool._freeConnections.length}`);
-});
+// Logs de conexão apenas em desenvolvimento
+const isDev = process.env.NODE_ENV !== 'production';
 
-connection.on('enqueue', () => {
-  console.log(`[POOL] Query enfileirada. Total ativo: ${connection.pool._allConnections.length}, Disponível: ${connection.pool._freeConnections.length}`);
-});
-
-connection.on('release', (conn) => {
-  console.log(`[POOL] Conexão liberada. Total ativo: ${connection.pool._allConnections.length}, Disponível: ${connection.pool._freeConnections.length}`);
-});
-
+if (isDev) {
+  connection.on('connection', (conn) => {
+    console.log(`[POOL] Nova conexão. Total: ${connection.pool._allConnections.length}`);
+  });
+}
 
 module.exports = connection;

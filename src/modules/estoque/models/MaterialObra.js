@@ -31,7 +31,8 @@ class MaterialObra {
     // Buscar materiais por obra
     static async findByObra(obraId, filtros = {}) {
         try {
-            let sql = `
+            // Primeiro busca da tabela materiais_obra
+            let sqlMateriaisObra = `
                 SELECT
                     mo.*,
                     m.nome as material_nome,
@@ -44,32 +45,68 @@ class MaterialObra {
                 JOIN obras o ON mo.obra_id = o.id
                 WHERE mo.obra_id = ? AND mo.ativo = TRUE
             `;
-            const params = [obraId];
+            const paramsMateriaisObra = [obraId];
 
             if (filtros.fase_obra) {
-                sql += ' AND mo.fase_obra = ?';
-                params.push(filtros.fase_obra);
+                sqlMateriaisObra += ' AND mo.fase_obra = ?';
+                paramsMateriaisObra.push(filtros.fase_obra);
             }
 
             if (filtros.categoria) {
-                sql += ' AND mo.categoria = ?';
-                params.push(filtros.categoria);
+                sqlMateriaisObra += ' AND mo.categoria = ?';
+                paramsMateriaisObra.push(filtros.categoria);
             }
 
             if (filtros.busca) {
-                sql += ' AND (m.nome LIKE ? OR m.descricao LIKE ?)';
-                params.push(`%${filtros.busca}%`, `%${filtros.busca}%`);
+                sqlMateriaisObra += ' AND (m.nome LIKE ? OR m.descricao LIKE ?)';
+                paramsMateriaisObra.push(`%${filtros.busca}%`, `%${filtros.busca}%`);
             }
 
-            sql += ' ORDER BY mo.fase_obra ASC, m.nome ASC';
+            // Também busca da tabela materiais_construtora para obras vinculadas
+            let sqlMateriaisConstrutora = `
+                SELECT
+                    mc.id,
+                    mc.obra_id,
+                    mc.codigo as material_codigo,
+                    mc.descricao,
+                    mc.unidade,
+                    mc.quantidade as saldo_atual,
+                    mc.preco_medio as preco_unitario,
+                    mc.descricao as material_nome,
+                    mc.obra_id,
+                    'materiais_construtora' as origem
+                FROM materiais_construtora mc
+                WHERE mc.obra_id = ?
+            `;
+            const paramsMateriaisConstrutora = [obraId];
 
+            if (filtros.busca) {
+                sqlMateriaisConstrutora += ' AND (mc.descricao LIKE ? OR mc.codigo LIKE ?)';
+                paramsMateriaisConstrutora.push(`%${filtros.busca}%`, `%${filtros.busca}%`);
+            }
+
+            // Executa ambas as queries
+            const [materiaisObra] = await db.execute(sqlMateriaisObra, paramsMateriaisObra);
+            const [materiaisConstrutora] = await db.execute(sqlMateriaisConstrutora, paramsMateriaisConstrutora);
+
+            // Combina os resultados
+            let materiais = [...materiaisObra, ...materiaisConstrutora];
+
+            // Ordena por fase_obra (se existir) e nome
+            materiais.sort((a, b) => {
+                const faseA = a.fase_obra || '';
+                const faseB = b.fase_obra || '';
+                if (faseA !== faseB) return faseA.localeCompare(faseB);
+                return (a.material_nome || '').localeCompare(b.material_nome || '');
+            });
+
+            // Aplica limite se especificado
             if (filtros.limit) {
-                sql += ' LIMIT ?';
-                params.push(filtros.limit);
+                materiais = materiais.slice(0, filtros.limit);
             }
 
-            const [rows] = await db.execute(sql, params);
-            return rows;
+            console.log(`✅ Materiais encontrados para obra ${obraId}: ${materiais.length} (${materiaisObra.length} da obra + ${materiaisConstrutora.length} do construtora)`);
+            return materiais;
         } catch (err) {
             console.error('❌ Erro ao buscar materiais da obra:', err);
             throw err;

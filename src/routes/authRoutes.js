@@ -7,6 +7,7 @@ const usuarioController = require('../controllers/usuarioController');
 const dashboardController = require('../controllers/dashboardController');
 const isAuth = require('../middlewares/isAuth');
 const obraController = require('../controllers/obraController');
+const rotasCompletasController = require('../controllers/rotasCompletasController');
 
 // ---------------- ROTAS PÚBLICAS ----------------
 
@@ -34,6 +35,7 @@ router.get('/dashboard', isAuth, authController.dashboard);
 router.post('/dashboard/usuarios', isAuth, usuarioController.create);
 
 // Listar usuários
+router.get('/dashboard/usuarios', isAuth, usuarioController.list);
 router.get('/dashboard/tablesUsers', isAuth, usuarioController.list);
 
 // EXCLUIR USUARIO 
@@ -113,8 +115,17 @@ router.post('/obras/:id/desvincular', isAuth, obraController.desvincular);
 // API para buscar usuários do admin (para dropdown)
 router.get('/api/usuarios', isAuth, usuarioController.getUsuariosForDropdown);
 
-// CONTROLE GERAL
-router.get('/dashboard/controle-geral', dashboardController.controleGeral);
+// API autocomplete para busca de usuários
+router.get('/api/usuarios/search', isAuth, usuarioController.searchAutocomplete);
+
+// API buscar usuários para autocomplete (página tablesUsers)
+router.get('/dashboard/usuarios/search', isAuth, usuarioController.searchAutocomplete);
+
+// API autocomplete para busca de obras
+router.get('/obras/search', isAuth, obraController.searchAutocomplete);
+
+// ROTAS COMPLETAS - Todas as obras com informações detalhadas
+router.get('/rotascompletas', isAuth, rotasCompletasController.index);
 
 // ---------------- EXPORT ----------------
 module.exports = router;

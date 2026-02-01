@@ -1,8 +1,12 @@
 const Admin = require('../models/Admin');
 const Usuario = require('../models/User');
+const Checklist = require('../models/Checklist');
 const bcrypt = require('bcrypt');
 
-// Expresão regular para validação de email
+// Logs apenas em desenvolvimento
+const isDev = process.env.NODE_ENV !== 'production';
+
+// Expressão regular para validação de email
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 exports.loginPage = (req, res) => {
@@ -12,50 +16,52 @@ exports.loginPage = (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
-  console.log('🔐 Tentativa de login:', { email, password_length: password?.length });
+  if (isDev) {
+    console.log('Tentativa de login:', { email, password_length: password?.length });
+  }
 
   // Validar entrada
   if (!email || !password) {
-    return res.status(400).send('❌ Email e senha são obrigatórios');
+    return res.status(400).send('Email e senha sao obrigatorios');
   }
 
   if (!emailRegex.test(email)) {
-    return res.status(400).send('❌ Email inválido');
+    return res.status(400).send('Email invalido');
   }
 
   if (password.length < 6) {
-    return res.status(400).send('❌ Senha inválida');
+    return res.status(400).send('Senha invalida');
   }
 
   try {
     const admin = await Admin.findByEmail(email.toLowerCase().trim());
     
     if (!admin) {
-      console.log('❌ Admin não encontrado:', email);
-      return res.status(401).send('❌ Email ou senha incorretos');
+      if (isDev) {
+        console.log('Admin nao encontrado:', email);
+      }
+      return res.status(401).send('Email ou senha incorretos');
     }
-
-    console.log('✅ Admin encontrado:', admin.email);
 
     // Comparar senha
     const ok = await bcrypt.compare(password.trim(), admin.password);
     
     if (!ok) {
-      console.log('❌ Senha incorreta para:', email);
-      return res.status(401).send('❌ Email ou senha incorretos');
+      if (isDev) {
+        console.log('Senha incorreta para:', email);
+      }
+      return res.status(401).send('Email ou senha incorretos');
     }
 
-    // Definir sessão
+    // Definir sessao
     req.session.adminId = admin.id;
     req.session.adminEmail = admin.email;
     
-    console.log(`✅ Login bem-sucedido: ${email}`);
     res.redirect('/dashboard');
     
   } catch (err) {
-    console.error('❌ Erro no login:', err.message);
-    console.error('Stack:', err.stack);
-    res.status(500).send('❌ Erro ao processar login');
+    console.error('Erro no login:', err.message);
+    res.status(500).send('Erro ao processar login');
   }
 };
 
@@ -65,12 +71,10 @@ exports.dashboard = async (req, res) => {
   }
 
   try {
-    const Checklist = require('../models/Checklist');
-    const User = require('../models/User');
     const checklists = await Checklist.findAllWithProgresso();
-    const usuarios = await User.findAllByAdmin(req.session.adminId);
+    const usuarios = await Usuario.findAllByAdmin(req.session.adminId);
 
-    // Calcular estatísticas
+    // Calcular estatisticas
     const progressoMedio = checklists && checklists.length > 0
       ? (checklists.reduce((sum, item) => sum + (item.progresso || 0), 0) / checklists.length).toFixed(2)
       : 0;
@@ -86,7 +90,7 @@ exports.dashboard = async (req, res) => {
       obrasCompletas
     });
   } catch (err) {
-    console.error('❌ Erro ao carregar dashboard:', err);
+    console.error('Erro ao carregar dashboard:', err);
     res.render('dashboard', {
       progressoMedio: 0,
       totalUsuarios: 0,
@@ -106,7 +110,7 @@ exports.listUsuarios = async (req, res) => {
     const usuarios = await Usuario.findAllWithAdmin();
     res.render('usuarios', { usuarios });
   } catch (err) {
-    console.error('❌ Erro ao listar usuários:', err);
-    res.status(500).send('❌ Erro ao listar usuários');
+    console.error('Erro ao listar usuarios:', err);
+    res.status(500).send('Erro ao listar usuarios');
   }
 };

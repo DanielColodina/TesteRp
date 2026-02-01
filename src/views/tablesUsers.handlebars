@@ -15,6 +15,18 @@
             <a href="/dashboard" class="btn-primary-top">← Voltar</a>
         </div>
 
+        <!-- BUSCA DE USUÁRIOS -->
+        <div class="search-container">
+            <form action="/dashboard/usuarios" method="GET" class="search-form">
+                <input type="text" name="search" id="searchInput" placeholder="Buscar usuários pelo nome..." value="{{#if search}}{{search}}{{/if}}" autocomplete="off">
+                <datalist id="sugestoesUsuarios"></datalist>
+                <button type="submit" class="btn-search">Buscar</button>
+                {{#if search}}
+                    <a href="/dashboard/usuarios" class="btn-clear">Limpar</a>
+                {{/if}}
+            </form>
+        </div>
+
         <!-- DASHBOARD CONTENT -->
         <div class="app-container">
             {{#if usuarios}}
@@ -97,3 +109,48 @@
 </div>
 
 <script src="/js/userModal.js"></script>
+
+<script>
+// Autocomplete para busca de usuários
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const sugestoesDatalist = document.getElementById('sugestoesUsuarios');
+    let timeout = null;
+
+    if (searchInput && sugestoesDatalist) {
+        searchInput.addEventListener('input', function() {
+            const termo = this.value.trim();
+            
+            // Limpar timeout anterior
+            clearTimeout(timeout);
+            
+            // Se termo for muito curto, não buscar
+            if (termo.length < 1) {
+                sugestoesDatalist.innerHTML = '';
+                return;
+            }
+            
+            // Debounce: esperar 300ms antes de buscar
+            timeout = setTimeout(function() {
+                buscarSugestoes(termo);
+            }, 300);
+        });
+    }
+
+    function buscarSugestoes(termo) {
+        fetch(`/dashboard/usuarios/search?q=${encodeURIComponent(termo)}`)
+            .then(response => response.json())
+            .then(data => {
+                sugestoesDatalist.innerHTML = '';
+                data.forEach(usuario => {
+                    const option = document.createElement('option');
+                    option.value = usuario.nome;
+                    sugestoesDatalist.appendChild(option);
+                });
+            })
+            .catch(err => {
+                console.error('Erro ao buscar sugestões:', err);
+            });
+    }
+});
+</script>

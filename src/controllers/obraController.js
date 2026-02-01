@@ -86,8 +86,9 @@ exports.delete = async (req, res) => {
 exports.listAll = async (req, res) => {
   try {
     const adminId = req.session.adminId;
+    const { search } = req.query;
 
-    const sql = `
+    let sql = `
       SELECT
         o.id,
         o.nome_obra,
@@ -99,15 +100,52 @@ exports.listAll = async (req, res) => {
         u.obra as endereco_obra
       FROM obras o
       LEFT JOIN usuarios u ON o.usuario_id = u.id
-      WHERE u.admin_id = ? OR o.usuario_id IS NULL
-      ORDER BY o.created_at DESC
+      WHERE (u.admin_id = ? OR o.usuario_id IS NULL)
     `;
 
-    const [obras] = await db.execute(sql, [adminId]);
-    res.render('obras', { obras: obras || [] });
+    const params = [adminId];
+
+    // Filtrar por nome da obra se houver busca
+    if (search && search.trim()) {
+      sql += ` AND o.nome_obra LIKE ?`;
+      params.push(`%${search.trim()}%`);
+    }
+
+    sql += ` ORDER BY o.created_at DESC`;
+
+    const [obras] = await db.execute(sql, params);
+    res.render('obras', { obras: obras || [], search: search || '' });
   } catch (err) {
     console.error('❌ Erro ao listar obras:', err);
     res.status(500).send('Erro ao carregar obras');
+  }
+};
+
+// AUTOCOMPLETE - BUSCAR OBRAS POR NOME
+exports.searchAutocomplete = async (req, res) => {
+  try {
+    const adminId = req.session.adminId;
+    const { q } = req.query;
+
+    if (!q || q.length < 1) {
+      return res.json([]);
+    }
+
+    const sql = `
+      SELECT o.id, o.nome_obra
+      FROM obras o
+      LEFT JOIN usuarios u ON o.usuario_id = u.id
+      WHERE (u.admin_id = ? OR o.usuario_id IS NULL)
+      AND o.nome_obra LIKE ?
+      ORDER BY o.created_at DESC
+      LIMIT 10
+    `;
+
+    const [obras] = await db.execute(sql, [adminId, `%${q}%`]);
+    res.json(obras || []);
+  } catch (err) {
+    console.error('❌ Erro na busca autocomplete de obras:', err);
+    res.json([]);
   }
 };
 

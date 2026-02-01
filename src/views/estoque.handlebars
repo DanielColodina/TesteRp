@@ -12,6 +12,11 @@
         <form action="/controle-geral/estoque" method="POST" class="material-form">
           <div class="form-grid">
             <div class="form-group">
+              <label for="codigo">Código</label>
+              <input type="text" id="codigo" name="codigo" readonly placeholder=" será gerado automaticamente">
+            </div>
+
+            <div class="form-group">
               <label for="descricao">Descrição *</label>
               <input type="text" id="descricao" name="descricao" required placeholder="Ex: Cimento Portland">
             </div>
@@ -47,7 +52,7 @@
 
             <div class="form-group">
               <label for="obra_id">Obra *</label>
-              <select id="obra_id" name="obra_id" required onchange="preencherCodigo()">
+              <select id="obra_id" name="obra_id" required onchange="gerarCodigo()">
                 <option value="">Selecione uma obra...</option>
                 {{#each obras}}
                 <option value="{{this.id}}">{{this.id}} - {{this.nome}}</option>
@@ -63,6 +68,28 @@
         </form>
       </div>
 
+      <script>
+        function gerarCodigo() {
+          const obraId = document.getElementById('obra_id').value;
+          const codigoInput = document.getElementById('codigo');
+          if (obraId) {
+            codigoInput.value = 'MAT-' + obraId + '-' + Date.now().toString().slice(-6);
+          } else {
+            codigoInput.value = '';
+          }
+        }
+        
+        function limparFormulario() {
+          document.getElementById('codigo').value = '';
+          document.getElementById('descricao').value = '';
+          document.getElementById('unidade').value = '';
+          document.getElementById('quantidade').value = '';
+          document.getElementById('preco_medio').value = '';
+          document.getElementById('estoque_minimo').value = '';
+          document.getElementById('obra_id').value = '';
+        }
+      </script>
+
       <!-- Lista de Materiais -->
       {{#if materiais}}
         <div class="materiais-grid">
@@ -74,6 +101,10 @@
               </div>
 
               <div class="material-info">
+                <div class="material-info-item">
+                  <span class="material-info-label">Obra</span>
+                  <span class="material-info-value">{{#if this.obra_nome}}{{this.obra_nome}}{{else}}<em style="color: #f59e0b;">Sem obra vinculada{{/if}}</span>
+                </div>
                 <div class="material-info-item">
                   <span class="material-info-label">Unidade</span>
                   <span class="material-info-value">{{this.unidade}}</span>
@@ -498,57 +529,17 @@
 }
 
 @media (max-width: 768px) {
-  .sidebar { width: 70px; }
-  .main-content { margin-left: 70px; }
-  .sidebar-header { padding: 20px 10px; }
-  .logo { font-size: 1.2rem; }
-  .nav-item span { font-size: 1rem; }
-  .nav-item { justify-content: center; padding: 12px 8px; }
-  .top-bar { flex-direction: column; gap: 15px; padding: 20px; }
-  .top-bar h1 { font-size: 1.5rem; }
+  .top-bar { padding: 15px 20px; }
+  .estoque-container { padding: 20px; }
   .form-grid { grid-template-columns: 1fr; }
   .materiais-grid { grid-template-columns: 1fr; }
+  .form-actions { flex-direction: column; }
+  .material-actions { flex-direction: column; }
 }
 
 @media (max-width: 480px) {
-  .sidebar { width: 60px; }
-  .main-content { margin-left: 60px; }
-  .top-bar { padding: 15px; gap: 10px; }
-  .top-bar h1 { font-size: 1.3rem; }
+  .top-bar h1 { font-size: 1.5rem; }
   .estoque-container { padding: 15px; }
-  .material-info { grid-template-columns: 1fr; }
+  .form-section h2 { font-size: 1.2rem; }
 }
 </style>
-
-<script>
-const obrasData = [
-{{#each obras}}
-    {
-        id: {{this.id}},
-        nome: "{{this.nome}}",
-        endereco: "{{this.endereco}}",
-        cliente: "{{this.cliente}}",
-        orcamento: {{this.orcamento}},
-        data_inicio: "{{this.data_inicio}}",
-        data_fim: "{{this.data_fim}}",
-        status: "{{this.status}}"
-    }{{#unless @last}},{{/unless}}
-{{/each}}
-];
-
-function preencherCodigo() {
-    const select = document.getElementById('obra_id');
-    const obraId = select.value;
-    const obra = obrasData.find(o => o.id == obraId);
-    if (obra) {
-        document.getElementById('codigo').value = obra.id;
-    } else {
-        document.getElementById('codigo').value = '';
-    }
-}
-
-function limparFormulario() {
-    document.querySelector('.material-form').reset();
-    preencherCodigo();
-}
-</script>

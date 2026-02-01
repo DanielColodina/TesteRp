@@ -1,17 +1,15 @@
 // Carrega variáveis de ambiente
+const path = require('path');
+const dotenv = require('dotenv');
 
+dotenv.config({
+  path: path.resolve(__dirname, '../.env')
+});
 
 // Core
 const express = require('express');
 const app = express();
-const path = require('path');
-const dotenv = require('dotenv');
 
-if (process.env.NODE_ENV !== 'production') {
-  dotenv.config({
-    path: path.resolve(__dirname, '../.env')
-  });
-}
 // Logger
 const logger = require('./utils/logger');
 
@@ -40,7 +38,18 @@ const hbs = exphbs.create({
     eq: function(a, b) { return a === b; },
     gt: function(a, b) { return a > b; },
     lt: function(a, b) { return a < b; },
-    ne: function(a, b) { return a !== b; }
+    ne: function(a, b) { return a !== b; },
+    math: function(lvalue, operator, rvalue) {
+      lvalue = parseFloat(lvalue);
+      rvalue = parseFloat(rvalue);
+      switch(operator) {
+        case '+': return lvalue + rvalue;
+        case '-': return lvalue - rvalue;
+        case '*': return lvalue * rvalue;
+        case '/': return lvalue / rvalue;
+        default: return 0;
+      }
+    }
   }
 });
 app.engine('handlebars', hbs.engine);
@@ -48,7 +57,21 @@ app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
 // ---------------- MIDDLEWARES DE SEGURANÇA ----------------
-app.use(helmet());
+// Helmet com CSP configurado para permitir CDNs e scripts inline necessários
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.gstatic.com", "data:"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "http://localhost:5000"],
+      frameSrc: ["'none'"],
+    },
+  },
+  crossOriginEmbedderPolicy: false, // Necessário para carregar recursos de CDNs
+}));
 app.set('trust proxy', 1); // Fix for rate limit behind proxy
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' ? false : 'http://localhost:3000',
@@ -77,8 +100,8 @@ app.use(session({
 
 // -------- RATE LIMIT --------
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 50, // Máximo 5 tentativas
+  windowMs: 15 * 60 * 1000,
+  max: 5,
   message: 'Muitas tentativas de login. Tente novamente em 15 minutos.',
   standardHeaders: true,
   legacyHeaders: false,
@@ -88,7 +111,8 @@ const loginLimiter = rateLimit({
 app.use('/login', loginLimiter);
 
 // -------- ROTAS --------
-app.use(require('./router'));
+const router = require('./router');
+app.use(router);
 
 // -------- TRATAMENTO DE ERROS 404 --------
 app.use((req, res) => {
@@ -115,11 +139,44 @@ app.use((err, req, res, next) => {
 // -------- SERVER --------
 const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || '0.0.0.0';
-console.log(`[LOG] Tentando iniciar servidor na porta ${PORT}, host ${HOST}`);
-app.listen(PORT, HOST, () => {
+
+// Criar servidor apenas uma vez
+const server = app.listen(PORT, HOST, () => {
   console.log(`[LOG] Servidor rodando na porta ${PORT} (host: ${HOST})`);
   logger.info(`Servidor rodando na porta ${PORT} (host: ${HOST})`);
   logger.info(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
-}).on('error', (err) => {
-  console.error(`[LOG] Erro ao iniciar servidor: ${err.message}`);
 });
+
+// Tratamento de erro do servidor - CRÍTICO para PM2
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`[ERRO] Porta ${PORT} já está em uso. Encerrando processo.`);
+    logger.error(`Porta ${PORT} já está em uso. Encerrando processo.`);
+    process.exit(1); // PM2 detecta e não entra em loop
+  } else {
+    console.error(`[ERRO] Erro no servidor: ${err.message}`);
+    logger.error(`Erro no servidor: ${err.message}`);
+    process.exit(1);
+  }
+});
+
+// Graceful shutdown para PM2
+const gracefulShutdown = (signal) => {
+  console.log(`[LOG] Recebido ${signal}. Encerrando servidor gracefully...`);
+  logger.info(`Recebido ${signal}. Encerrando servidor gracefully...`);
+  
+  server.close(() => {
+    console.log('[LOG] Servidor encerrado com sucesso');
+    logger.info('Servidor encerrado com sucesso');
+    process.exit(0);
+  });
+  
+  // Fallback: encerrar após 10 segundos se graceful shutdown falhar
+  setTimeout(() => {
+    console.error('[ERRO] Não foi possível encerrar gracefully. Forçando encerramento.');
+    process.exit(1);
+  }, 10000);
+};
+
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));

@@ -13,6 +13,7 @@ const estoqueRoutes = require('./modules/estoque/routes/estoqueRoutes');
 const controleGeralController = require('./controllers/controleGeralController');
 
 // Mount routes
+router.get('/test-rota', (req, res) => res.send('TESTE OK'));
 router.use('/', authRoutes);
 router.use('/estoque', estoqueRoutes);
 
@@ -52,22 +53,26 @@ router.post('/dashboard/controle-geral/estoque/obra/:obra_id/remover/:material_o
 router.get('/dashboard/controle-geral/estoque/obra/:obra_id/movimentacoes', isAuth, controleGeralController.movimentacoesObra);
 router.post('/dashboard/controle-geral/estoque/obra/:obra_id/entrada', isAuth, controleGeralController.registrarEntradaObra);
 router.post('/dashboard/controle-geral/estoque/obra/:obra_id/saida', isAuth, controleGeralController.registrarSaidaObra);
+
+// Equipes
 router.get('/controle-geral/equipes', isAuth, controleGeralController.equipes);
-router.post('/controle-geral/equipes', isAuth, controleGeralController.criarFuncionario);
 router.get('/dashboard/controle-geral/equipes', isAuth, controleGeralController.equipes);
-router.post('/dashboard/controle-geral/equipes', isAuth, controleGeralController.criarFuncionario);
-router.post('/dashboard/controle-geral/equipes/edit', isAuth, controleGeralController.editarFuncionario);
+router.post('/controle-geral/equipes', isAuth, controleGeralController.criarFuncionario);
+router.post('/dashboard/controle-geral/equipes/update', isAuth, controleGeralController.editarFuncionario);
+router.post('/dashboard/controle-geral/equipes/delete/:id', isAuth, controleGeralController.excluirFuncionario);
+
+// Financeiro
 router.get('/controle-geral/financeiro', isAuth, controleGeralController.financeiro);
 router.post('/controle-geral/financeiro', isAuth, controleGeralController.criarFinanceiro);
 router.get('/dashboard/controle-geral/financeiro', isAuth, controleGeralController.financeiro);
 router.post('/dashboard/controle-geral/financeiro', isAuth, controleGeralController.criarFinanceiro);
+
+// Comunicação
 router.get('/controle-geral/comunicacao', isAuth, controleGeralController.comunicacao);
-router.post('/controle-geral/comunicacao', isAuth, controleGeralController.criarMensagem);
 router.get('/dashboard/controle-geral/comunicacao', isAuth, controleGeralController.comunicacao);
-router.post('/dashboard/controle-geral/comunicacao', isAuth, controleGeralController.criarMensagem);
+
+// Relatórios
 router.get('/controle-geral/relatorios', isAuth, controleGeralController.relatorios);
-router.post('/controle-geral/relatorios', isAuth, controleGeralController.criarRelatorio);
 router.get('/dashboard/controle-geral/relatorios', isAuth, controleGeralController.relatorios);
-router.post('/dashboard/controle-geral/relatorios', isAuth, controleGeralController.criarRelatorio);
 
 module.exports = router;

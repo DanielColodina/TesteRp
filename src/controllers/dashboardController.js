@@ -2,6 +2,8 @@ const Checklist = require('../models/Checklist');
 const Auditoria = require('../models/Auditoria');
 const Historico = require('../models/Historico');
 const Obra = require('../models/Obra');
+const User = require('../models/User');
+const db = require('../database/connection');
 
 // Dashboard com progresso das obras
 exports.dashboardProgresso = async (req, res) => {
@@ -83,9 +85,6 @@ exports.apiStats = async (req, res) => {
       return res.status(401).json({ error: 'Não autorizado' });
     }
 
-    const Checklist = require('../models/Checklist');
-    const User = require('../models/User');
-
     const checklists = await Checklist.findAllWithProgresso();
     const usuarios = await User.findAllByAdmin(adminId);
 
@@ -121,7 +120,9 @@ exports.controleGeral = async (req, res) => {
 exports.obrasRecentes = async (req, res) => {
   try {
     const adminId = req.session.adminId;
-    const db = require('../database/connection');
+    if (!adminId) {
+      return res.status(401).json({ error: 'Não autorizado' });
+    }
 
     // Buscar obras dos usuários do admin com dados do checklist
     const sql = `

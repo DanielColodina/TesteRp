@@ -15,41 +15,41 @@
             <!-- Cards de Estatísticas -->
             <section class="metrics-section">
                 <h2 class="section-title"><i class="fas fa-chart-bar"></i> Métricas Chave</h2>
-                <div class="grid grid-3">
-                    <a href="/dashboard/tablesUsers" class="card stat-link dashboard-card">
+                <div class="grid grid-2 metrics-grid-centered">
+                    <a href="/dashboard/tablesUsers" class="card stat-link dashboard-card metric-card-small">
                         <div class="stat-header">
-                            <span style="color: #ffffff; font-size: 1.6rem; margin-right: 10px;">👤</span>
+                            <span style="color: #ffffff; font-size: 1.2rem; margin-right: 8px;">👤</span>
                             <span class="stat-label">Usuários</span>
                         </div>
                         <div class="stat-value">
                             <div class="number-box">
-                                <h3 id="totalUsuarios"><i class="fas fa-users" style="color: #ffffff; margin-right: 8px;"></i>{{totalUsuarios}}</h3>
+                                <h3 id="totalUsuarios"><i class="fas fa-users" style="color: #ffffff; margin-right: 6px;"></i>{{totalUsuarios}}</h3>
                             </div>
                         </div>
                         <div class="stat-footer">Cadastrados no sistema</div>
                     </a>
 
-                    <a href="/obras" class="card stat-link dashboard-card">
+                    <a href="/obras" class="card stat-link dashboard-card metric-card-small">
                         <div class="stat-header">
-                            <span style="color: #ffffff; font-size: 1.6rem; margin-right: 10px;">🏗️</span>
+                            <span style="color: #ffffff; font-size: 1.2rem; margin-right: 8px;">🏗️</span>
                             <span class="stat-label">Obras</span>
                         </div>
                         <div class="stat-value">
                             <div class="number-box">
-                                <h3 id="totalObras"><i class="fas fa-building" style="color: #ffffff; margin-right: 8px;"></i>{{totalObras}}</h3>
+                                <h3 id="totalObras"><i class="fas fa-building" style="color: #ffffff; margin-right: 6px;"></i>{{totalObras}}</h3>
                             </div>
                         </div>
                         <div class="stat-footer">Projetos ativos</div>
                     </a>
 
-                    <a href="/dashboard/progresso" class="card stat-link dashboard-card">
+                    <a href="/dashboard/progresso" class="card stat-link dashboard-card metric-card-small">
                         <div class="stat-header">
-                            <span style="color: #ffffff; font-size: 1.6rem; margin-right: 10px;">📊</span>
+                            <span style="color: #ffffff; font-size: 1.2rem; margin-right: 8px;">📊</span>
                             <span class="stat-label">Progresso</span>
                         </div>
                         <div class="stat-value">
                             <div class="number-box">
-                                <h3 id="progressoMedio"><i class="fas fa-chart-pie" style="color: #ffffff; margin-right: 8px;"></i>{{progressoMedio}}<span class="percent">%</span></h3>
+                                <h3 id="progressoMedio"><i class="fas fa-chart-pie" style="color: #ffffff; margin-right: 6px;"></i>{{progressoMedio}}<span class="percent">%</span></h3>
                             </div>
                         </div>
                         <div class="progress-bar">
@@ -57,14 +57,14 @@
                         </div>
                     </a>
 
-                    <a href="/dashboard/controle-geral" class="card stat-link dashboard-card">
+                    <a href="/dashboard/controle-geral" class="card stat-link dashboard-card metric-card-small">
                         <div class="stat-header">
-                            <span style="color: #ffffff; font-size: 1.6rem; margin-right: 10px;">📅</span>
+                            <span style="color: #ffffff; font-size: 1.2rem; margin-right: 8px;">📅</span>
                             <span class="stat-label">Atividades</span>
                         </div>
                         <div class="stat-value">
                             <div class="number-box">
-                                <h3 id="atividadesHoje"><i class="fas fa-calendar-check" style="color: #ffffff; margin-right: 8px;"></i>--</h3>
+                                <h3 id="atividadesHoje"><i class="fas fa-calendar-check" style="color: #ffffff; margin-right: 6px;"></i>--</h3>
                             </div>
                         </div>
                         <div class="stat-footer">Atividades hoje</div>
@@ -75,20 +75,24 @@
             <!-- Ações Rápidas -->
             <section class="actions-section">
                 <h2 class="section-title"><i class="fas fa-bolt"></i> Ações Rápidas</h2>
-                <div class="flex flex-wrap gap-15 justify-center">
-                    <a href="/dashboard/tablesUsers" class="btn btn-primary">
+                <div class="actions-grid-centered">
+                    <a href="/dashboard/tablesUsers" class="btn btn-primary btn-small">
                         <i class="fas fa-users"></i>
                         <span>Gerenciar Usuários</span>
                     </a>
-                    <a href="/obras" class="btn btn-primary">
+                    <a href="/obras" class="btn btn-primary btn-small">
                         <i class="fas fa-hard-hat"></i>
                         <span>Gerenciar Obras</span>
                     </a>
-                    <a href="/dashboard/progresso" class="btn btn-primary">
+                    <a href="/dashboard/progresso" class="btn btn-primary btn-small">
                         <i class="fas fa-chart-line"></i>
                         <span>Ver Progresso</span>
                     </a>
-                    <a href="/dashboard/controle-geral" class="btn btn-primary">
+                    <a href="/rotascompletas" class="btn btn-primary btn-small">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>Rotas Completas</span>
+                    </a>
+                    <a href="/dashboard/controle-geral" class="btn btn-primary btn-small">
                         <i class="fas fa-cogs"></i>
                         <span>Controle Geral</span>
                     </a>
@@ -98,18 +102,15 @@
             <!-- Resumo de Obras Recentes -->
             <section class="recent-section">
                 <h2 class="section-title"><i class="fas fa-clock"></i> Obras Recentes</h2>
-                <div class="grid grid-2">
+                <div class="recent-works-centered">
+                    <!-- Busca de Obras com Autocomplete -->
+                    <div class="search-box">
+                        <input type="text" id="searchObras" placeholder="Buscar obras pelo nome..." autocomplete="off">
+                        <datalist id="sugestoesObras"></datalist>
+                    </div>
                     <div class="card dashboard-card">
                         <div id="recentWorksList" class="works-list">
                             <p class="loading">Carregando obras...</p>
-                        </div>
-                    </div>
-
-                    <!-- Atividades Recentes -->
-                    <div class="card dashboard-card">
-                        <h3 class="card-title"><i class="fas fa-list"></i> Atividades Recentes</h3>
-                        <div id="recentActivities" class="activities-list">
-                            <p class="loading">Carregando atividades...</p>
                         </div>
                     </div>
                 </div>
@@ -1254,6 +1255,127 @@ html, body {
         width: 100%;
         padding: 12px;
     }
+}
+
+/* ========================================
+   MÉTRICAS PEQUENAS E CENTRALIZADAS
+   ======================================== */
+
+.metrics-grid-centered {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+    max-width: 700px !important;
+    margin: 0 auto !important;
+}
+
+.metric-card-small {
+    padding: 20px !important;
+    min-height: auto !important;
+    text-align: center !important;
+}
+
+.metric-card-small .stat-header {
+    justify-content: center !important;
+    margin-bottom: 10px !important;
+}
+
+.metric-card-small .stat-footer {
+    font-size: 0.75rem !important;
+    margin-top: 8px !important;
+}
+
+.metric-card-small .number-box h3 {
+    font-size: 1.8rem !important;
+}
+
+.metric-card-small .progress-bar {
+    margin-top: 10px !important;
+    height: 6px !important;
+}
+
+@media (max-width: 600px) {
+    .metrics-grid-centered {
+        grid-template-columns: 1fr !important;
+        max-width: 100% !important;
+    }
+}
+
+/* ========================================
+   AÇÕES RÁPIDAS CENTRALIZADAS E MENORES
+   ======================================== */
+
+.actions-grid-centered {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    max-width: 700px !important;
+    margin: 0 auto !important;
+}
+
+.btn-small {
+    padding: 10px 16px !important;
+    font-size: 0.85rem !important;
+    border-radius: 8px !important;
+}
+
+.btn-small i {
+    font-size: 0.9rem !important;
+    margin-right: 6px !important;
+}
+
+@media (max-width: 600px) {
+    .actions-grid-centered {
+        flex-direction: column !important;
+        max-width: 100% !important;
+    }
+    
+    .btn-small {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+}
+
+/* ========================================
+   OBRAS RECENTES CENTRALIZADAS COM BUSCA
+   ======================================== */
+
+.recent-works-centered {
+    max-width: 600px !important;
+    margin: 0 auto !important;
+}
+
+.search-box {
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.search-box input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255, 195, 0, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #FFC300;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(255, 195, 0, 0.15);
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.recent-section .card {
+    width: 100% !important;
 }
 </style>
 

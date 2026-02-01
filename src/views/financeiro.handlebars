@@ -44,7 +44,7 @@
               <select id="obra_id" name="obra_id">
                 <option value="">Sem obra específica</option>
                 {{#each obras}}
-                <option value="{{this.id}}">{{this.id}} - {{this.nome}}</option>
+                <option value="{{this.id}}" {{#if (eq this.id ../obra_id)}}selected{{/if}}>{{this.id}} - {{this.nome}}</option>
                 {{/each}}
               </select>
             </div>

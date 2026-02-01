@@ -28,8 +28,47 @@
     <div class="form-container">
         <h3 style="margin-top: 0;">📋 Catálogo de Materiais</h3>
         
+        <!-- Formulário para adicionar material -->
+        <div class="adicionar-material">
+            <h4>➕ Adicionar Material à Obra</h4>
+            <form action="/dashboard/controle-general/estoque/obra/{{obra_id}}/adicionar" method="POST" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; align-items: end;">
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Material</label>
+                    <select name="material_id" required style="width: 100%; padding: 10px; border: 2px solid #FFC300; border-radius: 8px; font-size: 1rem;">
+                        <option value="">Selecione um material</option>
+                        {{#each materiais}}
+                        <option value="{{this.id}}">{{this.nome}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Qtd. Estimada</label>
+                    <input type="number" name="quantidade_estimada" step="0.01" placeholder="0" style="width: 100%; padding: 10px; border: 2px solid #FFC300; border-radius: 8px; font-size: 1rem;">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Qtd. Inicial</label>
+                    <input type="number" name="quantidade_inicial" step="0.01" placeholder="0" style="width: 100%; padding: 10px; border: 2px solid #FFC300; border-radius: 8px; font-size: 1rem;">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Fase da Obra</label>
+                    <select name="fase_obra" style="width: 100%; padding: 10px; border: 2px solid #FFC300; border-radius: 8px; font-size: 1rem;">
+                        <option value="">Selecione</option>
+                        <option value="Fundação">Fundação</option>
+                        <option value="Estrutura">Estrutura</option>
+                        <option value="Alvenaria">Alvenaria</option>
+                        <option value="Instalações">Instalações</option>
+                        <option value="Acabamento">Acabamento</option>
+                        <option value="Finalização">Finalização</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #FFC300, #FFD700); border: none; border-radius: 8px; color: #1a1a1a; font-weight: 700; cursor: pointer; font-size: 1rem;">Adicionar</button>
+                </div>
+            </form>
+        </div>
+        
         {{#if materiais}}
-        <div style="overflow-x: auto;">
+        <div style="overflow-x: auto; margin-top: 20px;">
             <table style="width: 100%; border-collapse: collapse;">
                 <thead>
                     <tr style="background: #f3f4f6; border-bottom: 2px solid #FFC300;">
@@ -97,6 +136,20 @@
     margin: 0 0 20px 0;
     color: #333;
     font-size: 1.3rem;
+}
+
+.adicionar-material {
+    background: rgba(255, 195, 0, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 195, 0, 0.3);
+    margin-bottom: 20px;
+}
+
+.adicionar-material h4 {
+    margin: 0 0 15px 0;
+    color: #FFC300;
+    font-size: 1.1rem;
 }
 
 .btn-voltar {

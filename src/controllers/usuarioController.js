@@ -103,8 +103,17 @@ exports.create = async (req, res) => {
 // LISTAR USUÁRIOS
 exports.list = async (req, res) => {
   try {
-    const usuarios = await User.findAllWithAdmin();
-    res.render('tablesUsers', { usuarios });
+    const { search } = req.query;
+    let usuarios = await User.findAllWithAdmin();
+    
+    // Filtrar por nome se houver busca
+    if (search && search.trim()) {
+      usuarios = usuarios.filter(u => 
+        u.nome && u.nome.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+    
+    res.render('tablesUsers', { usuarios, search: search || '' });
   } catch (err) {
     console.error('❌ Erro ao listar usuários:', err);
     res.status(500).send('❌ Erro ao listar usuários');
@@ -490,5 +499,30 @@ exports.getUsuariosForDropdown = async (req, res) => {
   }
 };
 
+// AUTOCOMPLETE - BUSCAR USUÁRIOS POR NOME
+exports.searchAutocomplete = async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    if (!q || q.length < 1) {
+      return res.json([]);
+    }
+
+    const usuarios = await User.findAllWithAdmin();
+    const filtrados = usuarios.filter(u => 
+      u.nome && u.nome.toLowerCase().includes(q.toLowerCase())
+    );
+
+    const resultados = filtrados.slice(0, 10).map(u => ({
+      id: u.id,
+      nome: u.nome
+    }));
+
+    res.json(resultados);
+  } catch (err) {
+    console.error('❌ Erro na busca autocomplete:', err);
+    res.json([]);
+  }
+};
 
 

@@ -91,7 +91,7 @@ financeiroRouter.post('/', isAuth, async (req, res) => {
   try {
     const [result] = await db.execute(`INSERT INTO financeiro (tipo, descricao, valor, data, obra_id) VALUES (?, ?, ?, ?, ?)`,
       [tipo, descricao, valor, data, obra_id]);
-    res.json({ id: result.insertId });
+    res.redirect('/rotascompletas');
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
