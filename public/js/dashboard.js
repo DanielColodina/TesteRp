@@ -5,13 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Carregar obras recentes
     carregarObrasRecentes();
 
-    // Carregar atividades recentes
-    carregarAtividadesRecentes();
+    // Inicializar autocomplete
+    initAutocomplete();
 
     // Atualizar a cada 30 segundos
     setInterval(() => {
         carregarEstatisticas();
-        carregarAtividadesRecentes();
         carregarObrasRecentes();
     }, 30000);
 });
@@ -46,10 +45,8 @@ async function carregarEstatisticas() {
 
 async function carregarObrasRecentes() {
     try {
-        console.log('Carregando obras recentes...');
         const res = await fetch('/dashboard/api/obras-recentes');
         const data = await res.json();
-        console.log('Dados recebidos:', data);
 
         const worksList = document.getElementById('recentWorksList');
 
@@ -333,7 +330,6 @@ document.head.appendChild(style);
 
 // Funções para editar usuário e desvincular obra
 function editarUsuario(usuarioId) {
-    console.log('Editar usuário chamado com ID:', usuarioId);
     if (usuarioId) {
         window.location.href = `/dashboard/usuarios/${usuarioId}/edit`;
     } else {
@@ -383,4 +379,64 @@ function excluirUsuario(usuarioId, usuarioNome) {
             alert('Erro ao excluir cliente.');
         });
     }
+}
+
+// Função para autocomplete de obras
+function initAutocomplete() {
+    const searchInput = document.getElementById('searchObras');
+    const sugestoesDatalist = document.getElementById('sugestoesObras');
+    let timeout = null;
+
+    if (searchInput && sugestoesDatalist) {
+        searchInput.addEventListener('input', function() {
+            const termo = this.value.trim();
+            
+            clearTimeout(timeout);
+            
+            if (termo.length < 1) {
+                sugestoesDatalist.innerHTML = '';
+                filterObras();
+                return;
+            }
+            
+            timeout = setTimeout(function() {
+                buscarSugestoes(termo);
+            }, 200);
+        });
+    }
+}
+
+function buscarSugestoes(termo) {
+    fetch(`/obras/search?q=${encodeURIComponent(termo)}`)
+        .then(response => response.json())
+        .then(data => {
+            const sugestoesDatalist = document.getElementById('sugestoesObras');
+            sugestoesDatalist.innerHTML = '';
+            data.forEach(obra => {
+                const option = document.createElement('option');
+                option.value = obra.nome_obra;
+                sugestoesDatalist.appendChild(option);
+            });
+            filterObras();
+        })
+        .catch(err => {
+            console.error('Erro ao buscar sugestões:', err);
+        });
+}
+
+// Função para filtrar obras pela busca
+function filterObras() {
+    const searchTerm = document.getElementById('searchObras').value.toLowerCase();
+    const workItems = document.querySelectorAll('.work-item');
+    
+    workItems.forEach(item => {
+        const obraNome = item.querySelector('.work-info h4').textContent.toLowerCase();
+        const clienteNome = item.querySelector('.work-info p').textContent.toLowerCase();
+        
+        if (obraNome.includes(searchTerm) || clienteNome.includes(searchTerm)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
 }

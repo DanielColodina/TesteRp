@@ -6,14 +6,14 @@
         <i class="fas fa-bars"></i>
       </button>
       <h1><i class="fas fa-money-bill-wave"></i> Gestão Financeira</h1>
-      <a href="/dashboard/controle-geral" class="btn-primary-top">← Voltar</a>
+      <a href="/dashboard/controle-grade" class="btn-primary-top">← Voltar</a>
     </div>
 
     <div class="financeiro-container">
       <!-- Formulário de Nova Transação -->
       <div id="form" class="form-section glass-widget">
         <h2>💳 Registrar Nova Transação</h2>
-        <form action="/controle-geral/financeiro" method="POST" class="transacao-form">
+        <form action="/dashboard/controle-grade/financeiro" method="POST" class="transacao-form">
           <div class="form-grid">
             <div class="form-group">
               <label for="tipo">Tipo de Transação *</label>
@@ -81,8 +81,8 @@
               {{/if}}
 
               <div class="transacao-actions">
-                <a href="/dashboard/controle-geral/financeiro/edit/{{this.id}}" class="btn-action btn-edit">✏️ Editar</a>
-                <form action="/dashboard/controle-geral/financeiro/delete/{{this.id}}" method="POST" style="display:inline;">
+                <a href="/dashboard/controle-grade/financeiro/edit/{{this.id}}" class="btn-action btn-edit">✏️ Editar</a>
+                <form action="/dashboard/controle-grade/financeiro/delete/{{this.id}}" method="POST" style="display:inline;">
                   <button type="submit" class="btn-action btn-delete" onclick="return confirm('Tem certeza que deseja remover esta transação?')">🗑️ Excluir</button>
                 </form>
               </div>
@@ -234,6 +234,10 @@
   margin-left: 280px;
   overflow-y: auto;
   background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+}
+
+.main-content.sidebar-closed {
+  margin-left: 0;
 }
 
 .top-bar {
@@ -491,6 +495,7 @@
 .transacao-actions {
   display: flex;
   gap: 12px;
+  margin-top: auto;
 }
 
 .btn-action {
@@ -498,45 +503,38 @@
   padding: 10px 16px;
   border: none;
   border-radius: 8px;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s;
   text-decoration: none;
   text-align: center;
-  transition: all 0.3s;
-  font-size: 0.9rem;
 }
 
 .btn-edit {
-  background: rgba(255, 195, 0, 0.2);
-  color: var(--yellow-primary);
-  border: 1px solid rgba(255, 195, 0, 0.3);
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
 .btn-edit:hover {
-  background: rgba(255, 195, 0, 0.3);
-  transform: translateY(-2px);
+  background: rgba(59, 130, 246, 0.25);
 }
 
 .btn-delete {
-  background: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.15);
   color: #ef4444;
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 .btn-delete:hover {
-  background: rgba(239, 68, 68, 0.3);
-  transform: translateY(-2px);
+  background: rgba(239, 68, 68, 0.25);
 }
 
 /* ===== EMPTY STATE ===== */
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 40px;
   text-align: center;
-  min-height: 300px;
+  padding: 60px 20px;
 }
 
 .empty-icon {
@@ -545,86 +543,53 @@
 }
 
 .empty-state h3 {
-  color: var(--text-primary);
+  color: var(--yellow-primary);
   font-size: 1.5rem;
-  margin: 0 0 10px 0;
+  margin-bottom: 10px;
 }
 
 .empty-state p {
   color: var(--text-secondary);
   font-size: 1rem;
-  margin: 0;
-}
-
-/* ===== CUSTOM SCROLLBAR ===== */
-.main-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.main-content::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-}
-
-.main-content::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--yellow-primary) 0%, var(--yellow-hover) 100%);
-  border-radius: 10px;
-}
-
-.main-content::-webkit-scrollbar-thumb:hover {
-  background: var(--yellow-primary);
-}
-
-/* ===== SIDEBAR TOGGLE ===== */
-.sidebar {
-  transition: left 0.3s ease;
-}
-
-.sidebar-closed {
-  left: -280px;
-}
-
-.main-content {
-  transition: margin-left 0.3s ease;
-}
-
-.main-content.sidebar-closed {
-  margin-left: 0;
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 1024px) {
-  .top-bar { padding: 20px 30px; }
-  .financeiro-container { padding: 30px; }
-}
-
 @media (max-width: 768px) {
-  .sidebar { width: 70px; }
-  .main-content { margin-left: 70px; }
-  .sidebar-header { padding: 20px 10px; }
-  .logo { font-size: 1.2rem; }
-  .nav-item span { font-size: 1rem; }
-  .nav-item { justify-content: center; padding: 12px 8px; }
-  .top-bar { flex-direction: column; gap: 15px; padding: 20px; }
-  .top-bar h1 { font-size: 1.5rem; }
-  .form-grid { grid-template-columns: 1fr; }
-  .transacoes-grid { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 480px) {
-  .sidebar { width: 60px; }
-  .main-content { margin-left: 60px; }
-  .top-bar { padding: 15px; gap: 10px; }
-  .top-bar h1 { font-size: 1.3rem; }
-  .financeiro-container { padding: 15px; }
+  .top-bar {
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+  }
+  
+  .top-bar h1 {
+    font-size: 1.5rem;
+  }
+  
+  .financeiro-container {
+    padding: 20px;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .transacoes-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
 }
 </style>
 
 <script>
+// Função para limpar o formulário
 function limparFormulario() {
-    document.querySelector('.transacao-form').reset();
+  document.querySelector('#tipo').value = '';
+  document.querySelector('#descricao').value = '';
+  document.querySelector('#valor').value = '';
+  document.querySelector('#data').value = '';
+  document.querySelector('#obra_id').value = '';
 }
 </script>
-
-   
-

@@ -591,6 +591,71 @@ input::placeholder, textarea::placeholder {
   border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
+/* Dashboard Sections - Organized Layout */
+.metrics-section,
+.actions-section,
+.recent-section {
+  margin-bottom: 30px;
+  padding: 24px;
+  background: rgba(31, 31, 46, 0.4);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.metrics-section {
+  text-align: center;
+}
+
+.metrics-grid-centered {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.actions-section {
+  text-align: center;
+}
+
+.actions-grid-centered {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.actions-grid-centered .btn {
+  flex: 0 1 auto;
+  min-width: 160px;
+}
+
+.recent-section {
+  text-align: center;
+}
+
+.recent-works-centered {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.recent-works-centered .search-box {
+  max-width: 400px;
+  margin: 0 auto 20px;
+}
+
+.recent-works-centered .dashboard-card {
+  text-align: left;
+}
+
+/* Section titles alignment */
+.section-title {
+  justify-content: center;
+  margin-bottom: 24px !important;
+}
+
 /* Dashboard responsive adjustments */
 @media (max-width: 768px) {
   .dashboard-card {
@@ -846,7 +911,7 @@ input::placeholder, textarea::placeholder {
 }
 
 .company-logo {
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   font-weight: 900;
   background: linear-gradient(135deg, #FFC300 0%, #FFD700 50%, #FFC300 100%);
   -webkit-background-clip: text;
@@ -1032,12 +1097,7 @@ input::placeholder, textarea::placeholder {
   }
 
   .company-logo {
-    font-size: 2.5rem;
-  }
-
-  .login-card {
-    padding: 30px 20px;
-    max-width: 100%;
+    font-size: 2rem;
   }
 
   .login-title {
@@ -1045,7 +1105,7 @@ input::placeholder, textarea::placeholder {
   }
 
   .company-logo {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   .company-tagline {
@@ -1077,7 +1137,7 @@ input::placeholder, textarea::placeholder {
   }
 
   .company-logo {
-    font-size: 2.8rem;
+    font-size: 2rem;
   }
 
   .login-card {
@@ -1088,7 +1148,7 @@ input::placeholder, textarea::placeholder {
 /* Large screens */
 @media (min-width: 1200px) {
   .company-logo {
-    font-size: 4rem;
+    font-size: 2.8rem;
   }
 
   .login-card {
@@ -1685,11 +1745,9 @@ input::placeholder, textarea::placeholder {
     font-size: 0.75rem;
   }
 
-  /* Section title */
-  .section-title {
-    font-size: 1rem;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
+  .actions-grid-centered .btn {
+    width: 100%;
+    max-width: 280px;
   }
 
   /* Grid optimization */

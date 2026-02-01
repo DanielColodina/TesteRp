@@ -11,11 +11,16 @@ const estoqueRoutes = require('./modules/estoque/routes/estoqueRoutes');
 
 // Controllers
 const controleGeralController = require('./controllers/controleGeralController');
+const rotasCompletasController = require('./controllers/rotasCompletasController');
 
 // Mount routes
 router.get('/test-rota', (req, res) => res.send('TESTE OK'));
 router.use('/', authRoutes);
 router.use('/estoque', estoqueRoutes);
+
+// Rota Rotas Completas
+router.get('/rotascompletas', isAuth, rotasCompletasController.index);
+router.post('/rotascompletas', isAuth, rotasCompletasController.index);
 
 // API routes
 router.use('/api/obras', obrasRouter);
@@ -28,51 +33,58 @@ router.use('/api/relatorios', relatoriosRouter);
 // Controle Geral view routes
 router.get('/controle-geral', isAuth, controleGeralController.controleGeral);
 router.get('/dashboard/controle-geral', isAuth, controleGeralController.controleGeral);
-router.get('/controle-geral/obras', isAuth, controleGeralController.obras);
-router.post('/controle-geral/obras', isAuth, controleGeralController.criarObra);
-router.get('/dashboard/controle-geral/obras', isAuth, controleGeralController.obras);
-router.post('/dashboard/controle-geral/obras', isAuth, controleGeralController.criarObra);
-router.get('/dashboard/controle-geral/obras/edit/:id', isAuth, controleGeralController.editarObraPage);
-router.post('/dashboard/controle-geral/obras/edit/:id', isAuth, controleGeralController.editarObra);
-router.post('/dashboard/controle-geral/obras/delete/:id', isAuth, controleGeralController.excluirObra);
-router.get('/controle-geral/estoque', isAuth, controleGeralController.estoque);
-router.post('/controle-geral/estoque', isAuth, controleGeralController.criarMaterial);
-router.get('/dashboard/controle-geral/estoque', isAuth, controleGeralController.estoque);
-router.post('/dashboard/controle-geral/estoque', isAuth, controleGeralController.criarMaterial);
-router.get('/dashboard/controle-geral/estoque/edit/:id', isAuth, controleGeralController.editarMaterialPage);
-router.post('/dashboard/controle-geral/estoque/edit/:id', isAuth, controleGeralController.editarMaterial);
-router.post('/dashboard/controle-geral/estoque/delete/:id', isAuth, controleGeralController.excluirMaterial);
+router.get('/controle-grade', isAuth, controleGeralController.controleGeral);
+router.get('/dashboard/controle-grade', isAuth, controleGeralController.controleGeral);
+router.get('/controle-grade/obras', isAuth, controleGeralController.obras);
+router.post('/controle-grade/obras', isAuth, controleGeralController.criarObra);
+router.get('/dashboard/controle-grade/obras', isAuth, controleGeralController.obras);
+router.post('/dashboard/controle-grade/obras', isAuth, controleGeralController.criarObra);
+router.get('/dashboard/controle-grade/obras/edit/:id', isAuth, controleGeralController.editarObraPage);
+router.post('/dashboard/controle-grade/obras/edit/:id', isAuth, controleGeralController.editarObra);
+router.post('/dashboard/controle-grade/obras/delete/:id', isAuth, controleGeralController.excluirObra);
+router.get('/controle-grade/estoque', isAuth, controleGeralController.estoque);
+router.post('/controle-grade/estoque', isAuth, controleGeralController.criarMaterial);
+router.get('/dashboard/controle-grade/estoque', isAuth, controleGeralController.estoque);
+router.post('/dashboard/controle-grade/estoque', isAuth, controleGeralController.criarMaterial);
+router.get('/dashboard/controle-grade/estoque/edit/:id', isAuth, controleGeralController.editarMaterialPage);
+router.post('/dashboard/controle-grade/estoque/edit/:id', isAuth, controleGeralController.editarMaterial);
+router.post('/dashboard/controle-grade/estoque/delete/:id', isAuth, controleGeralController.excluirMaterial);
 
 // Materiais por obra
-router.get('/dashboard/controle-geral/estoque/obra/:obra_id', isAuth, controleGeralController.materiaisObra);
-router.post('/dashboard/controle-geral/estoque/obra/:obra_id/adicionar', isAuth, controleGeralController.adicionarMaterialObra);
-router.post('/dashboard/controle-geral/estoque/obra/:obra_id/editar/:material_obra_id', isAuth, controleGeralController.editarMaterialObra);
-router.post('/dashboard/controle-geral/estoque/obra/:obra_id/remover/:material_obra_id', isAuth, controleGeralController.removerMaterialObra);
+router.get('/dashboard/controle-grade/estoque/obra/:obra_id', isAuth, controleGeralController.materiaisObra);
+router.post('/dashboard/controle-grade/estoque/obra/:obra_id/adicionar', isAuth, controleGeralController.adicionarMaterialObra);
+router.post('/dashboard/controle-grade/estoque/obra/:obra_id/editar/:material_obra_id', isAuth, controleGeralController.editarMaterialObra);
+router.post('/dashboard/controle-grade/estoque/obra/:obra_id/remover/:material_obra_id', isAuth, controleGeralController.removerMaterialObra);
 
 // Movimentações de materiais na obra
-router.get('/dashboard/controle-geral/estoque/obra/:obra_id/movimentacoes', isAuth, controleGeralController.movimentacoesObra);
-router.post('/dashboard/controle-geral/estoque/obra/:obra_id/entrada', isAuth, controleGeralController.registrarEntradaObra);
-router.post('/dashboard/controle-geral/estoque/obra/:obra_id/saida', isAuth, controleGeralController.registrarSaidaObra);
+router.get('/dashboard/controle-grade/estoque/obra/:obra_id/movimentacoes', isAuth, controleGeralController.movimentacoesObra);
+router.post('/dashboard/controle-grade/estoque/obra/:obra_id/entrada', isAuth, controleGeralController.registrarEntradaObra);
+router.post('/dashboard/controle-grade/estoque/obra/:obra_id/saida', isAuth, controleGeralController.registrarSaidaObra);
 
 // Equipes
-router.get('/controle-geral/equipes', isAuth, controleGeralController.equipes);
-router.get('/dashboard/controle-geral/equipes', isAuth, controleGeralController.equipes);
-router.post('/controle-geral/equipes', isAuth, controleGeralController.criarFuncionario);
-router.post('/dashboard/controle-geral/equipes/update', isAuth, controleGeralController.editarFuncionario);
-router.post('/dashboard/controle-geral/equipes/delete/:id', isAuth, controleGeralController.excluirFuncionario);
+router.get('/controle-grade/equipes', isAuth, controleGeralController.equipes);
+router.get('/dashboard/controle-grade/equipes', isAuth, controleGeralController.equipes);
+router.post('/controle-grade/equipes', isAuth, controleGeralController.criarFuncionario);
+router.post('/dashboard/controle-grade/equipes/update', isAuth, controleGeralController.editarFuncionario);
+router.post('/dashboard/controle-grade/equipes/delete/:id', isAuth, controleGeralController.excluirFuncionario);
 
 // Financeiro
-router.get('/controle-geral/financeiro', isAuth, controleGeralController.financeiro);
-router.post('/controle-geral/financeiro', isAuth, controleGeralController.criarFinanceiro);
-router.get('/dashboard/controle-geral/financeiro', isAuth, controleGeralController.financeiro);
-router.post('/dashboard/controle-geral/financeiro', isAuth, controleGeralController.criarFinanceiro);
+router.get('/controle-grade/financeiro', isAuth, controleGeralController.financeiro);
+router.post('/controle-grade/financeiro', isAuth, controleGeralController.criarFinanceiro);
+router.get('/dashboard/controle-grade/financeiro', isAuth, controleGeralController.financeiro);
+router.post('/dashboard/controle-grade/financeiro', isAuth, controleGeralController.criarFinanceiro);
+router.get('/dashboard/controle-grade/financeiro/edit/:id', isAuth, controleGeralController.editarFinanceiroPage);
+router.post('/dashboard/controle-grade/financeiro/edit/:id', isAuth, controleGeralController.editarFinanceiro);
+router.post('/dashboard/controle-grade/financeiro/delete/:id', isAuth, controleGeralController.excluirFinanceiro);
 
 // Comunicação
-router.get('/controle-geral/comunicacao', isAuth, controleGeralController.comunicacao);
-router.get('/dashboard/controle-geral/comunicacao', isAuth, controleGeralController.comunicacao);
+router.get('/controle-grade/comunicacao', isAuth, controleGeralController.comunicacao);
+router.get('/dashboard/controle-grade/comunicacao', isAuth, controleGeralController.comunicacao);
 
 // Relatórios
-router.get('/controle-geral/relatorios', isAuth, controleGeralController.relatorios);
-router.get('/dashboard/controle-geral/relatorios', isAuth, controleGeralController.relatorios);
+router.get('/controle-grade/relatorios', isAuth, controleGeralController.relatorios);
+router.post('/controle-grade/relatorios', isAuth, controleGeralController.criarRelatorio);
+router.get('/dashboard/controle-grade/relatorios', isAuth, controleGeralController.relatorios);
+router.post('/dashboard/controle-grade/relatorios', isAuth, controleGeralController.criarRelatorio);
 
 module.exports = router;

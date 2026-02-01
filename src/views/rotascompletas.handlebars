@@ -1,15 +1,15 @@
-﻿<link rel="stylesheet" href="/css/dashboard-progresso.css?v=2.1">
+<link rel="stylesheet" href="/css/dashboard-progresso.css?v=2.1">
 
 <div class="app-layout">
   <main class="main-content">
     <div class="top-bar">
-      <h1>📋 Registro Obras - Todas as Obras</h1>
-      <a href="/obras" class="btn btn-secondary">← Voltar às Obras</a>
+      <h1>?? Registro Obras - Todas as Obras</h1>
+      <a href="/obras" class="btn btn-secondary">? Voltar �s Obras</a>
     </div>
 
     <div class="app-container">
       {{#if obras}}
-        <!-- LISTA DE OBRAS EXPANDÍVEIS -->
+        <!-- LISTA DE OBRAS EXPAND�VEIS -->
         <div class="accordion">
           {{#each obras}}
             <div class="accordion-item">
@@ -18,28 +18,28 @@
                   <strong>{{nome_obra}}</strong>
                   <span class="obra-cliente">{{cliente_nome}}</span>
                 </span>
-                <span class="accordion-icon">▼</span>
+                <span class="accordion-icon">?</span>
               </button>
               
               <div class="accordion-content">
-                <!-- INFORMAÇÕES DA OBRA -->
+                <!-- INFORMA��ES DA OBRA -->
                 <div class="info-section">
-                  <h3>📍 Informações da Obra</h3>
+                  <h3>?? Informa��es da Obra</h3>
                   <div class="info-grid">
                     <div class="info-item">
-                      <label>Endereço:</label>
+                      <label>Endere�o:</label>
                       <span>{{endereco_obra}}</span>
                     </div>
                     <div class="info-item">
-                      <label>Data de Criação:</label>
+                      <label>Data de Cria��o:</label>
                       <span>{{created_at}}</span>
                     </div>
                   </div>
                 </div>
 
-                <!-- INFORMAÇÕES DO CLIENTE/USUÁRIO -->
+                <!-- INFORMA��ES DO CLIENTE/USU�RIO -->
                 <div class="info-section">
-                  <h3>👤 Informações do Cliente</h3>
+                  <h3>?? Informa��es do Cliente</h3>
                   <div class="info-grid">
                     <div class="info-item">
                       <label>Nome:</label>
@@ -54,7 +54,7 @@
                       <span>{{cliente_telefone}}</span>
                     </div>
                     <div class="info-item">
-                      <label>Endereço do Cliente:</label>
+                      <label>Endere�o do Cliente:</label>
                       <span>{{cliente_endereco}}</span>
                     </div>
                   </div>
@@ -62,7 +62,7 @@
 
                 <!-- PROGRESSO E CHECKLIST -->
                 <div class="info-section">
-                  <h3>📊 Progresso e Checklist</h3>
+                  <h3>?? Progresso e Checklist</h3>
                   <div class="progress-overview">
                     <div class="progress-bar-container large">
                       <div class="progress-bar" style="width: {{progresso}}%;">
@@ -73,32 +73,32 @@
                   
                   <div class="checklist-grid">
                     <div class="checklist-item {{status_uso_solo}}">
-                      <span class="checklist-icon">{{#if (eq status_uso_solo 'Feito')}}✅{{else if (eq status_uso_solo 'Andamento')}}⏳{{else}}⏸️{{/if}}</span>
+                      <span class="checklist-icon">{{#if (eq status_uso_solo 'Feito')}}?{{else if (eq status_uso_solo 'Andamento')}}?{{else}}??{{/if}}</span>
                       <span>Uso do Solo</span>
                       <span class="checklist-status">{{status_uso_solo}}</span>
                     </div>
                     <div class="checklist-item {{status_licenca}}">
-                      <span class="checklist-icon">{{#if (eq status_licenca 'Feito')}}✅{{else if (eq status_licenca 'Andamento')}}⏳{{else}}⏸️{{/if}}</span>
-                      <span>Licença</span>
+                      <span class="checklist-icon">{{#if (eq status_licenca 'Feito')}}?{{else if (eq status_licenca 'Andamento')}}?{{else}}??{{/if}}</span>
+                      <span>Licen�a</span>
                       <span class="checklist-status">{{status_licenca}}</span>
                     </div>
                     <div class="checklist-item {{status_condominio}}">
-                      <span class="checklist-icon">{{#if (eq status_condominio 'Feito')}}✅{{else if (eq status_condominio 'Andamento')}}⏳{{else}}⏸️{{/if}}</span>
-                      <span>Condomínio</span>
+                      <span class="checklist-icon">{{#if (eq status_condominio 'Feito')}}?{{else if (eq status_condominio 'Andamento')}}?{{else}}??{{/if}}</span>
+                      <span>Condom�nio</span>
                       <span class="checklist-status">{{status_condominio}}</span>
                     </div>
                     <div class="checklist-item {{status_habite_se}}">
-                      <span class="checklist-icon">{{#if (eq status_habite_se 'Feito')}}✅{{else if (eq status_habite_se 'Andamento')}}⏳{{else}}⏸️{{/if}}</span>
+                      <span class="checklist-icon">{{#if (eq status_habite_se 'Feito')}}?{{else if (eq status_habite_se 'Andamento')}}?{{else}}??{{/if}}</span>
                       <span>Habite-se</span>
                       <span class="checklist-status">{{status_habite_se}}</span>
                     </div>
                     <div class="checklist-item {{status_averbacao}}">
-                      <span class="checklist-icon">{{#if (eq status_averbacao 'Feito')}}✅{{else if (eq status_averbacao 'Andamento')}}⏳{{else}}⏸️{{/if}}</span>
-                      <span>Averbação</span>
+                      <span class="checklist-icon">{{#if (eq status_averbacao 'Feito')}}?{{else if (eq status_averbacao 'Andamento')}}?{{else}}??{{/if}}</span>
+                      <span>Averba��o</span>
                       <span class="checklist-status">{{status_averbacao}}</span>
                     </div>
                     <div class="checklist-item {{status_vistoria}}">
-                      <span class="checklist-icon">{{#if (eq status_vistoria 'Feito')}}✅{{else if (eq status_vistoria 'Andamento')}}⏳{{else}}⏸️{{/if}}</span>
+                      <span class="checklist-icon">{{#if (eq status_vistoria 'Feito')}}?{{else if (eq status_vistoria 'Andamento')}}?{{else}}??{{/if}}</span>
                       <span>Vistoria</span>
                       <span class="checklist-status">{{status_vistoria}}</span>
                     </div>
@@ -108,8 +108,8 @@
                 <!-- MATERIAIS DA OBRA -->
                 <div class="info-section">
                   <div class="section-header">
-                    <h3>🧱 Materiais da Obra</h3>
-                    <a href="/dashboard/controle-geral/estoque?obra_id={{id}}" class="btn-add" title="Adicionar Material">+</a>
+                    <h3>?? Materiais da Obra</h3>
+                    <a href="/dashboard/controle-grade/estoque?obra_id={{id}}" class="btn-add" title="Adicionar Material">+</a>
                   </div>
                   {{#if materiais}}
                     <div class="materiais-list">
@@ -128,11 +128,11 @@
                   {{/if}}
                 </div>
 
-                <!-- FUNCIONÁRIOS DA OBRA -->
+                <!-- FUNCION�RIOS DA OBRA -->
                 <div class="info-section">
                   <div class="section-header">
-                    <h3>👷 Funcionários da Obra</h3>
-                    <a href="/dashboard/controle-geral/equipes?obra_id={{id}}" class="btn-add" title="Adicionar Funcionário">+</a>
+                    <h3>?? Funcion�rios da Obra</h3>
+                    <a href="/dashboard/controle-grade/equipes?obra_id={{id}}" class="btn-add" title="Adicionar Funcion�rio">+</a>
                   </div>
                   {{#if funcionarios}}
                     <div class="funcionarios-list">
@@ -146,29 +146,29 @@
                       {{/each}}
                     </div>
                   {{else}}
-                    <p class="no-data">Nenhum funcionário vinculado a esta obra.</p>
+                    <p class="no-data">Nenhum funcion�rio vinculado a esta obra.</p>
                   {{/if}}
                 </div>
 
                 <!-- FINANCEIRO DA OBRA -->
                 <div class="info-section">
                   <div class="section-header">
-                    <h3>💰 Financeiro da Obra</h3>
-                    <a href="/dashboard/controle-geral/financeiro?obra_id={{id}}" class="btn-add" title="Adicionar Transação">+</a>
+                    <h3>?? Financeiro da Obra</h3>
+                    <a href="/dashboard/controle-grade/financeiro?obra_id={{id}}" class="btn-add" title="Adicionar Transa��o">+</a>
                   </div>
                   
                   <!-- Resumo Financeiro -->
                   <div class="financeiro-resumo">
                     <div class="resumo-item ganho">
-                      <span class="resumo-label">💵 Ganhos</span>
+                      <span class="resumo-label">?? Ganhos</span>
                       <span class="resumo-valor">R$ {{totalGanhos}}</span>
                     </div>
                     <div class="resumo-item despesa">
-                      <span class="resumo-label">💸 Despesas</span>
+                      <span class="resumo-label">?? Despesas</span>
                       <span class="resumo-valor">R$ {{totalDespesas}}</span>
                     </div>
                     <div class="resumo-item saldo">
-                      <span class="resumo-label">📊 Saldo</span>
+                      <span class="resumo-label">?? Saldo</span>
                       <span class="resumo-valor">R$ {{math totalGanhos '-' totalDespesas}}</span>
                     </div>
                   </div>
@@ -189,13 +189,13 @@
                       {{/each}}
                     </div>
                   {{else}}
-                    <p class="no-data">Nenhum lançamento financeiro registrado.</p>
+                    <p class="no-data">Nenhum lan�amento financeiro registrado.</p>
                   {{/if}}
                 </div>
 
-                <!-- HISTÓRICO DA OBRA -->
+                <!-- HIST�RICO DA OBRA -->
                 <div class="info-section">
-                  <h3>📜 Histórico da Obra</h3>
+                  <h3>?? Hist�rico da Obra</h3>
                   {{#if historico}}
                     <div class="historico-list">
                       {{#each historico}}
@@ -210,7 +210,7 @@
                       {{/each}}
                     </div>
                   {{else}}
-                    <p class="no-data">Nenhum registro no histórico.</p>
+                    <p class="no-data">Nenhum registro no hist�rico.</p>
                   {{/if}}
                 </div>
               </div>
@@ -219,9 +219,9 @@
         </div>
       {{else}}
         <div class="empty-state glass-widget">
-          <div class="empty-icon">📋</div>
+          <div class="empty-icon">??</div>
           <h3>Nenhuma obra cadastrada</h3>
-          <p>Não há obras para exibir.</p>
+          <p>N�o h� obras para exibir.</p>
         </div>
       {{/if}}
     </div>
@@ -482,7 +482,7 @@
   border-radius: 4px;
 }
 
-/* Funcionários List */
+/* Funcion�rios List */
 .funcionarios-list {
   display: flex;
   flex-direction: column;
@@ -622,7 +622,7 @@
   color: #C0C0C0;
 }
 
-/* Histórico List */
+/* Hist�rico List */
 .historico-list {
   display: flex;
   flex-direction: column;
@@ -775,3 +775,5 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+
+
