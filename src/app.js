@@ -23,6 +23,12 @@ const session = require('express-session');
 const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 
+// Middleware para forçar charset UTF-8 em todas as respostas
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  next();
+});
+
 // Database connection
 const db = require('./database/connection');
 
@@ -39,6 +45,16 @@ const hbs = exphbs.create({
     gt: function(a, b) { return a > b; },
     lt: function(a, b) { return a < b; },
     ne: function(a, b) { return a !== b; },
+    // Helper para escapar strings para atributos HTML (data-*)
+    escapeAttr: function(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    },
     math: function(lvalue, operator, rvalue) {
       lvalue = parseFloat(lvalue);
       rvalue = parseFloat(rvalue);
@@ -60,14 +76,9 @@ app.set('views', path.join(__dirname, 'views'));
 // Helmet com CSP configurado para permitir CDNs e scripts inline necessários
 app.use(helmet({
   contentSecurityPolicy: {
+    useDefaults: true,
     directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.gstatic.com", "data:"],
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", "http://localhost:5000"],
-      frameSrc: ["'none'"],
+      'script-src-attr': ["'unsafe-inline'"],
     },
   },
   crossOriginEmbedderPolicy: false, // Necessário para carregar recursos de CDNs

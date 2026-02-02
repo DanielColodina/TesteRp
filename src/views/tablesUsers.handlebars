@@ -55,12 +55,12 @@
                                         <a href="#"
                                            class="user-link"
                                            data-id="{{id}}"
-                                           data-nome="{{nome}}"
-                                           data-email="{{email}}"
+                                           data-nome="{{escapeAttr nome}}"
+                                           data-email="{{escapeAttr email}}"
                                            data-telefone="{{telefone}}"
-                                           data-endereco="{{endereco}}"
-                                           data-obra="{{obra}}"
-                                           data-admin="{{admin_nome}}"
+                                           data-endereco="{{escapeAttr endereco}}"
+                                           data-obra="{{escapeAttr obra}}"
+                                           data-admin="{{escapeAttr admin_nome}}"
                                            data-data="{{created_at}}">
                                            {{nome}}
                                         </a>

@@ -1,185 +1,206 @@
 const db = require('../database/connection');
-const Checklist = require('../models/Checklist');
-const Historico = require('../models/Historico');
-const MaterialObra = require('../modules/estoque/models/MaterialObra');
 
-// Verificar se coluna obra_id existe na tabela funcionarios
-async function funcionariosTableHasObraId() {
-  try {
-    const [columns] = await db.execute("SHOW COLUMNS FROM funcionarios LIKE 'obra_id'");
-    return columns.length > 0;
-  } catch (err) {
-    console.warn('⚠️ Erro ao verificar coluna obra_id:', err.message);
-    return false;
-  }
-}
-
-// Página de rotas completas - todas as obras com informações detalhadas
+// Página de rotas completas - otimizada com queries agrupadas
 exports.index = async (req, res) => {
+  const adminId = req.session.adminId;
+  
   try {
-    const adminId = req.session.adminId;
+    if (!adminId) {
+      return res.redirect('/login');
+    }
 
-    // Verificar se a tabela funcionarios tem obra_id
-    const hasObraId = await funcionariosTableHasObraId();
-    console.log('📋 Tabela funcionarios tem coluna obra_id:', hasObraId);
+    console.log('🚀 [rotasCompletas] Carregando...');
 
-    // Buscar todas as obras com informações do cliente
-    const sqlObras = `
-      SELECT
-        o.id,
-        o.nome_obra,
-        o.descricao,
-        o.created_at,
-        u.id as cliente_id,
-        u.nome as cliente_nome,
-        u.email as cliente_email,
-        u.telefone as cliente_telefone,
-        u.endereco as cliente_endereco,
-        u.obra as endereco_obra
+    // 1. Buscar todas as obras de uma vez
+    const [obras] = await db.execute(`
+      SELECT o.id, o.nome_obra, o.descricao, o.created_at, 
+             u.id as cliente_id, u.nome as cliente_nome, u.email as cliente_email,
+             u.telefone as cliente_telefone, u.endereco as cliente_endereco, u.obra as endereco_obra
       FROM obras o
       LEFT JOIN usuarios u ON o.usuario_id = u.id
+      WHERE u.admin_id = ?
       ORDER BY o.created_at DESC
-    `;
+      LIMIT 50
+    `, [adminId]);
 
-    const [obras] = await db.execute(sqlObras);
-    console.log(`📋 Total de obras encontradas: ${obras.length}`);
+    if (obras.length === 0) {
+      return res.render('rotascompletas', { obras: [] });
+    }
 
-    // Para cada obra, buscar informações adicionais
-    const obrasCompletas = await Promise.all(
-      (obras || []).map(async (obra) => {
-        // Buscar checklist e progresso
-        let checklist = null;
-        let progresso = 0;
-        let status_uso_solo = 'Nao Tem';
-        let status_licenca = 'Nao Tem';
-        let status_condominio = 'Nao Tem';
-        let status_habite_se = 'Nao Tem';
-        let status_averbacao = 'Nao Tem';
-        let status_vistoria = 'Nao Tem';
+    const obraIds = obras.map(o => o.id);
+    const clienteIds = obras.filter(o => o.cliente_id).map(o => o.cliente_id);
 
-        if (obra.cliente_id) {
-          checklist = await Checklist.findByUser(obra.cliente_id);
-          const progressoData = await Checklist.getProgresso(obra.cliente_id);
-          progresso = progressoData.progresso;
+    // 2. Buscar todos os checklists de uma vez
+    let checklistMap = new Map();
+    if (clienteIds.length > 0) {
+      const placeholders = clienteIds.map(() => '?').join(',');
+      const [checklists] = await db.execute(
+        `SELECT * FROM checklist_usuarios WHERE usuario_id IN (${placeholders})`,
+        clienteIds
+      );
+      checklists.forEach(c => checklistMap.set(c.usuario_id, c));
+    }
 
-          if (checklist) {
-            status_uso_solo = checklist.uso_solo || 'Nao Tem';
-            status_licenca = checklist.licenca || 'Nao Tem';
-            status_condominio = checklist.condominio || 'Nao Tem';
-            status_habite_se = checklist.habite_se || 'Nao Tem';
-            status_averbacao = checklist.averbacao || 'Nao Tem';
-            status_vistoria = checklist.vistoria || 'Nao Tem';
-          }
+    // 3. Buscar todos os materiais de uma vez
+    let materiaisMap = new Map();
+    if (obraIds.length > 0) {
+      const placeholders = obraIds.map(() => '?').join(',');
+      const [materiais] = await db.execute(
+        `SELECT mo.*, m.nome as material_nome, m.unidade 
+         FROM materiais_obra mo
+         LEFT JOIN materiais m ON mo.material_id = m.id
+         WHERE mo.obra_id IN (${placeholders}) AND mo.ativo = TRUE`,
+        obraIds
+      );
+      
+      materiais.forEach(m => {
+        if (!materiaisMap.has(m.obra_id)) {
+          materiaisMap.set(m.obra_id, []);
         }
+        materiaisMap.get(m.obra_id).push(m);
+      });
+    }
 
-        // Buscar materiais da obra
-        let materiais = [];
-        try {
-          materiais = await MaterialObra.findByObra(obra.id);
-          console.log(`📦 Materiais encontrados para obra ${obra.id}: ${materiais.length}`);
-        } catch (err) {
-          console.warn('⚠️ Erro ao buscar materiais da obra:', err.message);
+    // 4. Buscar funcionários de uma vez
+    let funcionariosMap = new Map();
+    if (obraIds.length > 0) {
+      const placeholders = obraIds.map(() => '?').join(',');
+      const [funcionarios] = await db.execute(
+        `SELECT id, nome, funcao, obra_id FROM funcionarios WHERE obra_id IN (${placeholders})`,
+        obraIds
+      );
+
+      funcionarios.forEach(f => {
+        if (!funcionariosMap.has(f.obra_id)) {
+          funcionariosMap.set(f.obra_id, []);
         }
+        funcionariosMap.get(f.obra_id).push(f);
+      });
+    }
 
-        // Buscar funcionários da obra (tabela funcionarios)
-        let funcionarios = [];
-        try {
-          if (hasObraId) {
-            const [funcs] = await db.execute(
-              'SELECT id, nome, funcao FROM funcionarios WHERE obra_id = ? ORDER BY nome',
-              [obra.id]
-            );
-            funcionarios = funcs || [];
-            console.log(`👷 Funcionários encontrados para obra ${obra.id}: ${funcionarios.length}`);
-          } else {
-            // Se não tem obra_id, buscar todos os funcionários
-            const [funcs] = await db.execute(
-              'SELECT id, nome, funcao FROM funcionarios ORDER BY nome'
-            );
-            funcionarios = funcs || [];
-            console.log(`👷 Todos os funcionários (sem filtro de obra): ${funcionarios.length}`);
-          }
-        } catch (err) {
-          console.warn('⚠️ Erro ao buscar funcionários da obra:', err.message);
+    // 5. Buscar financeiro de uma vez
+    let financeiroMap = new Map();
+    let ganhoMap = new Map();
+    let despesaMap = new Map();
+
+    if (obraIds.length > 0) {
+      const placeholders = obraIds.map(() => '?').join(',');
+      
+      // Buscar custos
+      const [custos] = await db.execute(
+        `SELECT lc.*, cc.obra_id 
+         FROM lancamento_custo lc 
+         LEFT JOIN centro_custo cc ON lc.centro_custo_id = cc.id
+         WHERE cc.obra_id IN (${placeholders})
+         ORDER BY lc.data DESC LIMIT 100`,
+        obraIds
+      );
+
+      // Buscar financeiros
+      const [financeiros] = await db.execute(
+        `SELECT f.*, f.obra_id 
+         FROM financeiro f
+         WHERE f.obra_id IN (${placeholders})
+         ORDER BY f.data DESC LIMIT 100`,
+        obraIds
+      );
+
+      // Processar custos
+      custos.forEach(c => {
+        if (!financeiroMap.has(c.obra_id)) {
+          financeiroMap.set(c.obra_id, []);
+          ganhoMap.set(c.obra_id, 0);
+          despesaMap.set(c.obra_id, 0);
         }
+        financeiroMap.get(c.obra_id).push(c);
+        if (['entrada', 'receita', 'ganho'].includes(c.tipo)) {
+          ganhoMap.set(c.obra_id, ganhoMap.get(c.obra_id) + (parseFloat(c.valor) || 0));
+        } else {
+          despesaMap.set(c.obra_id, despesaMap.get(c.obra_id) + (parseFloat(c.valor) || 0));
+        }
+      });
 
-        // Buscar financeiro da obra (lancamentos de custo + financeiro)
-        let lancamentosFinanceiro = [];
-        let totalGanhos = 0;
-        let totalDespesas = 0;
-        try {
-          // Busca da tabela lancamento_custo (via centro_custo)
-          const [lancamentosCusto] = await db.execute(
-            `SELECT lc.*, cc.nome as centro_custo_nome 
-             FROM lancamento_custo lc 
-             LEFT JOIN centro_custo cc ON lc.centro_custo_id = cc.id 
-             WHERE lc.centro_custo_id IN (SELECT id FROM centro_custo WHERE obra_id = ?)
-             ORDER BY lc.data DESC LIMIT 50`,
-            [obra.id]
+      // Processar financeiros
+      financeiros.forEach(f => {
+        if (!financeiroMap.has(f.obra_id)) {
+          financeiroMap.set(f.obra_id, []);
+          ganhoMap.set(f.obra_id, 0);
+          despesaMap.set(f.obra_id, 0);
+        }
+        financeiroMap.get(f.obra_id).push(f);
+        if (f.tipo === 'receita') {
+          ganhoMap.set(f.obra_id, ganhoMap.get(f.obra_id) + (parseFloat(f.valor) || 0));
+        } else {
+          despesaMap.set(f.obra_id, despesaMap.get(f.obra_id) + (parseFloat(f.valor) || 0));
+        }
+      });
+
+      // Ordenar
+      obraIds.forEach(obraId => {
+        if (financeiroMap.has(obraId)) {
+          financeiroMap.get(obraId).sort((a, b) => 
+            new Date(b.data || b.created_at) - new Date(a.data || a.created_at)
           );
-          
-          // Busca da tabela financeiro
-          const [financeiros] = await db.execute(
-            `SELECT f.*, 'Financeiro' as centro_custo_nome
-             FROM financeiro f
-             WHERE f.obra_id = ?
-             ORDER BY f.data DESC LIMIT 50`,
-            [obra.id]
-          );
-          
-          // Combina os resultados
-          lancamentosFinanceiro = [...(lancamentosCusto || []), ...(financeiros || [])];
-          
-          // Ordena por data (mais recente primeiro)
-          lancamentosFinanceiro.sort((a, b) => new Date(b.data || b.created_at) - new Date(a.data || a.created_at));
-          
-          // Calcular totais
-          lancamentosFinanceiro.forEach(l => {
-            if (l.tipo === 'entrada' || l.tipo === 'ganho' || l.tipo === 'receita') {
-              totalGanhos += parseFloat(l.valor) || 0;
-            } else if (l.tipo === 'saida' || l.tipo === 'despesa' || l.tipo === 'custo') {
-              totalDespesas += parseFloat(l.valor) || 0;
-            }
-          });
-          
-          console.log(`💰 Financeiro encontrado para obra ${obra.id}: ${lancamentosFinanceiro.length} registros`);
-        } catch (err) {
-          console.warn('⚠️ Erro ao buscar financeiro da obra:', err.message);
         }
+      });
+    }
 
-        // Buscar histórico da obra (relacionado ao cliente)
-        let historico = [];
-        if (obra.cliente_id) {
-          try {
-            historico = await Historico.findByUsuario(obra.cliente_id);
-          } catch (err) {
-            console.warn('⚠️ Erro ao buscar histórico:', err.message);
-          }
+    // 6. Buscar histórico de uma vez
+    let historicoMap = new Map();
+    if (clienteIds.length > 0) {
+      const placeholders = clienteIds.map(() => '?').join(',');
+      const [historicos] = await db.execute(
+        `SELECT h.*, a.nome as admin_nome
+         FROM historico h
+         LEFT JOIN admins a ON h.admin_id = a.id
+         WHERE h.usuario_id IN (${placeholders})
+         ORDER BY h.created_at DESC LIMIT 100`,
+        clienteIds
+      );
+
+      historicos.forEach(h => {
+        if (!historicoMap.has(h.usuario_id)) {
+          historicoMap.set(h.usuario_id, []);
         }
+        historicoMap.get(h.usuario_id).push(h);
+      });
+    }
 
-        return {
-          ...obra,
-          progresso,
-          status_uso_solo,
-          status_licenca,
-          status_condominio,
-          status_habite_se,
-          status_averbacao,
-          status_vistoria,
-          materiais,
-          funcionarios,
-          lancamentosFinanceiro,
-          totalGanhos,
-          totalDespesas,
-          historico
-        };
-      })
-    );
+    // Montar resultado final
+    const obrasCompletas = obras.map(obra => {
+      const checklist = checklistMap.get(obra.cliente_id);
+      
+      // Calcular progresso
+      let progresso = 0;
+      if (checklist) {
+        const campos = ['uso_solo', 'licenca', 'condominio', 'habite_se', 'averbacao', 'vistoria'];
+        const completos = campos.filter(c => checklist[c] === 'Feito').length;
+        progresso = Math.round((completos / campos.length) * 100);
+      }
 
-    console.log(`✅ Total de obras processadas: ${obrasCompletas.length}`);
+      return {
+        ...obra,
+        progresso,
+        status_uso_solo: checklist?.uso_solo || 'Nao Tem',
+        status_licenca: checklist?.licenca || 'Nao Tem',
+        status_condominio: checklist?.condominio || 'Nao Tem',
+        status_habite_se: checklist?.habite_se || 'Nao Tem',
+        status_averbacao: checklist?.averbacao || 'Nao Tem',
+        status_vistoria: checklist?.vistoria || 'Nao Tem',
+        materiais: materiaisMap.get(obra.id) || [],
+        funcionarios: funcionariosMap.get(obra.id) || [],
+        lancamentosFinanceiro: financeiroMap.get(obra.id) || [],
+        totalGanhos: ganhoMap.get(obra.id) || 0,
+        totalDespesas: despesaMap.get(obra.id) || 0,
+        historico: historicoMap.get(obra.cliente_id) || []
+      };
+    });
+
+    console.log(`✅ [rotasCompletas] ${obrasCompletas.length} obras carregadas`);
     res.render('rotascompletas', { obras: obrasCompletas });
+    
   } catch (err) {
-    console.error('❌ Erro ao carregar rotas completas:', err);
+    console.error('❌ [rotasCompletas] Erro:', err.message);
     res.status(500).send('Erro ao carregar página: ' + err.message);
   }
 };
