@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gerador de Ícones - RP Empreendimentos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      margin: 10px;
+    }
+    .download-btn {
+      margin: 10px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .download-btn:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h2>Gerador de Ícones - RP Empreendimentos</h2>
+  <p>Abra este arquivo no navegador e clique nos botões para baixar os ícones.</p>
+  
+  <h3>Ícone 128x128</h3>
+  <canvas id="canvas128" width="128" height="128"></canvas>
+  <button class="download-btn" onclick="downloadIcon(128)">Baixar ícone 128x128</button>
+  
+  <h3>Ícone 48x48</h3>
+  <canvas id="canvas48" width="48" height="48"></canvas>
+  <button class="download-btn" onclick="downloadIcon(48)">Baixar ícone 48x48</button>
+  
+  <h3>Ícone 16x16</h3>
+  <canvas id="canvas16" width="16" height="16"></canvas>
+  <button class="download-btn" onclick="downloadIcon(16)">Baixar ícone 16x16</button>
+
+  <script>
+    function drawIcon(size) {
+      const canvas = document.getElementById('canvas' + size);
+      const ctx = canvas.getContext('2d');
+      
+      // Fundo azul
+      ctx.fillStyle = '#007bff';
+      ctx.fillRect(0, 0, size, size);
+      
+      // Texto "RP"
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold ' + (size * 0.5) + 'px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('RP', size/2, size/2);
+    }
+
+    function downloadIcon(size) {
+      drawIcon(size);
+      const canvas = document.getElementById('canvas' + size);
+      const link = document.createElement('a');
+      link.download = 'icon' + size + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // Desenhar todos os ícones
+    [16, 48, 128].forEach(size => drawIcon(size));
+  </script>
+</body>
+</html>

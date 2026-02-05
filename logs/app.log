@@ -32445,3 +32445,273 @@
 [2026-02-01T15:00:05.205Z] INFO: [AUTH] Usuário autenticado: 2
 [2026-02-01T15:00:05.651Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
 [2026-02-01T15:00:05.651Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:32:56.199Z] INFO: Servidor rodando na porta 5000 (host: 0.0.0.0)
+[2026-02-02T00:32:56.202Z] INFO: Ambiente: development
+[2026-02-02T00:33:25.473Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-02-02T00:33:25.474Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:33:27.369Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T00:33:27.371Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:33:27.377Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T00:33:27.379Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:33:27.851Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T00:33:27.852Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:33:36.875Z] INFO: [AUTH] Verificando autenticação para /dashboard/controle-geral
+[2026-02-02T00:33:36.876Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:33:39.244Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-02-02T00:33:39.245Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:33:40.277Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T00:33:40.280Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:33:40.284Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T00:33:40.285Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:33:40.733Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T00:33:40.734Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:33:42.316Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T00:33:42.317Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:33:54.894Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T00:33:54.895Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:34:10.274Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T00:34:10.274Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:34:10.582Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T00:34:10.583Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:34:13.995Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T00:34:13.996Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:37:19.141Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T00:37:19.145Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:41:23.288Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T00:41:23.291Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:41:43.048Z] INFO: [AUTH] Verificando autenticação para /obras
+[2026-02-02T00:41:43.049Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:41:48.706Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T00:41:48.707Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:43:14.161Z] INFO: Servidor rodando na porta 5000 (host: 0.0.0.0)
+[2026-02-02T00:43:14.164Z] INFO: Ambiente: development
+[2026-02-02T00:43:19.184Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T00:43:19.185Z] WARN: [AUTH] Acesso negado para /rotascompletas - sessão inválida
+[2026-02-02T00:43:37.679Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-02-02T00:43:37.679Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:43:42.555Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T00:43:42.557Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:43:42.560Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T00:43:42.561Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:43:43.573Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T00:43:43.574Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:43:46.662Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T00:43:46.665Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T00:43:58.352Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T00:43:58.353Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:38:48.571Z] INFO: Servidor rodando na porta 5000 (host: 0.0.0.0)
+[2026-02-02T22:38:48.573Z] INFO: Ambiente: development
+[2026-02-02T22:40:10.162Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-02-02T22:40:10.163Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:40:11.181Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T22:40:11.182Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:40:11.190Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T22:40:11.191Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:40:11.702Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T22:40:11.703Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:40:14.112Z] INFO: [AUTH] Verificando autenticação para /dashboard/controle-geral
+[2026-02-02T22:40:14.113Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:40:15.148Z] INFO: [AUTH] Verificando autenticação para /dashboard/controle-grade/estoque
+[2026-02-02T22:40:15.148Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:40:17.597Z] INFO: [AUTH] Verificando autenticação para /dashboard/controle-geral
+[2026-02-02T22:40:17.598Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:40:18.920Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-02-02T22:40:18.920Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:40:19.975Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T22:40:19.976Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:40:19.981Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T22:40:19.982Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:40:20.430Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T22:40:20.431Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:40:22.405Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:40:22.405Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:44:12.189Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:44:12.192Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:44:22.318Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-02-02T22:44:22.318Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:44:22.888Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T22:44:22.888Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:44:22.890Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T22:44:22.891Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:44:23.340Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T22:44:23.341Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:44:27.335Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:44:27.335Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:46:45.318Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:46:45.439Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:46:56.392Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-02-02T22:46:56.393Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:46:56.907Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T22:46:56.908Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:46:56.909Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T22:46:56.910Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:46:57.371Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T22:46:57.372Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:46:57.742Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-02-02T22:46:57.743Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:46:58.243Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T22:46:58.244Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:46:58.246Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T22:46:58.247Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:46:58.709Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-02-02T22:46:58.710Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:46:58.720Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T22:46:58.721Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:46:59.223Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T22:46:59.224Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:46:59.226Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T22:46:59.226Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:46:59.704Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T22:46:59.705Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:46:59.845Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-02-02T22:46:59.846Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:00.365Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T22:47:00.366Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:00.368Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T22:47:00.369Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:00.807Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T22:47:00.808Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:05.990Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:05.991Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:06.951Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:07.012Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:07.074Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:07.075Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:08.939Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:08.939Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:10.752Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:10.753Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:12.491Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:12.491Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:20.855Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:20.857Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:29.202Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:29.203Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:30.174Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:30.175Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:30.424Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T22:47:30.425Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:30.663Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T22:47:30.664Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:30.914Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T22:47:30.915Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:34.519Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:34.520Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:35.170Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:35.170Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:36.638Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:36.639Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:37.740Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:37.741Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:38.156Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:38.156Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:39.720Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:39.720Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:40.093Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:40.094Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:41.390Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:41.390Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:42.946Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:42.946Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:43.613Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:43.613Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:44.463Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:44.464Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:45.739Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:45.740Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:46.468Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:46.469Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:48.123Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:48.124Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:51.740Z] INFO: [AUTH] Verificando autenticação para /obras/search
+[2026-02-02T22:47:51.741Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:47:56.457Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:47:56.458Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:48:36.995Z] INFO: Servidor rodando na porta 5000 (host: 0.0.0.0)
+[2026-02-02T22:48:36.996Z] INFO: Ambiente: development
+[2026-02-02T22:48:37.173Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:48:37.174Z] WARN: [AUTH] Acesso negado para /rotascompletas - sessão inválida
+[2026-02-02T22:48:58.322Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-02-02T22:48:58.323Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:48:59.299Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T22:48:59.300Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:48:59.308Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T22:48:59.309Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:48:59.735Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T22:48:59.736Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:49:04.101Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:49:04.102Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:08.884Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:08.889Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:12.979Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:12.980Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:13.074Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:13.074Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:13.245Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:13.246Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:13.546Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:13.547Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:14.293Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:14.294Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:14.296Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:14.297Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:14.315Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:14.316Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:14.413Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:14.414Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:14.721Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:14.722Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:14.977Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:14.978Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:15.582Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:15.582Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:15.586Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:15.586Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:15.591Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:15.591Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:15.778Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:15.778Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:18.293Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T22:53:18.294Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:20.529Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T22:53:20.530Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T22:53:29.192Z] INFO: [AUTH] Verificando autenticação para /dashboard/controle-grade/financeiro
+[2026-02-02T22:53:29.193Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:05:36.966Z] INFO: Servidor rodando na porta 5000 (host: 0.0.0.0)
+[2026-02-02T23:05:36.968Z] INFO: Ambiente: development
+[2026-02-02T23:08:32.756Z] INFO: Servidor rodando na porta 5000 (host: 0.0.0.0)
+[2026-02-02T23:08:32.758Z] INFO: Ambiente: development
+[2026-02-02T23:08:49.052Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-02-02T23:08:49.053Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:08:50.059Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T23:08:50.059Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:08:50.063Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T23:08:50.066Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:08:50.497Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T23:08:50.498Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:08:52.466Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T23:08:52.466Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:09:14.154Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T23:09:14.154Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:09:15.257Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T23:09:15.257Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:09:15.720Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T23:09:15.720Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:09:16.291Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T23:09:16.292Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:09:20.051Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T23:09:20.052Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:09:20.054Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T23:09:20.054Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:09:20.493Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T23:09:20.494Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:09:31.248Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-02-02T23:09:31.249Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:09:31.803Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-02T23:09:31.803Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:09:31.806Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-02T23:09:31.806Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:09:32.238Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-02T23:09:32.239Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-02T23:09:34.540Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-02T23:09:34.541Z] INFO: [AUTH] Usuário autenticado: 2

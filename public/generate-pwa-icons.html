@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gerador de Ícones PWA - RP Empreendimentos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    h1 { color: #333; }
+    .sizes-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    canvas {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+    }
+    .download-btn {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    .download-btn:hover {
+      background: #0056b3;
+    }
+    .instructions {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 20px 0;
+    }
+    .instructions h3 { margin-top: 0; }
+    .instructions ol { text-align: left; }
+  </style>
+</head>
+<body>
+  <h1>📱 Gerador de Ícones PWA</h1>
+  <p>Gere todos os ícones necessários para instalar o sistema como aplicativo no celular</p>
+  
+  <div class="instructions">
+    <h3>📋 Instruções:</h3>
+    <ol>
+      <li>Clique em cada botão "Baixar" abaixo</li>
+      <li>Salve os arquivos na pasta <code>public/img/</code></li>
+      <li>Os nomes dos arquivos já estão configurados corretamente</li>
+      <li>Deploy o sistema no Render</li>
+      <li>No celular, acesse o site e escolha "Adicionar à tela inicial"</li>
+    </ol>
+  </div>
+  
+  <div class="sizes-container">
+    <div class="icon-item">
+      <canvas id="canvas72" width="72" height="72"></canvas>
+      <button class="download-btn" onclick="downloadIcon(72)">Baixar icon-72.png</button>
+    </div>
+    <div class="icon-item">
+      <canvas id="canvas96" width="96" height="96"></canvas>
+      <button class="download-btn" onclick="downloadIcon(96)">Baixar icon-96.png</button>
+    </div>
+    <div class="icon-item">
+      <canvas id="canvas128" width="128" height="128"></canvas>
+      <button class="download-btn" onclick="downloadIcon(128)">Baixar icon-128.png</button>
+    </div>
+    <div class="icon-item">
+      <canvas id="canvas144" width="144" height="144"></canvas>
+      <button class="download-btn" onclick="downloadIcon(144)">Baixar icon-144.png</button>
+    </div>
+    <div class="icon-item">
+      <canvas id="canvas152" width="152" height="152"></canvas>
+      <button class="download-btn" onclick="downloadIcon(152)">Baixar icon-152.png</button>
+    </div>
+    <div class="icon-item">
+      <canvas id="canvas192" width="192" height="192"></canvas>
+      <button class="download-btn" onclick="downloadIcon(192)">Baixar icon-192.png</button>
+    </div>
+    <div class="icon-item">
+      <canvas id="canvas384" width="384" height="384"></canvas>
+      <button class="download-btn" onclick="downloadIcon(384)">Baixar icon-384.png</button>
+    </div>
+    <div class="icon-item">
+      <canvas id="canvas512" width="512" height="512"></canvas>
+      <button class="download-btn" onclick="downloadIcon(512)">Baixar icon-512.png</button>
+    </div>
+  </div>
+
+  <script>
+    function drawIcon(size) {
+      const canvas = document.getElementById('canvas' + size);
+      const ctx = canvas.getContext('2d');
+      
+      // Fundo azul (cor do sistema)
+      ctx.fillStyle = '#007bff';
+      ctx.fillRect(0, 0, size, size);
+      
+      // Texto "RP" centralizado
+      ctx.fillStyle = 'white';
+      ctx.font = 'bold ' + (size * 0.5) + 'px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('RP', size/2, size/2);
+    }
+
+    function downloadIcon(size) {
+      drawIcon(size);
+      const canvas = document.getElementById('canvas' + size);
+      const link = document.createElement('a');
+      link.download = 'icon-' + size + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // Desenhar todos os ícones
+    [72, 96, 128, 144, 152, 192, 384, 512].forEach(size => drawIcon(size));
+  </script>
+</body>
+</html>
