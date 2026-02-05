@@ -10,10 +10,10 @@
     <div class="app-container">
       {{#if obras}}
         <!-- LISTA DE OBRAS EXPANDÍVEIS -->
-        <div class="accordion">
+        <div class="accordion" id="obrasAccordion">
           {{#each obras}}
-            <div class="accordion-item">
-              <button class="accordion-header" data-toggle="accordion">
+            <div class="accordion-item" data-obra-id="{{id}}">
+              <button class="accordion-header" data-toggle="accordion" aria-expanded="false">
                 <span class="obra-title">
                   <strong>{{nome_obra}}</strong>
                   <span class="obra-cliente">{{cliente_nome}}</span>
@@ -21,197 +21,9 @@
                 <span class="accordion-icon">▼</span>
               </button>
               
-              <div class="accordion-content">
-                <!-- INFORMAÇÕES DA OBRA -->
-                <div class="info-section">
-                  <h3>🏗️ Informações da Obra</h3>
-                  <div class="info-grid">
-                    <div class="info-item">
-                      <label>Endereço:</label>
-                      <span>{{endereco_obra}}</span>
-                    </div>
-                    <div class="info-item">
-                      <label>Data de Criação:</label>
-                      <span>{{created_at}}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- INFORMAÇÕES DO CLIENTE/USUÁRIO -->
-                <div class="info-section">
-                  <h3>👤 Informações do Cliente</h3>
-                  <div class="info-grid">
-                    <div class="info-item">
-                      <label>Nome:</label>
-                      <span>{{cliente_nome}}</span>
-                    </div>
-                    <div class="info-item">
-                      <label>Email:</label>
-                      <span>{{cliente_email}}</span>
-                    </div>
-                    <div class="info-item">
-                      <label>Telefone:</label>
-                      <span>{{cliente_telefone}}</span>
-                    </div>
-                    <div class="info-item">
-                      <label>Endereço do Cliente:</label>
-                      <span>{{cliente_endereco}}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- PROGRESSO E CHECKLIST -->
-                <div class="info-section">
-                  <h3>📊 Progresso e Checklist</h3>
-                  <div class="progress-overview">
-                    <div class="progress-bar-container large">
-                      <div class="progress-bar" style="width: {{progresso}}%;">
-                        <span class="progress-text">{{progresso}}%</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div class="checklist-grid">
-                    <div class="checklist-item {{status_uso_solo}}">
-                      <span class="checklist-icon">{{#if (eq status_uso_solo 'Feito')}}✅{{else if (eq status_uso_solo 'Andamento')}}⏳{{else}}❌{{/if}}</span>
-                      <span>Uso do Solo</span>
-                      <span class="checklist-status">{{status_uso_solo}}</span>
-                    </div>
-                    <div class="checklist-item {{status_licenca}}">
-                      <span class="checklist-icon">{{#if (eq status_licenca 'Feito')}}✅{{else if (eq status_licenca 'Andamento')}}⏳{{else}}❌{{/if}}</span>
-                      <span>Licença</span>
-                      <span class="checklist-status">{{status_licenca}}</span>
-                    </div>
-                    <div class="checklist-item {{status_condominio}}">
-                      <span class="checklist-icon">{{#if (eq status_condominio 'Feito')}}✅{{else if (eq status_condominio 'Andamento')}}⏳{{else}}❌{{/if}}</span>
-                      <span>Condomínio</span>
-                      <span class="checklist-status">{{status_condominio}}</span>
-                    </div>
-                    <div class="checklist-item {{status_habite_se}}">
-                      <span class="checklist-icon">{{#if (eq status_habite_se 'Feito')}}✅{{else if (eq status_habite_se 'Andamento')}}⏳{{else}}❌{{/if}}</span>
-                      <span>Habite-se</span>
-                      <span class="checklist-status">{{status_habite_se}}</span>
-                    </div>
-                    <div class="checklist-item {{status_averbacao}}">
-                      <span class="checklist-icon">{{#if (eq status_averbacao 'Feito')}}✅{{else if (eq status_averbacao 'Andamento')}}⏳{{else}}❌{{/if}}</span>
-                      <span>Averbação</span>
-                      <span class="checklist-status">{{status_averbacao}}</span>
-                    </div>
-                    <div class="checklist-item {{status_vistoria}}">
-                      <span class="checklist-icon">{{#if (eq status_vistoria 'Feito')}}✅{{else if (eq status_vistoria 'Andamento')}}⏳{{else}}❌{{/if}}</span>
-                      <span>Vistoria</span>
-                      <span class="checklist-status">{{status_vistoria}}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- MATERIAIS DA OBRA -->
-                <div class="info-section">
-                  <div class="section-header">
-                    <h3>📦 Materiais da Obra</h3>
-                    <a href="/dashboard/controle-grade/estoque?obra_id={{id}}" class="btn-add" title="Adicionar Material">+</a>
-                  </div>
-                  {{#if materiais}}
-                    <div class="materiais-list">
-                      {{#each materiais}}
-                        <div class="material-item">
-                          <div class="material-info">
-                            <strong>{{material_nome}}</strong>
-                            <span class="material-quantidade">Saldo: {{saldo_atual}} {{unidade}}</span>
-                          </div>
-                          <span class="material-fase">{{fase_obra}}</span>
-                        </div>
-                      {{/each}}
-                    </div>
-                  {{else}}
-                    <p class="no-data">Nenhum material vinculado a esta obra.</p>
-                  {{/if}}
-                </div>
-
-                <!-- FUNCIONÁRIOS DA OBRA -->
-                <div class="info-section">
-                  <div class="section-header">
-                    <h3>👷 Funcionários da Obra</h3>
-                    <a href="/dashboard/controle-grade/equipes?obra_id={{id}}" class="btn-add" title="Adicionar Funcionário">+</a>
-                  </div>
-                  {{#if funcionarios}}
-                    <div class="funcionarios-list">
-                      {{#each funcionarios}}
-                        <div class="funcionario-item">
-                          <div class="funcionario-info">
-                            <strong>{{nome}}</strong>
-                            <span class="funcionario-funcao">{{funcao}}</span>
-                          </div>
-                        </div>
-                      {{/each}}
-                    </div>
-                  {{else}}
-                    <p class="no-data">Nenhum funcionário vinculado a esta obra.</p>
-                  {{/if}}
-                </div>
-
-                <!-- FINANCEIRO DA OBRA -->
-                <div class="info-section">
-                  <div class="section-header">
-                    <h3>💰 Financeiro da Obra</h3>
-                    <a href="/dashboard/controle-grade/financeiro?obra_id={{id}}" class="btn-add" title="Adicionar Transação">+</a>
-                  </div>
-                  
-                  <!-- Resumo Financeiro -->
-                  <div class="financeiro-resumo">
-                    <div class="resumo-item ganho">
-                      <span class="resumo-label">💵 Ganhos</span>
-                      <span class="resumo-valor">R$ {{totalGanhos}}</span>
-                    </div>
-                    <div class="resumo-item despesa">
-                      <span class="resumo-label">💸 Despesas</span>
-                      <span class="resumo-valor">R$ {{totalDespesas}}</span>
-                    </div>
-                    <div class="resumo-item saldo">
-                      <span class="resumo-label">💼 Saldo</span>
-                      <span class="resumo-valor">R$ {{math totalGanhos '-' totalDespesas}}</span>
-                    </div>
-                  </div>
-                  
-                  {{#if lancamentosFinanceiro}}
-                    <div class="financeiro-list">
-                      {{#each lancamentosFinanceiro}}
-                        <div class="financeiro-item {{tipo}}">
-                          <div class="financeiro-info">
-                            <strong>{{descricao}}</strong>
-                            <span class="financeiro-tipo">{{tipo}}</span>
-                          </div>
-                          <div class="financeiro-valores">
-                            <span class="financeiro-valor {{tipo}}">{{#if (eq tipo 'entrada')}}+{{else}}-{{/if}}R$ {{valor}}</span>
-                            <span class="financeiro-data">{{data}}</span>
-                          </div>
-                        </div>
-                      {{/each}}
-                    </div>
-                  {{else}}
-                    <p class="no-data">Nenhum lançamento financeiro registrado.</p>
-                  {{/if}}
-                </div>
-
-                <!-- HISTÓRICO DA OBRA -->
-                <div class="info-section">
-                  <h3>📜 Histórico da Obra</h3>
-                  {{#if historico}}
-                    <div class="historico-list">
-                      {{#each historico}}
-                        <div class="historico-item">
-                          <div class="historico-header">
-                            <strong>{{tipo}}</strong>
-                            <span class="historico-data">{{created_at}}</span>
-                          </div>
-                          <p>{{descricao}}</p>
-                          <small>Por: {{admin_nome}}</small>
-                        </div>
-                      {{/each}}
-                    </div>
-                  {{else}}
-                    <p class="no-data">Nenhum registro no histórico.</p>
-                  {{/if}}
+              <div class="accordion-content" id="content-{{id}}" style="display: none;">
+                <div class="loading-spinner">
+                  <i class="fas fa-spinner fa-spin"></i> Carregando dados...
                 </div>
               </div>
             </div>
@@ -261,6 +73,10 @@
   background: rgba(255, 195, 0, 0.05);
 }
 
+.accordion-header.active {
+  background: rgba(255, 195, 0, 0.1);
+}
+
 .obra-title {
   display: flex;
   flex-direction: column;
@@ -289,15 +105,22 @@
 }
 
 .accordion-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease;
+  max-height: none;
+  overflow: visible;
 }
 
-.accordion-content.open {
-  max-height: 5000px;
+.loading-spinner {
+  padding: 40px;
+  text-align: center;
+  color: #FFC300;
+  font-size: 1.1rem;
 }
 
+.loading-spinner i {
+  margin-right: 10px;
+}
+
+/* Info Section Styles */
 .info-section {
   padding: 20px 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -316,7 +139,6 @@
   gap: 8px;
 }
 
-/* Section Header with Add Button */
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -448,13 +270,13 @@
 }
 
 /* Materiais List */
-.materiais-list {
+.materiais-list, .funcionarios-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.material-item {
+.material-item, .funcionario-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -463,7 +285,7 @@
   border-radius: 8px;
 }
 
-.material-info {
+.material-info, .funcionario-info {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -480,32 +302,6 @@
   padding: 4px 8px;
   background: rgba(255, 195, 0, 0.1);
   border-radius: 4px;
-}
-
-/* Funcionários List */
-.funcionarios-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.funcionario-item {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 8px;
-}
-
-.funcionario-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.funcionario-funcao {
-  font-size: 0.85rem;
-  color: #10b981;
 }
 
 /* Financeiro Resumo */
@@ -545,22 +341,14 @@
 }
 
 .resumo-valor {
-  display: block;
   font-size: 1.2rem;
   font-weight: 700;
+  color: #FFFFFF;
 }
 
-.resumo-item.ganho .resumo-valor {
-  color: #10b981;
-}
-
-.resumo-item.despesa .resumo-valor {
-  color: #ef4444;
-}
-
-.resumo-item.saldo .resumo-valor {
-  color: #3b82f6;
-}
+.resumo-item.ganho .resumo-valor { color: #10b981; }
+.resumo-item.despesa .resumo-valor { color: #ef4444; }
+.resumo-item.saldo .resumo-valor { color: #3b82f6; }
 
 /* Financeiro List */
 .financeiro-list {
@@ -576,15 +364,14 @@
   padding: 12px 16px;
   background: rgba(255, 255, 255, 0.03);
   border-radius: 8px;
-  border-left: 3px solid;
 }
 
-.financeiro-item.entrada {
-  border-left-color: #10b981;
+.financeiro-item.entrada, .financeiro-item.receita {
+  border-left: 3px solid #10b981;
 }
 
-.financeiro-item.despesa {
-  border-left-color: #ef4444;
+.financeiro-item.saida, .financeiro-item.despesa {
+  border-left: 3px solid #ef4444;
 }
 
 .financeiro-info {
@@ -593,28 +380,31 @@
   gap: 4px;
 }
 
+.financeiro-info strong {
+  color: #FFFFFF;
+}
+
 .financeiro-tipo {
   font-size: 0.75rem;
-  color: #C0C0C0;
-  text-transform: capitalize;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .financeiro-valores {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
+  text-align: right;
 }
 
 .financeiro-valor {
+  display: block;
   font-weight: 700;
 }
 
-.financeiro-valor.entrada {
+.financeiro-valor.entrada, .financeiro-valor.receita {
   color: #10b981;
 }
 
-.financeiro-valor.despesa {
+.financeiro-valor.saida, .financeiro-valor.despesa {
   color: #ef4444;
 }
 
@@ -623,7 +413,7 @@
   color: #C0C0C0;
 }
 
-/* Histórico List */
+/* Histórico */
 .historico-list {
   display: flex;
   flex-direction: column;
@@ -631,7 +421,7 @@
 }
 
 .historico-item {
-  padding: 16px;
+  padding: 12px 16px;
   background: rgba(255, 255, 255, 0.03);
   border-radius: 8px;
 }
@@ -653,51 +443,23 @@
 }
 
 .historico-item p {
-  margin-bottom: 8px;
   color: #FFFFFF;
+  margin-bottom: 8px;
 }
 
 .historico-item small {
-  color: #C0C0C0;
+  color: #666;
 }
 
 /* Empty State */
 .no-data {
   color: #C0C0C0;
-  font-style: italic;
+  text-align: center;
   padding: 20px;
-  text-align: center;
+  font-style: italic;
 }
 
-.empty-state {
-  padding: 60px 20px;
-  text-align: center;
-}
-
-.empty-icon {
-  font-size: 4rem;
-  margin-bottom: 20px;
-}
-
-.empty-state h3 {
-  color: #FFFFFF;
-  margin-bottom: 10px;
-}
-
-.empty-state p {
-  color: #C0C0C0;
-}
-
-/* Responsive */
 @media (max-width: 768px) {
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .checklist-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
   .financeiro-resumo {
     grid-template-columns: 1fr;
   }

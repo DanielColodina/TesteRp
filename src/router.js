@@ -33,6 +33,7 @@ router.use('/estoque', estoqueRoutes);
 // Rota Rotas Completas
 router.get('/rotascompletas', isAuth, rotasCompletasController.index);
 router.post('/rotascompletas', isAuth, rotasCompletasController.index);
+router.get('/api/rotascompletas/:obraId', isAuth, rotasCompletasController.getObraDetails);
 
 // API routes
 router.use('/api/obras', obrasRouter);
