@@ -23,9 +23,13 @@ const session = require('express-session');
 const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 
-// Middleware para forçar charset UTF-8 em todas as respostas
+// Middleware para forçar charset UTF-8 APENAS em respostas HTML (não em arquivos estáticos)
 app.use((req, res, next) => {
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  // Só define charset para respostas HTML, não para outros tipos de arquivo
+  const accept = req.headers.accept || '';
+  if (accept.includes('text/html') && !req.path.match(/\.(js|css|png|jpg|ico|json)$/i)) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  }
   next();
 });
 
