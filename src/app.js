@@ -79,6 +79,8 @@ app.use(helmet({
     useDefaults: true,
     directives: {
       'script-src-attr': ["'unsafe-inline'"],
+      'script-src': ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
+      'style-src': ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
     },
   },
   crossOriginEmbedderPolicy: false, // Necessário para carregar recursos de CDNs
