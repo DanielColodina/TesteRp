@@ -15,6 +15,18 @@ const rotasCompletasController = require('./controllers/rotasCompletasController
 
 // Mount routes
 router.get('/test-rota', (req, res) => res.send('TESTE OK'));
+
+// Rota para limpar administradores (mantém apenas test@example.com)
+router.get('/limpar-admins', async (req, res) => {
+  const db = require('./database/connection');
+  try {
+    const [result] = await db.query(`DELETE FROM admins WHERE email != 'test@example.com'`);
+    res.send(`✓ Removidos ${result.affectedRows} administradores (exceto test@example.com)`);
+  } catch (err) {
+    res.send('Erro: ' + err.message);
+  }
+});
+
 router.use('/', authRoutes);
 router.use('/estoque', estoqueRoutes);
 

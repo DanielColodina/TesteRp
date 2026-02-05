@@ -32735,3 +32735,35 @@
 [2026-02-05T00:53:36.129Z] INFO: [AUTH] Usuário autenticado: 2
 [2026-02-05T00:53:37.464Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
 [2026-02-05T00:53:37.465Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:54:51.069Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-05T00:54:51.070Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:54:53.956Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-05T00:54:53.957Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:54:56.055Z] INFO: [AUTH] Verificando autenticação para /obras
+[2026-02-05T00:54:56.056Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:54:57.948Z] INFO: [AUTH] Verificando autenticação para /dashboard
+[2026-02-05T00:54:57.948Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:54:58.952Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/stats
+[2026-02-05T00:54:58.953Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:54:58.957Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/obras-recentes
+[2026-02-05T00:54:58.958Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:54:59.727Z] INFO: [AUTH] Verificando autenticação para /dashboard/api/historico
+[2026-02-05T00:54:59.728Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:55:00.931Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-05T00:55:00.932Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:55:04.485Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-05T00:55:04.486Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:55:11.755Z] INFO: [AUTH] Verificando autenticação para /obras
+[2026-02-05T00:55:11.755Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:55:13.669Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-05T00:55:13.669Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:55:17.364Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-05T00:55:17.398Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:55:17.588Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-05T00:55:17.589Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:55:17.853Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-05T00:55:17.853Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:55:18.096Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-05T00:55:18.096Z] INFO: [AUTH] Usuário autenticado: 2
+[2026-02-05T00:55:18.395Z] INFO: [AUTH] Verificando autenticação para /rotascompletas
+[2026-02-05T00:55:18.396Z] INFO: [AUTH] Usuário autenticado: 2
